@@ -1,0 +1,5 @@
+package com.LOOP.loop
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
