@@ -9,19 +9,29 @@ class AppTheme {
     return ThemeData(
       fontFamily: 'Geist',
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.transparent, // Transparent app bar background
-        elevation: 0, // No shadow
-        iconTheme: const IconThemeData(color: AppColors.white), // Icon color
-        titleTextStyle: AppTextStyles.paragraphLarge.copyWith(color: AppColors.white),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        titleTextStyle: AppTextStyles.paragraphLarge.copyWith(color: AppColors.textPrimary),
       ),
       cardTheme: CardTheme(
-        color: AppColors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        elevation: 4.0,
-        shadowColor: Colors.black.withOpacity(0.1),
-        margin: const EdgeInsets.all(AppSpacing.spacing4),
+        color: AppColors.textPrimary,
+      ),
+      primaryColor: AppColors.background,
+      hintColor: AppColors.textSecondary,
+      scaffoldBackgroundColor: AppColors.textPrimary,
+      colorScheme: const ColorScheme(
+        brightness: Brightness.light,
+        primary: AppColors.primary,
+        onPrimary: AppColors.textPrimary,
+        secondary: AppColors.success,
+        onSecondary: AppColors.primary,
+        surface: AppColors.textPrimary,
+        onSurface: AppColors.primary,
+        error: AppColors.danger,
+        onError: AppColors.textPrimary,
+        background: AppColors.surface,
+        onBackground: AppColors.background,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -34,22 +44,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide.none,
         ),
-      ),
-      primaryColor: AppColors.neutral800, // Primary color
-      hintColor: AppColors.neutral400, // Hint color
-      scaffoldBackgroundColor: AppColors.white,
-      colorScheme: const ColorScheme(
-        brightness: Brightness.light,
-        primary: AppColors.blue600,
-        onPrimary: AppColors.white,
-        secondary: AppColors.orange500,
-        onSecondary: AppColors.blue600,
-        surface: AppColors.white,
-        onSurface: AppColors.blue600,
-        error: AppColors.red500,
-        onError: AppColors.white,
-        background: AppColors.neutral50,
-        onBackground: AppColors.neutral800,
       ),
       textTheme: TextTheme(
         displayLarge: AppTextStyles.display, // Display text

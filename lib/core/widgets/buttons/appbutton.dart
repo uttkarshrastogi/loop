@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
         ? AppColors.neutral200
         : isGhost
             ? Colors.transparent
-            : backGroundColor??AppColors.blue600;
+            : backGroundColor??AppColors.surfaceVariant;
 
     final borderColor = withBorder
         ? (isDisabled ? AppColors.neutral400 : AppColors.blue600)
@@ -63,7 +63,7 @@ class AppButton extends StatelessWidget {
         onPressed: isDisabled ? null : onPressed,
         child: Text(
           text,
-          style:AppTextStyles.paragraphSmall.copyWith(fontWeight: FontWeight.w500,color: Colors.white),
+          style:AppTextStyles.paragraphLarge.copyWith(fontWeight: FontWeight.w500,color: Colors.white),
         ),
       ),
     );

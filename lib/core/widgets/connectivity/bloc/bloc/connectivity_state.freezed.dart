@@ -12,7 +12,8 @@ part of 'connectivity_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$ConnectivityState {
@@ -21,52 +22,47 @@ mixin _$ConnectivityState {
     required TResult Function() initial,
     required TResult Function() connected,
     required TResult Function() disconnected,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? connected,
     TResult? Function()? disconnected,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? connected,
     TResult Function()? disconnected,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Connected value) connected,
     required TResult Function(_Disconnected value) disconnected,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Connected value)? connected,
     TResult? Function(_Disconnected value)? disconnected,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Connected value)? connected,
     TResult Function(_Disconnected value)? disconnected,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $ConnectivityStateCopyWith<$Res> {
   factory $ConnectivityStateCopyWith(
-          ConnectivityState value, $Res Function(ConnectivityState) then) =
-      _$ConnectivityStateCopyWithImpl<$Res, ConnectivityState>;
+    ConnectivityState value,
+    $Res Function(ConnectivityState) then,
+  ) = _$ConnectivityStateCopyWithImpl<$Res, ConnectivityState>;
 }
 
 /// @nodoc
@@ -86,8 +82,9 @@ class _$ConnectivityStateCopyWithImpl<$Res, $Val extends ConnectivityState>
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
+    _$InitialImpl value,
+    $Res Function(_$InitialImpl) then,
+  ) = __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -95,8 +92,9 @@ class __$$InitialImplCopyWithImpl<$Res>
     extends _$ConnectivityStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
-      : super(_value, _then);
+    _$InitialImpl _value,
+    $Res Function(_$InitialImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ConnectivityState
   /// with the given fields replaced by the non-null parameter values.
@@ -197,8 +195,9 @@ abstract class _Initial implements ConnectivityState {
 /// @nodoc
 abstract class _$$ConnectedImplCopyWith<$Res> {
   factory _$$ConnectedImplCopyWith(
-          _$ConnectedImpl value, $Res Function(_$ConnectedImpl) then) =
-      __$$ConnectedImplCopyWithImpl<$Res>;
+    _$ConnectedImpl value,
+    $Res Function(_$ConnectedImpl) then,
+  ) = __$$ConnectedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -206,8 +205,9 @@ class __$$ConnectedImplCopyWithImpl<$Res>
     extends _$ConnectivityStateCopyWithImpl<$Res, _$ConnectedImpl>
     implements _$$ConnectedImplCopyWith<$Res> {
   __$$ConnectedImplCopyWithImpl(
-      _$ConnectedImpl _value, $Res Function(_$ConnectedImpl) _then)
-      : super(_value, _then);
+    _$ConnectedImpl _value,
+    $Res Function(_$ConnectedImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ConnectivityState
   /// with the given fields replaced by the non-null parameter values.
@@ -308,8 +308,9 @@ abstract class _Connected implements ConnectivityState {
 /// @nodoc
 abstract class _$$DisconnectedImplCopyWith<$Res> {
   factory _$$DisconnectedImplCopyWith(
-          _$DisconnectedImpl value, $Res Function(_$DisconnectedImpl) then) =
-      __$$DisconnectedImplCopyWithImpl<$Res>;
+    _$DisconnectedImpl value,
+    $Res Function(_$DisconnectedImpl) then,
+  ) = __$$DisconnectedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -317,8 +318,9 @@ class __$$DisconnectedImplCopyWithImpl<$Res>
     extends _$ConnectivityStateCopyWithImpl<$Res, _$DisconnectedImpl>
     implements _$$DisconnectedImplCopyWith<$Res> {
   __$$DisconnectedImplCopyWithImpl(
-      _$DisconnectedImpl _value, $Res Function(_$DisconnectedImpl) _then)
-      : super(_value, _then);
+    _$DisconnectedImpl _value,
+    $Res Function(_$DisconnectedImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ConnectivityState
   /// with the given fields replaced by the non-null parameter values.

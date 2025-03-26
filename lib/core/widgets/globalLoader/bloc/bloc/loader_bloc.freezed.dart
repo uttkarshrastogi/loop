@@ -12,7 +12,8 @@ part of 'loader_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$LoaderEvent {
@@ -20,47 +21,42 @@ mixin _$LoaderEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() loadingON,
     required TResult Function() loadingOFF,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadingON,
     TResult? Function()? loadingOFF,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadingON,
     TResult Function()? loadingOFF,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadingOpen value) loadingON,
     required TResult Function(LoadingClose value) loadingOFF,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadingOpen value)? loadingON,
     TResult? Function(LoadingClose value)? loadingOFF,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadingOpen value)? loadingON,
     TResult Function(LoadingClose value)? loadingOFF,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LoaderEventCopyWith<$Res> {
   factory $LoaderEventCopyWith(
-          LoaderEvent value, $Res Function(LoaderEvent) then) =
-      _$LoaderEventCopyWithImpl<$Res, LoaderEvent>;
+    LoaderEvent value,
+    $Res Function(LoaderEvent) then,
+  ) = _$LoaderEventCopyWithImpl<$Res, LoaderEvent>;
 }
 
 /// @nodoc
@@ -80,8 +76,9 @@ class _$LoaderEventCopyWithImpl<$Res, $Val extends LoaderEvent>
 /// @nodoc
 abstract class _$$LoadingOpenImplCopyWith<$Res> {
   factory _$$LoadingOpenImplCopyWith(
-          _$LoadingOpenImpl value, $Res Function(_$LoadingOpenImpl) then) =
-      __$$LoadingOpenImplCopyWithImpl<$Res>;
+    _$LoadingOpenImpl value,
+    $Res Function(_$LoadingOpenImpl) then,
+  ) = __$$LoadingOpenImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -89,8 +86,9 @@ class __$$LoadingOpenImplCopyWithImpl<$Res>
     extends _$LoaderEventCopyWithImpl<$Res, _$LoadingOpenImpl>
     implements _$$LoadingOpenImplCopyWith<$Res> {
   __$$LoadingOpenImplCopyWithImpl(
-      _$LoadingOpenImpl _value, $Res Function(_$LoadingOpenImpl) _then)
-      : super(_value, _then);
+    _$LoadingOpenImpl _value,
+    $Res Function(_$LoadingOpenImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LoaderEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -185,8 +183,9 @@ abstract class LoadingOpen implements LoaderEvent {
 /// @nodoc
 abstract class _$$LoadingCloseImplCopyWith<$Res> {
   factory _$$LoadingCloseImplCopyWith(
-          _$LoadingCloseImpl value, $Res Function(_$LoadingCloseImpl) then) =
-      __$$LoadingCloseImplCopyWithImpl<$Res>;
+    _$LoadingCloseImpl value,
+    $Res Function(_$LoadingCloseImpl) then,
+  ) = __$$LoadingCloseImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -194,8 +193,9 @@ class __$$LoadingCloseImplCopyWithImpl<$Res>
     extends _$LoaderEventCopyWithImpl<$Res, _$LoadingCloseImpl>
     implements _$$LoadingCloseImplCopyWith<$Res> {
   __$$LoadingCloseImplCopyWithImpl(
-      _$LoadingCloseImpl _value, $Res Function(_$LoadingCloseImpl) _then)
-      : super(_value, _then);
+    _$LoadingCloseImpl _value,
+    $Res Function(_$LoadingCloseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LoaderEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -301,8 +301,9 @@ mixin _$LoaderState {
 /// @nodoc
 abstract class $LoaderStateCopyWith<$Res> {
   factory $LoaderStateCopyWith(
-          LoaderState value, $Res Function(LoaderState) then) =
-      _$LoaderStateCopyWithImpl<$Res, LoaderState>;
+    LoaderState value,
+    $Res Function(LoaderState) then,
+  ) = _$LoaderStateCopyWithImpl<$Res, LoaderState>;
   @useResult
   $Res call({int count});
 }
@@ -321,15 +322,17 @@ class _$LoaderStateCopyWithImpl<$Res, $Val extends LoaderState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? count = null,
-  }) {
-    return _then(_value.copyWith(
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  $Res call({Object? count = null}) {
+    return _then(
+      _value.copyWith(
+            count:
+                null == count
+                    ? _value.count
+                    : count // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -337,8 +340,9 @@ class _$LoaderStateCopyWithImpl<$Res, $Val extends LoaderState>
 abstract class _$$LoaderStateImplCopyWith<$Res>
     implements $LoaderStateCopyWith<$Res> {
   factory _$$LoaderStateImplCopyWith(
-          _$LoaderStateImpl value, $Res Function(_$LoaderStateImpl) then) =
-      __$$LoaderStateImplCopyWithImpl<$Res>;
+    _$LoaderStateImpl value,
+    $Res Function(_$LoaderStateImpl) then,
+  ) = __$$LoaderStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int count});
@@ -349,22 +353,24 @@ class __$$LoaderStateImplCopyWithImpl<$Res>
     extends _$LoaderStateCopyWithImpl<$Res, _$LoaderStateImpl>
     implements _$$LoaderStateImplCopyWith<$Res> {
   __$$LoaderStateImplCopyWithImpl(
-      _$LoaderStateImpl _value, $Res Function(_$LoaderStateImpl) _then)
-      : super(_value, _then);
+    _$LoaderStateImpl _value,
+    $Res Function(_$LoaderStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of LoaderState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? count = null,
-  }) {
-    return _then(_$LoaderStateImpl(
-      count: null == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+  $Res call({Object? count = null}) {
+    return _then(
+      _$LoaderStateImpl(
+        count:
+            null == count
+                ? _value.count
+                : count // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
   }
 }
 

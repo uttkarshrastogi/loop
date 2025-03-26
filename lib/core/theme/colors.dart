@@ -5,6 +5,17 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
+  static const Color customColor1 = Color(0xFF1E1E1E); // Dark base
+  static const Color customColor2 = Color(0xFF2B2B2B); // Slightly lighter surface
+  static const Color customColor3 = Color(0xFF3A3A3B); // Surface overlay
+  static const Color customColor4 = Color(0xFF5D5D5E); // Border / divider
+  static const Color customColor5 = Color(0xFF888888); // Secondary text
+  static const Color customColor6 = Color(0xFFCCCCCC); // Placeholder / muted
+  static const Color customColor7 = Color(0xFFF4F4F4); // Lightest neutral
+  static const Color customColor8 = Color(0xFF4A90E2); // Primary blue (buttons)
+  static const Color customColor9 = Color(0xFFFF453A); // Red for danger/logout
+  static const Color customColor10 = Color(0xFF00C3A5); // Green/Accent (optional)
+
   // Primary Colors - Blue Shades
   static const Color blue25 = Color(0xFFF5F8FC);
   static const Color blue50 = Color(0xFFE6F0FA);
@@ -49,7 +60,6 @@ class AppColors {
   // Neutral Colors
   static const Color neutral50 = Color(0xFFF4F5F5);
   static const Color neutral100 = Color(0xFFE8EAEB);
-  static const Color border = Color(0xFFDFE8F0);
   static const Color greyButton = Color(0xFFC9C9C9);
   static const Color neutral200 = Color(0xFFCDCFD1);
   static const Color neutral300 = Color(0xFFB2B6BA);
@@ -237,4 +247,16 @@ class AppColors {
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
   );
+  // LoopList Theme Colors 🌑
+  static const Color background = Color(0xFF1E1E1E);         // App background
+  static const Color surface = Color(0xFF2B2B2B);            // Cards, sheets
+  static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
+  static const Color border = Color(0xFF5D5D5E);             // Dividers, outlines
+  static const Color textSecondary = Color(0xFF888888);      // Subtle text
+  static const Color textPlaceholder = Color(0xFFCCCCCC);    // Hints, placeholder
+  static const Color textPrimary = Color(0xFFF4F4F4);         // Main white text
+  static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
+  static const Color danger = Color(0xFFFF453A);             // Logout, error
+  static const Color success = Color(0xFF00C3A5);            // Confirm, complete
+
 }
