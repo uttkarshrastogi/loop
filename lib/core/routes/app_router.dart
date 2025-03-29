@@ -8,20 +8,39 @@ import 'navigator_observer.dart';
 
 class AppRouter {
   final AppState appState;
+
   AppRouter(this.appState);
-  static final GoRouter router = GoRouter(
+
+  GoRouter get router => GoRouter(
     observers: [LoggingNavigatorObserver()],
     navigatorKey: NavigationService.navigatorKey,
-    // refreshListenable: appState, // Listen to changes in AppState
+    refreshListenable: appState, // Listens to auth changes
     initialLocation: GetStartedPage.routeName,
+    redirect: (context, state) {
+      final isLoggedIn = appState.isLoggedIn;
+
+      // If user is logged in, send to dashboard
+      if (isLoggedIn && state.matchedLocation == GetStartedPage.routeName) {
+        return DashboardPage.routeName;
+      }
+
+      // If not logged in and trying to access dasGetStartedPagehboard, send to GetStarted
+      if (!isLoggedIn && state.matchedLocation == DashboardPage.routeName) {
+        return GetStartedPage.routeName;
+      }
+
+      return null; // No redirection
+    },
     routes: [
       GoRoute(
         path: GetStartedPage.routeName,
         builder: (context, state) => const GetStartedPage(),
-      ),   GoRoute(
+      ),
+      GoRoute(
         path: DashboardPage.routeName,
         builder: (context, state) => const DashboardPage(),
       ),
     ],
   );
 }
+

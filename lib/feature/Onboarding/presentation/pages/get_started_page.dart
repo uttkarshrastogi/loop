@@ -18,7 +18,6 @@ import '../../../auth/data/datasources/auth_service.dart';
 
 class GetStartedPage extends StatelessWidget {
   static const routeName = '/GetStartedPage';
-
   const GetStartedPage({super.key});
 
   @override
@@ -26,17 +25,20 @@ class GetStartedPage extends StatelessWidget {
     final LoaderBloc lBloc = GetIt.instance<LoaderBloc>();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        state.maybeWhen(
-          loading: (){
-            lBloc.add(const LoaderEvent.loadingON());
-          },
-          success: (user) {
-            lBloc.add(const LoaderEvent.loadingOFF());
-            context.push(
-              DashboardPage.routeName,
-            );
-          },
-            orElse: (){});
+        // state.maybeWhen(
+        //   loading: (){
+        //     lBloc.add(const LoaderEvent.loadingON());
+        //   },
+        //   success: (user) {
+        //     // print(["user",user]);
+        //     // lBloc.add(const LoaderEvent.loadingOFF());
+        //     // context.push(
+        //     //   DashboardPage.routeName,
+        //     // );
+        //   },
+        //     orElse: (){
+        //     print(["error",state.toString()]);
+        //     });
       },
       child: PageTemplate(
         content: Column(

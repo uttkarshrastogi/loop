@@ -3,6 +3,7 @@ import 'package:loop/core/widgets/loaders/app_loader.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'core/routes/app_router.dart';
+import 'core/routes/app_state.dart';
 import 'core/services/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,12 +12,15 @@ import 'core/widgets/connectivity/bloc/bloc/connectivity_state.dart';
 import 'core/widgets/connectivity/presentation/connectivity_screen.dart';
 import 'core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 import 'core/widgets/globalLoader/presentation/loader.dart';
+final appState = AppState();
+final appRouter = AppRouter(appState);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     // final config = GetIt.instance<FlavorConfig>();
 
     return ToastificationWrapper(
@@ -32,9 +36,9 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          routerDelegate: AppRouter.router.routerDelegate,
-          routeInformationParser: AppRouter.router.routeInformationParser,
-          routeInformationProvider: AppRouter.router.routeInformationProvider,
+          routerDelegate: appRouter.router.routerDelegate,
+          routeInformationParser: appRouter.router.routeInformationParser,
+          routeInformationProvider: appRouter.router.routeInformationProvider,
           builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context)

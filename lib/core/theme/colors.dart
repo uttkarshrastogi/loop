@@ -4,18 +4,6 @@ import 'package:flutter/material.dart';
 
 
 class AppColors {
-
-  static const Color customColor1 = Color(0xFF1E1E1E); // Dark base
-  static const Color customColor2 = Color(0xFF2B2B2B); // Slightly lighter surface
-  static const Color customColor3 = Color(0xFF3A3A3B); // Surface overlay
-  static const Color customColor4 = Color(0xFF5D5D5E); // Border / divider
-  static const Color customColor5 = Color(0xFF888888); // Secondary text
-  static const Color customColor6 = Color(0xFFCCCCCC); // Placeholder / muted
-  static const Color customColor7 = Color(0xFFF4F4F4); // Lightest neutral
-  static const Color customColor8 = Color(0xFF4A90E2); // Primary blue (buttons)
-  static const Color customColor9 = Color(0xFFFF453A); // Red for danger/logout
-  static const Color customColor10 = Color(0xFF00C3A5); // Green/Accent (optional)
-
   // Primary Colors - Blue Shades
   static const Color blue25 = Color(0xFFF5F8FC);
   static const Color blue50 = Color(0xFFE6F0FA);
@@ -155,17 +143,17 @@ class AppColors {
   static const Color fuchsiaPink900 = Color(0xFF331412);
 
   // Fuchsia Blue
-  static const Color fuchsiaBlue50 = Color(0xFFF8F8F9);
-  static const Color fuchsiaBlue100 = Color(0xFFe0F0F2);
-  static const Color fuchsiaBlue150 = Color(0xFFFAE8F9);
-  static const Color fuchsiaBlue200 = Color(0xFFD0CFF2);
-  static const Color fuchsiaBlue300 = Color(0xFFCAAEAA);
-  static const Color fuchsiaBlue400 = Color(0xFF8578E1);
-  static const Color fuchsiaBlue500 = Color(0xFF952D4C);
-  static const Color fuchsiaBlue600 = Color(0xFF7735AA);
-  static const Color fuchsiaBlue700 = Color(0xFF59207F);
-  static const Color fuchsiaBlue800 = Color(0xFF3C1559);
-  static const Color fuchsiaBlue900 = Color(0xFF1E0D2A);
+  static const Color brandFuchsiaBlue50 = Color(0xFFF8F8F9);
+  static const Color brandFuchsiaBlue100 = Color(0xFFe0F0F2);
+  static const Color brandFuchsiaBlue150 = Color(0xFFFAE8F9);
+  static const Color brandFuchsiaBlue200 = Color(0xFFD0CFF2);
+  static const Color brandFuchsiaBlue300 = Color(0xFFCAAEAA);
+  static const Color brandFuchsiaBlue400 = Color(0xFF8578E1);
+  static const Color brandFuchsiaBlue500 = Color(0xFF952D4C);
+  static const Color brandFuchsiaBlue600 = Color(0xFF7735AA);
+  static const Color brandFuchsiaBlue700 = Color(0xFF59207F);
+  static const Color brandFuchsiaBlue800 = Color(0xFF3C1559);
+  static const Color brandFuchsiaBlue900 = Color(0xFF1E0D2A);
 
   // Pelorous (example from secondary palette)
   static const Color pelorous50 = Color(0xFFE6F7F7);
@@ -248,14 +236,16 @@ class AppColors {
     end: Alignment.bottomLeft,
   );
   // LoopList Theme Colors 🌑
-  static const Color background = Color(0xFF1E1E1E);         // App background
-  static const Color surface = Color(0xFF2B2B2B);            // Cards, sheets
+
+  static const Color background = Color(0xFF030303);
+  static const Color primary = Color(0xFF123458);
+  static const Color surface = Color(0xFFD4C9BE);            // Cards, sheets
   static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
   static const Color border = Color(0xFF5D5D5E);             // Dividers, outlines
   static const Color textSecondary = Color(0xFF888888);      // Subtle text
-  static const Color textPlaceholder = Color(0xFFCCCCCC);    // Hints, placeholder
-  static const Color textPrimary = Color(0xFFF4F4F4);         // Main white text
-  static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
+  static const Color textPlaceholder = Color(0xFFF1EFEC);    // Hints, placeholder
+  static const Color textPrimary = Color(0xFFe7e7e7);         // Main white text
+  // static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
   static const Color danger = Color(0xFFFF453A);             // Logout, error
   static const Color success = Color(0xFF00C3A5);            // Confirm, complete
 

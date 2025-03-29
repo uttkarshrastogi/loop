@@ -30,11 +30,11 @@ class PageTemplate extends StatelessWidget {
       required this.content,
       this.footer,
       this.showBackArrow = true, // Default value set to true
-      this.backgroundColor = AppColors.pelorous900,
+      this.backgroundColor = AppColors.background,
       this.title,
       this.actions,
       this.padding,
-      this.appBarBackgroundColor = AppColors.pelorous900,
+      this.appBarBackgroundColor = AppColors.background,
       this.bottomWidget,
       this.resizeToAvoidBottomInset = true, // Default background color
       this.statusBarColor = Colors.transparent,

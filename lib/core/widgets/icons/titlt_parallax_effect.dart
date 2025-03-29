@@ -42,29 +42,29 @@ class _TiltParallaxImageState extends State<TiltParallaxImage> {
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [
-            BoxShadow(
-              color: AppColors.green800,
-              blurRadius: 60,
-              offset: const Offset(0, 60),
-            ), BoxShadow(
-              color: AppColors.yellow800,
-              blurRadius: 60,
-              offset: const Offset(60, 0),
-            ),BoxShadow(
-              color: AppColors.wildStrawberry800,
-              blurRadius: 60,
-              offset: const Offset(-60, 0),
-            ),
+            // BoxShadow(
+            //   color: AppColors.green800,
+            //   blurRadius: 60,
+            //   offset: const Offset(0, 60),
+            // ), BoxShadow(
+            //   color: AppColors.yellow800,
+            //   blurRadius: 60,
+            //   offset: const Offset(60, 0),
+            // ),BoxShadow(
+            //   color: AppColors.wildStrawberry800,
+            //   blurRadius: 60,
+            //   offset: const Offset(-60, 0),
+            // ),
             // // BoxShadow(
             // //   color: AppColors.red800,
             // //   blurRadius: 60,
             // //   offset: const Offset(0, -60),
             // // ),
-            // BoxShadow(
-            //   color: AppColors.neutral1100,
-            //   blurRadius: 60,
-            //   offset: const Offset(0, -60),
-            // ),
+            BoxShadow(
+              color: AppColors.neutral1100,
+              blurRadius: 60,
+              offset: const Offset(0, -60),
+            ),
           ],
         ),
         child: Image.asset(
