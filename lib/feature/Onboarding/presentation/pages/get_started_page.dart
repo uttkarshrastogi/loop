@@ -8,13 +8,9 @@ import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
-
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
-import '../../../../core/widgets/icons/parallax_image.dart';
 import '../../../../core/widgets/icons/titlt_parallax_effect.dart';
-import '../../../../core/widgets/loaders/app_loader.dart';
-import '../../../auth/data/datasources/auth_service.dart';
 
 class GetStartedPage extends StatelessWidget {
   static const routeName = '/GetStartedPage';
@@ -25,20 +21,20 @@ class GetStartedPage extends StatelessWidget {
     final LoaderBloc lBloc = GetIt.instance<LoaderBloc>();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // state.maybeWhen(
-        //   loading: (){
-        //     lBloc.add(const LoaderEvent.loadingON());
-        //   },
-        //   success: (user) {
-        //     // print(["user",user]);
-        //     // lBloc.add(const LoaderEvent.loadingOFF());
-        //     // context.push(
-        //     //   DashboardPage.routeName,
-        //     // );
-        //   },
-        //     orElse: (){
-        //     print(["error",state.toString()]);
-        //     });
+        state.maybeWhen(
+          loading: (){
+            lBloc.add(const LoaderEvent.loadingON());
+          },
+          success: (user) {
+
+            lBloc.add(const LoaderEvent.loadingOFF());
+            context.push(
+              DashboardPage.routeName,
+            );
+          },
+            orElse: (){
+            print(["error",state.toString()]);
+            });
       },
       child: PageTemplate(
         content: Column(

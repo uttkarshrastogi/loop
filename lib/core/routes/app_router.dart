@@ -3,6 +3,7 @@ import '../../feature/Onboarding/presentation/pages/get_started_page.dart';
 import '../../feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../config/naviagtion_service.dart';
 import 'app_state.dart';
+import 'index.dart';
 import 'navigator_observer.dart';
 // Import your screen widgets here
 
@@ -18,19 +19,22 @@ class AppRouter {
     initialLocation: GetStartedPage.routeName,
     redirect: (context, state) {
       final isLoggedIn = appState.isLoggedIn;
+      final hasResolvedAuth = appState.hasResolvedAuth;
 
-      // If user is logged in, send to dashboard
+      // ⏳ Wait for Firebase to finish checking auth
+      if (!hasResolvedAuth) return null;
+
       if (isLoggedIn && state.matchedLocation == GetStartedPage.routeName) {
-        return DashboardPage.routeName;
+        return Index.routeName;
       }
 
-      // If not logged in and trying to access dasGetStartedPagehboard, send to GetStarted
       if (!isLoggedIn && state.matchedLocation == DashboardPage.routeName) {
         return GetStartedPage.routeName;
       }
 
-      return null; // No redirection
+      return null;
     },
+
     routes: [
       GoRoute(
         path: GetStartedPage.routeName,
@@ -39,6 +43,9 @@ class AppRouter {
       GoRoute(
         path: DashboardPage.routeName,
         builder: (context, state) => const DashboardPage(),
+      ),GoRoute(
+        path: Index.routeName,
+        builder: (context, state) => const Index(),
       ),
     ],
   );

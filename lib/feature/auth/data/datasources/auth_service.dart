@@ -11,7 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print(["token",googleAuth.idToken]);
+      print(["tokenutt", googleUser.serverAuthCode]);
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print('Google Sign-In failed: $e');

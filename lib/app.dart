@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:loop/core/widgets/loaders/app_loader.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
+import 'package:loop/feature/goal/presentation/bloc/goal_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'core/routes/app_router.dart';
 import 'core/routes/app_state.dart';
 import 'core/services/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/uiBloc/uiInteraction/ui_interaction_cubit.dart';
 import 'core/widgets/connectivity/bloc/bloc/connectivity_bloc.dart';
 import 'core/widgets/connectivity/bloc/bloc/connectivity_state.dart';
 import 'core/widgets/connectivity/presentation/connectivity_screen.dart';
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => sl<LoaderBloc>()),
           BlocProvider(create: (context) => sl<AuthBloc>()),
           BlocProvider(create: (context) => sl<ConnectivityBloc>()),
+          BlocProvider(create: (context) => sl<GoalBloc>()),
+          BlocProvider(create: (_) => UIInteractionCubit()),
         ],
         child: MaterialApp.router(
           localizationsDelegates: const [
@@ -48,12 +52,19 @@ class MyApp extends StatelessWidget {
                   child!,
                   BlocBuilder<LoaderBloc, LoaderState>(
                     builder: (context, state) {
-                      if (state.count > 0) {
-                        return const AppLoader();
-                      }
-                      return const SizedBox.shrink();
+                      final show = state.count > 0 || !appState.hasResolvedAuth;
+                      return AnimatedOpacity(
+                        opacity: show ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                        child: IgnorePointer(
+                          ignoring: !show,
+                          child: const AppLoader(),
+                        ),
+                      );
                     },
                   ),
+
                   BlocBuilder<ConnectivityBloc, ConnectivityState>(
                     builder: (context, state) {
                       return state.when(

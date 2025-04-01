@@ -27,21 +27,20 @@ class AppIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Container(
-        width: 36,
-        height: 36,
-        padding: const EdgeInsets.all(AppSpacing.spacing2),
+        padding: const EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.border.withOpacity(0.1)),
-          color: color ?? AppColors.white, // Updated color
-          borderRadius: BorderRadius.circular(12.0),
+          color: color ?? AppColors.surfaceVariant, // Updated color
+          borderRadius: BorderRadius.circular(100.0),
         ),
-        child: icon == null
+        child:Padding(padding: EdgeInsets.all(2),child:  icon == null
             ? imageSvg
             : Icon(
-                icon,
-                size: size ?? 18,
-                color: iconColor ?? AppColors.neutral800, // Updated color
-              ),
+          icon,
+          size: size ?? 18,
+          color: iconColor ?? AppColors.textSecondary, // Updated color
+        ),)
+       
       ),
     );
   }

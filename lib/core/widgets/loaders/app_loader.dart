@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loop/core/theme/colors.dart';
+import 'package:loop/core/widgets/template/page_template.dart';
+import 'package:lottie/lottie.dart';
 
 class AppLoader extends StatefulWidget {
-  const AppLoader({super.key, this.size = 96});
+  const AppLoader({super.key, this.size = 100});
   final double size;
 
   @override
@@ -28,15 +31,28 @@ class _AppLoaderState extends State<AppLoader> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-        child: RotationTransition(
-          turns: _controller,
-          child: Image.asset(
-            'assets/LloaderBG.png', // Place your rotating icon image here
+    return PageTemplate(
+      showBackArrow: false,
+      appBarBackgroundColor: AppColors.background,
+      backgroundColor: AppColors.background,
+      content: Center(
+          child:Lottie.asset(
+            decoder:customDecoder,
+            'assets/text_loader_lottie.lottie', // Place your rotating icon image here
             width: widget.size,
             height: widget.size,
-          ),
-        )
-    );
+          )
+    ));
   }
 }
+Future<LottieComposition?> customDecoder(List<int> bytes) {
+  return LottieComposition.decodeZip(
+    bytes,
+    filePicker: (files) {
+      return files.firstWhere(
+            (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'),
+      );
+    },
+  );
+}
+

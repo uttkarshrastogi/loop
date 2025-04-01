@@ -143,17 +143,17 @@ class AppColors {
   static const Color fuchsiaPink900 = Color(0xFF331412);
 
   // Fuchsia Blue
-  static const Color brandFuchsiaBlue50 = Color(0xFFF8F8F9);
-  static const Color brandFuchsiaBlue100 = Color(0xFFe0F0F2);
-  static const Color brandFuchsiaBlue150 = Color(0xFFFAE8F9);
-  static const Color brandFuchsiaBlue200 = Color(0xFFD0CFF2);
-  static const Color brandFuchsiaBlue300 = Color(0xFFCAAEAA);
-  static const Color brandFuchsiaBlue400 = Color(0xFF8578E1);
-  static const Color brandFuchsiaBlue500 = Color(0xFF952D4C);
-  static const Color brandFuchsiaBlue600 = Color(0xFF7735AA);
-  static const Color brandFuchsiaBlue700 = Color(0xFF59207F);
-  static const Color brandFuchsiaBlue800 = Color(0xFF3C1559);
-  static const Color brandFuchsiaBlue900 = Color(0xFF1E0D2A);
+  static const Color brandFuchsiaPurple50 = Color(0xFFF8F8F9);
+  static const Color brandFuchsiaPurple100 = Color(0xFFe0F0F2);
+  static const Color brandFuchsiaPurple150 = Color(0xFFFAE8F9);
+  static const Color brandFuchsiaPurple200 = Color(0xFFD0CFF2);
+  static const Color brandFuchsiaPurple300 = Color(0xFFCAAEAA);
+  static const Color brandFuchsiaPurple400 = Color(0xFF8578E1);
+  static const Color brandFuchsiaPurple500 = Color(0xFF952D4C);
+  static const Color brandFuchsiaPurple600 = Color(0xFF7735AA);
+  static const Color brandFuchsiaPurple700 = Color(0xFF59207F);
+  static const Color brandFuchsiaPurple800 = Color(0xFF3C1559);
+  static const Color brandFuchsiaPurple900 = Color(0xFF1E0D2A);
 
   // Pelorous (example from secondary palette)
   static const Color pelorous50 = Color(0xFFE6F7F7);
@@ -235,16 +235,28 @@ class AppColors {
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
   );
-  // LoopList Theme Colors 🌑
+  // LoopList Theme Colors 🌑sss
 
-  static const Color background = Color(0xFF030303);
+  static const Color background = Color(0xFF0A0A0A);
+    static const Color bottomSheetBackground = Color(0xFF121212);
   static const Color primary = Color(0xFF123458);
   static const Color surface = Color(0xFFD4C9BE);            // Cards, sheets
   static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
-  static const Color border = Color(0xFF5D5D5E);             // Dividers, outlines
-  static const Color textSecondary = Color(0xFF888888);      // Subtle text
-  static const Color textPlaceholder = Color(0xFFF1EFEC);    // Hints, placeholder
-  static const Color textPrimary = Color(0xFFe7e7e7);         // Main white text
+  static const Color border = Color(0xFF5D5D5E);
+  static const Color backgroundZaxis = Color(0xFF434343);
+// Dimmed background overlay (slightly transparent, soft gray-black)
+  static const Color barrierBackground = Color(0xB31C1C1E); // ~70% opacity of iOS dark gray
+// Dialog container background (deeper, smoother black glass)
+  static const Color dialogBackground = Color(0xE6121212); // ~90% opacity, rich dark gray
+
+  // Dividers, outlines
+  static const Color textPrimary = Color(0xFFE0E0E0);
+  static const Color textSecondary = Color(0xFF757575);
+  static const Color textPlaceholder = Color(0xFF888888);// For main text like titles
+  static const Color textButton = Color(0xFF9E9E9E);       // For button text (looks correct)
+
+  // For hints / input placeholders
+       // Main white text
   // static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
   static const Color danger = Color(0xFFFF453A);             // Logout, error
   static const Color success = Color(0xFF00C3A5);            // Confirm, complete
