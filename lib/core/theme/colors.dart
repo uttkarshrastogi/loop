@@ -59,8 +59,8 @@ class AppColors {
   static const Color neutral850 = Color(0xFF292D33);
   static const Color neutral900 = Color(0xFF131C25);
   static const Color neutral950 = Color(0xFF1A1C20);
-  static const Color neutral1000 = Color(0xFF1D2024);
-  static const Color neutral1100 = Color(0xFF1B1C20);
+  static const Color neutral1000 =Color(0xFF1D2024);
+  static const Color neutral1100 =Color(0xFF1B1C20);
 
 
   // Success Colors - Apple Green Shades
@@ -237,13 +237,13 @@ class AppColors {
   );
   // LoopList Theme Colors 🌑sss
 
-  static const Color background = Color(0xFF0A0A0A);
+  static const Color background = Color(0xFF171616);
     static const Color bottomSheetBackground = Color(0xFF121212);
-  static const Color primary = Color(0xFF123458);
+  static const Color  primary = Color(0xFFD4C9BE);
   static const Color surface = Color(0xFFD4C9BE);            // Cards, sheets
   static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
   static const Color border = Color(0xFF5D5D5E);
-  static const Color backgroundZaxis = Color(0xFF434343);
+  static const Color backgroundZaxis = Color(0xFF151313);
 // Dimmed background overlay (slightly transparent, soft gray-black)
   static const Color barrierBackground = Color(0xB31C1C1E); // ~70% opacity of iOS dark gray
 // Dialog container background (deeper, smoother black glass)
@@ -259,6 +259,24 @@ class AppColors {
        // Main white text
   // static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
   static const Color danger = Color(0xFFFF453A);             // Logout, error
-  static const Color success = Color(0xFF00C3A5);            // Confirm, complete
+  static const Color success = Color(0xFF00C3A5);
+  // Semantic Shortcuts
+  static const Color error = red500;
+  static const Color errorLight = red100;
+  static const Color errorDark = red700;
+
+  static const Color successLight = green100;
+  static const Color successDark = green700;
+
+  static const Color warning = yellow500;
+  static const Color warningLight = yellow100;
+  static const Color warningDark = yellow700;
+
+  static const Color info = blue500;
+  static const Color infoLight = blue100;
+  static const Color infoDark = blue700;
+  static const Color grey = Color(0xFFC9C9C9);
+  static const Color lightGrey = Color(0xFFB2B6BA);
+// Confirm, complete
 
 }

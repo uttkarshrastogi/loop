@@ -16,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final response = await authService.signInWithGoogle();
         emit(AuthState.success(response));
       } catch (e) {
+        rethrow;
         emit(AuthState.error(message: e.toString()));
       }
     }); on<_SignOut>((event, emit) async{

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -11,6 +12,7 @@ import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 import '../../../../core/widgets/icons/titlt_parallax_effect.dart';
+import '../../../journey/presentation/pages/add_goal_dialog.dart';
 
 class GetStartedPage extends StatelessWidget {
   static const routeName = '/GetStartedPage';
@@ -22,19 +24,26 @@ class GetStartedPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         state.maybeWhen(
-          loading: (){
+          loading: () {
             lBloc.add(const LoaderEvent.loadingON());
           },
           success: (user) {
-
             lBloc.add(const LoaderEvent.loadingOFF());
-            context.push(
-              DashboardPage.routeName,
-            );
+            print(FirebaseAuth.instance.currentUser?.email);
+            Navigator.of(context).pushNamed(AddGoalDialog.routeName);
+            // context.push(
+            //   DashboardPage.routeName,
+            // );
           },
-            orElse: (){
-            print(["error",state.toString()]);
-            });
+          error: (e){
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Error: $e')));
+          },
+          orElse: () {
+            print("errorrrr");
+          },
+        );
       },
       child: PageTemplate(
         content: Column(
@@ -86,11 +95,11 @@ class GetStartedPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppButton(text: "Get Started", onPressed: () async {
-                    context.read<AuthBloc>().add(
-                        const AuthEvent.signUp()
-                    );
-                  },
+                  AppButton(
+                    text: "Get Started",
+                    onPressed: () async {
+                      context.read<AuthBloc>().add(const AuthEvent.signUp());
+                    },
                   ),
                   Gap(24),
                 ],

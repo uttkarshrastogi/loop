@@ -90,7 +90,7 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.normal,
     height: 1.67,
-    color: AppColors.textPrimary,
+    color: AppColors.surface,
   );
 
   // Labels

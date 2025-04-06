@@ -11,7 +11,8 @@ class AppLoader extends StatefulWidget {
   State<AppLoader> createState() => _AppLoaderState();
 }
 
-class _AppLoaderState extends State<AppLoader> with SingleTickerProviderStateMixin {
+class _AppLoaderState extends State<AppLoader>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -31,28 +32,36 @@ class _AppLoaderState extends State<AppLoader> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return PageTemplate(
-      showBackArrow: false,
-      appBarBackgroundColor: AppColors.background,
-      backgroundColor: AppColors.background,
-      content: Center(
-          child:Lottie.asset(
-            decoder:customDecoder,
-            'assets/text_loader_lottie.lottie', // Place your rotating icon image here
-            width: widget.size,
-            height: widget.size,
-          )
-    ));
+    return Center(
+      child: Lottie.asset(
+        decoder: customDecoder,
+        'assets/text_loader_lottie.lottie', // Place your rotating icon image here
+        width: widget.size,
+        height: widget.size,
+      ),
+    );
+    //   PageTemplate(
+    //   showBackArrow: false,
+    //   appBarBackgroundColor: AppColors.background,
+    //   backgroundColor: AppColors.background,
+    //   content: Center(
+    //       child:Lottie.asset(
+    //         decoder:customDecoder,
+    //         'assets/text_loader_lottie.lottie', // Place your rotating icon image here
+    //         width: widget.size,
+    //         height: widget.size,
+    //       )
+    // ));
   }
 }
+
 Future<LottieComposition?> customDecoder(List<int> bytes) {
   return LottieComposition.decodeZip(
     bytes,
     filePicker: (files) {
       return files.firstWhere(
-            (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'),
+        (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'),
       );
     },
   );
 }
-

@@ -31,7 +31,7 @@ class AppIcon extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.border.withOpacity(0.1)),
           color: color ?? AppColors.surfaceVariant, // Updated color
-          borderRadius: BorderRadius.circular(100.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child:Padding(padding: EdgeInsets.all(2),child:  icon == null
             ? imageSvg

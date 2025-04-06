@@ -10,6 +10,8 @@ class PageTemplate extends StatelessWidget {
   final Widget content; // Main content widget
   final Widget? footer;
   final Widget? drawer;
+  final Widget? mascot;
+  final bool showBottomGradient;
   final void Function(bool)? onDrawerChanged;
   final Color? drawerScrimColor;
   final Gradient? linearGradient;
@@ -28,18 +30,19 @@ class PageTemplate extends StatelessWidget {
   const PageTemplate(
       {super.key,
       required this.content,
-      this.footer,
+        this.showBottomGradient = false,
+        this.footer,
       this.showBackArrow = true, // Default value set to true
-      this.backgroundColor = AppColors.primary,
+      this.backgroundColor = AppColors.background,
       this.title,
       this.actions,
       this.padding,
-      this.appBarBackgroundColor = AppColors.primary,
+      this.appBarBackgroundColor = AppColors.background,
       this.bottomWidget,
       this.resizeToAvoidBottomInset = true, // Default background color
       this.statusBarColor = Colors.transparent,
       this.isHome = false,
-      this.linearGradient, this.drawerScrimColor, this.drawer, this.onDrawerChanged});
+      this.linearGradient, this.drawerScrimColor, this.drawer, this.onDrawerChanged, this.mascot});
 
   bool isKeyboardVisible(BuildContext context) {
     return MediaQuery.of(context).viewInsets.bottom > 0;
@@ -102,27 +105,62 @@ class PageTemplate extends StatelessWidget {
             : null,
         backgroundColor: backgroundColor,
         body: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(gradient: linearGradient),
-            padding: padding ??
-                const EdgeInsets.only(
-                    top: AppSpacing.spacing6,
-                    left: AppSpacing.spacing6,
-                    right: AppSpacing.spacing6,
-                    bottom: AppSpacing.spacing1),
-            margin: EdgeInsets.only(bottom: keyboardVisible ? 20 : 0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => FocusScope.of(context).unfocus(),
-                      child: content),
-                ),
-              ],
+          child: Stack(
+        children: [
+        Container(
+        decoration: BoxDecoration(gradient: linearGradient),
+        padding: padding ??
+            const EdgeInsets.only(
+                top: AppSpacing.spacing6,
+                left: AppSpacing.spacing6,
+                right: AppSpacing.spacing6,
             ),
-          ),
+        margin: EdgeInsets.only(bottom: keyboardVisible ? 20 : 0),
+        child: Column(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: content,
+              ),
+            ),
+          ],
         ),
+      ),
+
+          if (showBottomGradient)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: Container(
+                  height: 500, // You can tweak this
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        AppColors.brandFuchsiaPurple400.withOpacity(0.2),
+                        AppColors.brandFuchsiaPurple400.withOpacity(0.0),
+                        Colors.transparent,
+                      ],
+                      stops: [0.0, 0.4, 1.0],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (showBottomGradient)
+          Positioned(
+        top: 0,
+        left: 12,
+        child: mascot??SizedBox())
+      ],
+    ),
+
+    ),
       ),
     );
   }
@@ -146,7 +184,7 @@ class BackButtonLight extends StatelessWidget {
               if (isHome!) {
                 // context.go(Index.routeName);
               } else {
-                context.pop();
+                Navigator.of(context).pop();
               }
             },
             child: Container(

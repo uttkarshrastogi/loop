@@ -9,7 +9,7 @@ import '../utils/prefrence_utils.dart';
 
 class Index extends StatefulWidget {
   final int? altIndex;
-  static const routeName = '/';
+  static const routeName = '/Index';
   const Index({super.key, this.altIndex});
 
   @override
@@ -24,12 +24,6 @@ final pageDefault = [
   const DashboardPage(),
   const DashboardPage(),
   const DashboardPage(),
-  // const Home(),
-  // const VasFinanceHome(),
-  // const VasIntro(),
-  // const ShopLandingScreen(),
-  // Container(),
-  // Container(),
 ];
 
 class _IndexState extends State<Index> {
