@@ -10,6 +10,7 @@ import 'package:loop/feature/goal/data/models/create_goal_model.dart';
 import 'package:loop/feature/user/data/models/user_routine_model.dart';
 import 'package:uuid/uuid.dart';
 import '../../../ai/data/models/ai_generated_task_model.dart';
+
 final _uuid = Uuid();
 class AIPlannerService {
   final OpenAIService _openAIService;
@@ -93,7 +94,7 @@ class AIPlannerService {
     final tasks = <AiGeneratedTaskModel>[];
     final now = DateTime.now();
 
-    final content = aiResponse.choices?.first.message?.content;
+    final content = aiResponse.response;
     if (content == null) {
       throw Exception('OpenAI response content is null.');
     }

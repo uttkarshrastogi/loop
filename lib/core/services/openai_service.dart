@@ -21,22 +21,16 @@ Suggest a time-distributed, achievable learning plan broken into weekly or daily
 - Source links (articles, docs,research papers) note: please verify the source links this is at the highest priority the links should work and not break you should 100 percent sure
 Return JSON structured like [{ title, description, hours, source }]
 ''';
-      print("response.data");
+
       final response = await apiCall(
-        customToken: {'Authorization': "Bearer sk-ZJRYCjOCqkMbwQ5nlQeOOw"},
-        host: "ai",
+        withToken: false,
+        // customToken: {'Authorization': "Bearer sk-ZJRYCjOCqkMbwQ5nlQeOOw"},
+        host: "mistral",
         requestName: "chat_completions",
         param: {
-          'model': 'claude-3-7-thinking',
-          'messages': [
-            {
-              'role': 'system',
-              'content':
-                  'You are an AI assistant that helps create personalized learning plans. Return only valid JSON without any additional text.',
-            },
-            {'role': 'user', 'content': prompt},
-          ],
-          'temperature': 0.7,
+          'model': 'mistral',
+          'prompt':prompt,
+          "stream": false
         },
       );
 

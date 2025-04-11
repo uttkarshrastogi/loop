@@ -125,7 +125,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
       child: PageTemplate(
         mascot: Image.asset(
           "assets/loop_mascot_hi.png",
-          height: MediaQuery.of(context).size.height/8,
+          height: MediaQuery.of(context).size.height/6,
         ),
         showBottomGradient: true,
         showBackArrow: false,
@@ -134,7 +134,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Gap(100),
+              const Gap(140),
               Text("Start a new Loop", style: AppTextStyles.headingH4),
               // Before AppNudeTextField (title input)
               Text(

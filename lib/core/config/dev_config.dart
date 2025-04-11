@@ -6,6 +6,21 @@ class DevConfig {
   static ApiConfiguations apiConfig = ApiConfiguations(
     staticURL: {},
     host: {
+      "mistral": ApiConfig(
+        url: "http://10.0.2.2:11434",
+        headerData: {
+          // Example headers if needed
+          // "appId": "YOUR_APP_ID",
+          // "apiSecretKey": "YOUR_SECRET_KEY",
+        },
+        apiEndpoints: {
+          "chat_completions": ApiEndpoint(
+            path: "/api/generate",
+            method: Method.POST,
+          ),
+          // Add more endpoints if required later
+        },
+      ),
       "ai": ApiConfig(
         url: "https://api.rabbithole.cred.club/v1",
         headerData: {

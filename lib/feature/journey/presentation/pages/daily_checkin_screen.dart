@@ -118,7 +118,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
     return PageTemplate(
       mascot: Image.asset(
         "assets/loop_mascot_hi.png",
-        height: MediaQuery.of(context).size.height/8,
+        height: MediaQuery.of(context).size.height/6,
       ),
       title: 'Daily Check-in',
       showBackArrow: true,

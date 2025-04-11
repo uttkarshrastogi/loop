@@ -144,7 +144,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
     return PageTemplate(
       mascot: Image.asset(
         "assets/loop_mascot_calendar.png",
-        height: MediaQuery.of(context).size.height/8,
+     height: MediaQuery.of(context).size.height/6,
       ),
       showBottomGradient:true ,
       title: 'Calendar Integration',
@@ -153,7 +153,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Gap(80),
+          Gap(140),
           Text('Sync your calendar', style: AppTextStyles.headingH5),
           const Gap(4),
           Text(

@@ -192,7 +192,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     return PageTemplate(
       mascot: Image.asset(
         asset ?? "",
-        height: MediaQuery.of(context).size.height / 8,
+        height: MediaQuery.of(context).size.height / 6,
       ),
       showBottomGradient: true,
       title: 'Your Daily Routine',
@@ -211,7 +211,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Gap(100),
+            Gap(150),
             ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 320),
               child: PageTransitionSwitcher(
