@@ -1,43 +1,78 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:loop/core/model/openai_model.dart';
 
 import '../../../../core/services/api_manager.dart'; // Assuming apiCall() is here
 
 class OpenAIService {
-  Future<OpenaiModel> generateLearningPlan({
+
+  final String _apiKey = dotenv.env['OPENAI_API_KEY'] ?? '';
+
+  Future<OpenrouterModel> generateLearningPlan({
     required String goal,
     required String deadline,
     required String routineDetails,
   }) async {
+
     try {
+      final DateTime today = DateTime.now();
+      final DateTime goalDeadline = DateTime.parse(deadline); // deadline you got from user
+      final int daysRemaining = goalDeadline.difference(today).inDays;
+
+      String planStyle;
+      if (daysRemaining <= 3) {
+        planStyle = "Generate urgent fast-track tasks for each day. Tasks should be smaller but very focused.";
+      } else if (daysRemaining <= 7) {
+        planStyle = "Plan daily tasks, one for each day.";
+      } else if (daysRemaining > 30) {
+        planStyle = "Plan weekly milestones, with sub-tasks inside.";
+      } else {
+        planStyle = "Plan a mix of daily and weekly tasks.";
+      }
+
       final prompt = '''
-User wants to achieve $goal by $deadline. Their daily routine is: $routineDetails. 
-Suggest a time-distributed, achievable learning plan broken into weekly or daily tasks. Each step should include:
-- Title
-- Description
-- Duration in hours
-- Source links (articles, docs,research papers) note: please verify the source links this is at the highest priority the links should work and not break you should 100 percent sure
-Return JSON structured like [{ title, description, hours, source }]
+Today's date is ${today.toIso8601String().split('T').first}.
+User wants to achieve "$goal" by $deadline.
+There are approximately $daysRemaining days remaining.
+
+$planStyle
+
+- Title (clear and action-oriented)
+- Description (short but motivating explanation)
+- Estimated Time (in hours)
+- 2–4 Sub-Steps (tiny actionable points to achieve the task)
+- Difficulty Level ("Easy", "Medium", or "Hard")
+- Motivation Tip (1-2 lines of encouragement related to the task)
+- Expected Outcome (What user will achieve after completing this task)
+- Verified Source Links (only working URLs: articles, research papers, docs; please verify carefully)
+- Bonus Reward (optional small reward user can imagine earning after the task, like "Unlock your next milestone" or "Celebrate with a 5-min break")
+
+IMPORTANT:
+- Return only valid JSON inside Markdown triple backticks like ```json
+- Example structure: [{ title, description, hours, subSteps, difficulty, motivationTip, outcome, source, reward }]
+- Double-check that the sources are reliable and live (NOT broken links). This is the HIGHEST priority.
+
+Keep the tone positive and slightly energetic, suitable for 12–40 age group audiences.
+
+Return only the JSON array.
+
 ''';
 
       final response = await apiCall(
-        withToken: false,
-        // customToken: {'Authorization': "Bearer sk-ZJRYCjOCqkMbwQ5nlQeOOw"},
-        host: "mistral",
+        customToken: {'Authorization': "Bearer $_apiKey"},
+        host: "open-router",
         requestName: "chat_completions",
         param: {
-          'model': 'mistral',
+          'model': 'openai/gpt-3.5-turbo',
           'prompt':prompt,
           "stream": false
         },
       );
 
       final content = response.data;
-      print("response.data");
-
-      return OpenaiModel.fromJson(content);
+      return OpenrouterModel.fromJson(content);
     } catch (e) {
       rethrow;
       debugPrint('Learning plan error: $e');
@@ -65,7 +100,7 @@ Return JSON structured like { "encouragement": "...", "adjustments": "...", "nex
 ''';
 
       final response = await apiCall(
-        customToken: {'Authorization': "Bearer sk-ZJRYCjOCqkMbwQ5nlQeOOw"},
+        customToken: {'Authorization': "Bearer $_apiKey"},
         host: "ai",
         requestName: "chat_completions",
         param: {

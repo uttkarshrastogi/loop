@@ -5,26 +5,26 @@ import 'package:loop/core/theme/text_styles.dart';
 
 class AppCalendarField extends StatefulWidget {
   final String labelText;
-  final DateTime? initialDate;
-  final DateTime firstDate;
-  final DateTime lastDate;
-  final void Function(DateTime) onDateSelected;
+  final TextEditingController controller;
   final String? Function(String?)? validator;
+  final FocusNode? focusNode;
+  final Icon? suffixIcon;
+  final VoidCallback onTap;
   final bool isDisabled;
   final Color? backgroundColor;
-  final Icon? suffixIcon;
+  final bool isRequired;
 
   const AppCalendarField({
     super.key,
     required this.labelText,
-    required this.initialDate,
-    required this.firstDate,
-    required this.lastDate,
-    required this.onDateSelected,
+    required this.controller,
     this.validator,
-    this.isDisabled = false,
-    this.backgroundColor = Colors.white,
+    this.focusNode,
     this.suffixIcon,
+    required this.onTap,
+    this.isDisabled = false,
+    this.isRequired = false,
+    this.backgroundColor = Colors.white,
   });
 
   @override
@@ -32,7 +32,6 @@ class AppCalendarField extends StatefulWidget {
 }
 
 class _AppCalendarFieldState extends State<AppCalendarField> {
-  late TextEditingController _controller;
   late FocusNode _focusNode;
   bool _isFocused = false;
   String? _errorText;
@@ -40,20 +39,15 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: widget.initialDate != null
-          ? _formatDate(widget.initialDate!)
-          : '',
-    );
-
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
-    _controller.dispose();
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -69,28 +63,10 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
     });
   }
 
-  String _formatDate(DateTime date) {
-    return "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-  }
-
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: widget.initialDate ?? DateTime.now(),
-      firstDate: widget.firstDate,
-      lastDate: widget.lastDate,
-    );
-
-    if (picked != null) {
-      _controller.text = _formatDate(picked);
-      widget.onDateSelected(picked);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Color borderColor = _errorText != null
-        ? AppColors.error
+        ? Colors.red
         : widget.isDisabled
         ? AppColors.neutral300
         : _isFocused
@@ -101,6 +77,7 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
     widget.isDisabled ? AppColors.neutral300 : AppColors.neutral400;
     Color inputTextColor =
     widget.isDisabled ? AppColors.neutral300 : AppColors.neutral800;
+
     Color bgColor = widget.backgroundColor ?? Colors.white;
 
     return Column(
@@ -110,7 +87,7 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
           padding: EdgeInsets.only(
             left: 0,
             right: 0,
-            top: (_isFocused || _controller.text.isNotEmpty) ? 14 : 0,
+            top: (_isFocused || widget.controller.text.isNotEmpty) ? 14 : 0,
             bottom: 0,
           ),
           decoration: BoxDecoration(
@@ -123,17 +100,36 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
           ),
           child: TextFormField(
             readOnly: true,
-            controller: _controller,
+            controller: widget.controller,
             validator: (value) {
               final error = widget.validator?.call(value);
               _updateError(error);
               return error;
             },
             focusNode: _focusNode,
-            onTap: widget.isDisabled ? () {} : _pickDate,
+            onTap: widget.isDisabled ? () {} : widget.onTap,
             decoration: InputDecoration(
               alignLabelWithHint: true,
-              labelText: widget.labelText,
+              // labelText: widget.labelText,
+              label: RichText(
+                text: TextSpan(
+                  text: widget.labelText,
+                  style: const TextStyle(
+                      color: AppColors.neutral400,
+                      fontSize: 16), // Normal label style
+                  children: [
+                    if (widget.isRequired)
+                      const TextSpan(
+                        text: "*",
+                        style: TextStyle(
+                          color:
+                          Color(0xFFB22D2D), // Red color for the asterisk
+                          fontSize: 16,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide.none,
@@ -147,8 +143,10 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
               contentPadding: const EdgeInsets.all(16),
               suffixIcon: Padding(
                 padding: const EdgeInsets.only(right: 24),
-                // child: widget.suffixIcon ??
-                //     SvgPicture.asset("assets/images/calendar_icon.svg"),
+                child: widget.suffixIcon ??
+                    SvgPicture.asset(
+                      "assets/images/calendar_icon.svg",
+                    ),
               ),
               fillColor: bgColor,
             ),

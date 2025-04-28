@@ -87,20 +87,9 @@ class PageTemplate extends StatelessWidget {
                   statusBarColor: statusBarColor,
                   statusBarIconBrightness: Brightness.dark,
                 ),
-                // leading: Padding(
-                //   padding: const EdgeInsets.only(top: 16.0, left: 24),
-                //   child: Align(
-                //     alignment: Alignment.center,
-                //     child: AppIcon(
-                //       onClick: () {
-                //         context.pop();
-                //       },
-                //       icon: Icons.arrow_back,
-                //       size: 18,
-                //     ),
-                //   ),
-                // ),
-                leading: BackButtonLight(isHome: isHome),
+                leading: AppIconContainer(icon: Icons.arrow_back_rounded, onTap: () {
+                  context.pop();
+                },),
               )
             : null,
         backgroundColor: backgroundColor,
@@ -111,12 +100,13 @@ class PageTemplate extends StatelessWidget {
         decoration: BoxDecoration(gradient: linearGradient),
         padding: padding ??
             const EdgeInsets.only(
-                top: AppSpacing.spacing6,
-                left: AppSpacing.spacing6,
-                right: AppSpacing.spacing6,
+                top: AppSpacing.spacing5,
+                left: AppSpacing.spacing5,
+                right: AppSpacing.spacing5,
             ),
         margin: EdgeInsets.only(bottom: keyboardVisible ? 20 : 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: GestureDetector(
@@ -125,38 +115,38 @@ class PageTemplate extends StatelessWidget {
                 child: content,
               ),
             ),
+            if(mascot != null)
+            Image.asset(
+              "assets/loop_mascot_hi.png",
+              height: MediaQuery.of(context).size.height / 11, // small mascot
+            ),
           ],
         ),
       ),
 
-          if (showBottomGradient)
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: IgnorePointer(
-                child: Container(
-                  height: 500, // You can tweak this
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        AppColors.brandFuchsiaPurple400.withOpacity(0.2),
-                        AppColors.brandFuchsiaPurple400.withOpacity(0.0),
-                        Colors.transparent,
-                      ],
-                      stops: [0.0, 0.4, 1.0],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          if (showBottomGradient)
-          Positioned(
-        top: 0,
-        left: 12,
-        child: mascot??SizedBox())
+          // if (showBottomGradient)
+          //   Positioned(
+          //     bottom: 0,
+          //     left: 0,
+          //     right: 0,
+          //     child: IgnorePointer(
+          //       child: Container(
+          //         height: 500, // You can tweak this
+          //         decoration: BoxDecoration(
+          //           gradient: LinearGradient(
+          //             begin: Alignment.bottomCenter,
+          //             end: Alignment.topCenter,
+          //             colors: [
+          //               AppColors.brandPurple.withOpacity(0.2),
+          //               AppColors.brandPurple.withOpacity(0.0),
+          //               Colors.transparent,
+          //             ],
+          //             stops: [0.0, 0.4, 1.0],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
       ],
     ),
 
@@ -214,3 +204,39 @@ class BackButtonLight extends StatelessWidget {
     );
   }
 }
+
+
+class AppIconContainer extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const AppIconContainer({
+    Key? key,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(top: 14, left: 24, right: 0, bottom: 0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.widgetBackground,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.widgetBorder),
+          ),
+          padding: const EdgeInsets.all(0),
+          child: Icon(
+            icon,
+            size: 30,
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+

@@ -1,29 +1,77 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
+import 'package:loop/core/widgets/inputs/app_textfield.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/goal/data/models/create_goal_model.dart';
+import 'package:lottie/lottie.dart';
+import 'package:pixel_preview/pixel_preview/preview_widget.dart';
+import 'package:pixel_preview/utils/presets.dart';
 import '../../../../core/theme/text_styles.dart';
+import '../../../../core/widgets/calendar/app_calendar_field.dart';
+import '../../../../core/widgets/calendar/custom_calendar.dart';
+import '../../../../core/widgets/cards/app_card.dart';
+import '../../../../core/widgets/divider/labeled_divider.dart';
 import '../../../../core/widgets/inputs/app_nude_textfield.dart';
+import '../../../../core/widgets/loaders/app_loader.dart';
+import '../../../../core/widgets/loaders/rive_loader.dart';
+import '../../../user/data/models/user_routine_model.dart';
+import 'generate_preview_screen.dart';
 import 'routine_input_screen.dart';
-import '../../../goal/presentation/bloc/goal_bloc.dart';
-import '../../../goal/presentation/bloc/goal_state.dart';
 
 class AddGoalDialog extends StatefulWidget {
   static const String routeName = '/AddGoalDialog';
-  const AddGoalDialog({super.key});
+  final CreateGoalModel? initialGoal;
+  final UserRoutineModel? initialRoutine;
+  const AddGoalDialog({super.key, this.initialGoal, this.initialRoutine});
 
   @override
   State<AddGoalDialog> createState() => _AddGoalDialogState();
 }
 
 class _AddGoalDialogState extends State<AddGoalDialog> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
+  DateTime initial = DateTime.now();
+void _showCalendar(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (ctx) {
+      return CustomCalendarPicker(
+        initialDate: initial,
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        onDateSelected: (selectedDate) async {
+          // bool isValid = await validateFamilyMemberAgeAndRelation(
+          //     context,
+          //     calculateAge(DateFormat('dd/MM/yyyy').format(selectedDate)),
+          //     true);
+          // setState(() {
+          //   if (isValid) {
+          //     initial = selectedDate;
+          //     calendarController.text =
+          //         DateFormat('dd/MM/yyyy').format(selectedDate);
+          //   }
+          // });
+        },
+        onClose: () {
+          Navigator.of(ctx).pop();
+        },
+      );
+    },
+  );
+}
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descController = TextEditingController();
+  TextEditingController calendarController = TextEditingController();
 
   DateTime? _dueDate;
 
@@ -66,7 +114,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
     return DateFormat('MMM dd, yyyy').format(date);
   }
 
-  void _onCreatePressed() {
+  void _onCreatePressed() async {
     final title = _titleController.text.trim();
     final desc = _descController.text.trim();
 
@@ -83,107 +131,176 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
       );
       return;
     }
-    // print(FirebaseAuth.instance.currentUser?.email);
-    final goalModel = CreateGoalModel(
+    final goalModel = (widget.initialGoal ?? CreateGoalModel()).copyWith(
       title: _titleController.text,
       description: _descController.text,
       startDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       endDate: _dueDate?.toIso8601String(),
     );
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) => RoutineInputScreen(
-              extra: {'goalModel': goalModel.toJson()},
-            ), // Replace with your target widget
-      ),
+
+    // Check for existing routine in Firestore
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final routineDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('routine')
+              .doc('main')
+              .get();
+      if (routineDoc.exists || widget.initialRoutine != null) {
+        final userRoutine =
+            routineDoc.exists
+                ? UserRoutineModel.fromFirestore(routineDoc)
+                : widget.initialRoutine!;
+        context.push(
+          GeneratePreviewScreen.routeName,
+          extra: {
+            'createGoalModel': goalModel,
+            'userRoutineModel': userRoutine,
+          },
+        );
+        return;
+      }
+    }
+    context.push(
+      RoutineInputScreen.routeName,
+      extra: {'goalModel': goalModel, 'userRoutineModel': null},
     );
   }
 
   @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(
+      text: widget.initialGoal?.title ?? '',
+    );
+    _descController = TextEditingController(
+      text: widget.initialGoal?.description ?? '',
+    );
+    _dueDate =
+        widget.initialGoal?.endDate != null
+            ? DateTime.tryParse(widget.initialGoal!.endDate!)
+            : null;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<GoalBloc, GoalState>(
-      listener: (context, state) {
-        state.maybeWhen(
-          goalCreated: (_) {
-            Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("🌀 New Loop created! Let’s get started."),
-              ),
-            );
-          },
-          error: (msg) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text("❌ Oops! $msg")));
-          },
-          orElse: () {},
-        );
-      },
-      child: PageTemplate(
-        mascot: Image.asset(
-          "assets/loop_mascot_hi.png",
-          height: MediaQuery.of(context).size.height/6,
-        ),
-        showBottomGradient: true,
-        showBackArrow: false,
-        content: SingleChildScrollView(
+    return PageTemplate(
+      // mascot:   Image.asset(
+      //   "assets/loop_mascot_hi.png",
+      // ),
+      showBottomGradient: true,
+      showBackArrow: false,
+      content: Align(
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Gap(140),
-              Text("Start a new Loop", style: AppTextStyles.headingH4),
-              // Before AppNudeTextField (title input)
-              Text(
-                "Pick a starting point or write your own 🧠",
-                style: AppTextStyles.paragraphLarge,
+
+              AppCard(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Start a new Loop",
+                          style: AppTextStyles.headingH4,
+                        ),
+                        const Gap(4),
+                        Text(
+                          "Pick a goal and turn it into a habit.",
+                          style: AppTextStyles.paragraphSmall,
+                        ),
+                        const Gap(24),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            _buildTemplateChip("I want to learn Flutter"),
+                            _buildTemplateChip("I want to learn English"),
+                            _buildTemplateChip("I want to get fit"),
+                            _buildTemplateChip("I want to be more confident"),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    const Gap(12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: LabeledDivider(text: "OR Create Your Own"),
+                    ),
+                    const Gap(20),
+                    Text(
+                      "Customize your Loop",
+                      style: AppTextStyles.paragraphMedium.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const Gap(16),
+                    AppTextField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                      labelText: 'What do you want to achieve?',
+                      controller: _titleController,
+                      fieldTheme: FieldTheme.dark,
+                    ),
+                    const Gap(16),
+                    AppTextField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(150),
+                      ],
+                      labelText: 'Describe your Loop (optional)',
+                      controller: _descController,
+                      fieldTheme: FieldTheme.dark,
+                    ),
+                    const Gap(16),
+                    const Gap(20),
+                    Text(
+                      "Due Date",
+                      style: AppTextStyles.paragraphMedium.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const Gap(8),
+                    // AppCalendarField(
+                    //   isRequired: true,
+                    //   labelText: 'Date of Birth',
+                    //   controller: calendarController,
+                    //   onTap: () {
+                    //     // calendarController.text =
+                    //     //     calculateBirthDate(memberData?.age ?? 0);
+                    //
+                    //   },
+                    // ),
+                    _buildDateChip("Pick a deadline", _dueDate, (){
+                      _showCalendar(context);
+                    }),
+                    const Gap(32),
+                    AppButton(
+                      text: "Build My Loop",
+                      onPressed: _onCreatePressed,
+                      backGroundColor: AppColors.brandPurple,
+                      height: 30,
+                    ),
+                  ],
+                ),
               ),
-              const Gap(24),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _buildTemplateChip("I want to learn Flutter 🚀"),
-                  _buildTemplateChip("I want to learn English 🇬🇧"),
-                  _buildTemplateChip("I want to get fit 💪"),
-                  _buildTemplateChip("I want to be more confident 🌟"),
-                  // _buildTemplateChip("I want to wake up early ⏰"),
-                  // _buildTemplateChip("Custom goal ✍️"),
-                ],
-              ),
-              const Gap(20),
-          
-              const Gap(16),
-              AppNudeTextField(
-                hintText: 'What do you want to achieve?',
-                hintStyle: AppTextStyles.paragraphLarge,
-                controller: _titleController,
-              ),
-              const Gap(12),
-              AppNudeTextField(
-                hintText: 'Describe your Loop (optional)',
-                hintStyle: AppTextStyles.paragraphMedium,
-                textStyle: AppTextStyles.paragraphMedium,
-                controller: _descController,
-              ),
-              const Gap(20),
-              Text(
-                "Due Date",
-                style: AppTextStyles.paragraphLarge,
-              ),
-              const Gap(10),
-              _buildDateChip("Pick a deadline", _dueDate, _pickDate),
-              const Gap(60),
-              AppButton(
-                text: "Next",
-                onPressed: _onCreatePressed,
-                backGroundColor: AppColors.brandFuchsiaPurple400,
-                height: 30,
-              ),
-          
+
             ],
           ),
         ),
@@ -196,25 +313,30 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: const Color(0xFF2C2C2E),
-          border:
-              hasValue
-                  ? Border.all(color: AppColors.brandFuchsiaPurple400)
-                  : null,
+          color: hasValue ? AppColors.brandPurple : AppColors.widgetBackground,
+          border: hasValue ? null : Border.all(color: AppColors.widgetBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.calendar_today, size: 16, color: Colors.white38),
+            HeroIcon(
+              HeroIcons.calendar,
+              size: 16,
+              color: hasValue ? Colors.white : AppColors.textPrimary,
+            ),
+            // Icon(
+            //   Icons.calendar_today,
+            //   size: 16,
+            //   color: hasValue ? Colors.white : AppColors.textPrimary,
+            // ),
             const SizedBox(width: 6),
             Text(
               _formatDate(date),
-              style: TextStyle(
-                color: hasValue ? Colors.white : Colors.white38,
-                fontSize: 13,
+              style: AppTextStyles.paragraphSmall.copyWith(
+                color: hasValue ? Colors.white : AppColors.textPrimary,
               ),
             ),
           ],
@@ -232,27 +354,49 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
           _titleController.text = text;
         });
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(12),
-          border:
-              isSelected
-                  ? Border.all(
-                    color: AppColors.brandFuchsiaPurple400,
-                    width: 1.5,
-                  )
-                  : null,
-        ),
-        child: Text(
-          text,
-          style: AppTextStyles.paragraphMedium?.copyWith(
-            color: AppColors.textPrimary,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+      child: AnimatedScale(
+        scale: isSelected ? 1.05 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeOut,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.brandPurple : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border:
+                isSelected
+                    ? null
+                    : Border.all(color: AppColors.widgetBorder, width: 1.5),
+            boxShadow:
+                isSelected
+                    ? [
+                      BoxShadow(
+                        color: AppColors.brandPurple.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]
+                    : [],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                text,
+                style: AppTextStyles.paragraphXSmall.copyWith(
+                  color: isSelected ? Colors.white : AppColors.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              // if (isSelected) ...[
+              //   const Icon(Icons.check, size: 16, color: Colors.white),
+              //   const SizedBox(width: 6),
+              // ],
+            ],
           ),
         ),
       ),
     );
-  }
-}
+
+}}

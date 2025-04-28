@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
@@ -16,7 +17,6 @@ import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 
 class GenerateScreen extends StatefulWidget {
   static const routeName = '/generate';
-
   final CreateGoalModel createGoalModel;
   final UserRoutineModel userRoutineModel;
 
@@ -76,11 +76,12 @@ class _GenerateScreenState extends State<GenerateScreen> with SingleTickerProvid
   void _triggerGenerate() {
     if (_hasTriggered) return;
     _hasTriggered = true;
-
+    final loopDocId = widget.userRoutineModel.id!;
     context.read<JourneyBloc>().add(
       GeneratePlan(
         goalmodel: widget.createGoalModel,
         userRoutineModel: widget.userRoutineModel,
+        loopDocId: loopDocId,
       ),
     );
   }
@@ -95,7 +96,7 @@ class _GenerateScreenState extends State<GenerateScreen> with SingleTickerProvid
       content: BlocListener<JourneyBloc, JourneyState>(
         listener: (context, state) {
           if (state is JourneyTasksLoaded) {
-            Navigator.pushReplacementNamed(context, DashboardPage.routeName);
+            context.go(DashboardPage.routeName);
           } else if (state is JourneyError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
@@ -139,7 +140,7 @@ class _GenerateScreenState extends State<GenerateScreen> with SingleTickerProvid
                       height: 60,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.brandFuchsiaPurple400, // Green color from screenshot
+                        color: AppColors.brandPurple, // Green color from screenshot
                       ),
                       child: const Center(
                         child: Icon(
@@ -189,7 +190,7 @@ class CircleProgressPainter extends CustomPainter {
     final radius = size.width / 2;
 
     final paint = Paint()
-      ..color = AppColors.brandFuchsiaPurple400 // Green color from screenshot
+      ..color = AppColors.brandPurple // Green color from screenshot
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;

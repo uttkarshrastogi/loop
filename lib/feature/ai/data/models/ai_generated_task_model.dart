@@ -7,7 +7,12 @@ class AiGeneratedTaskModel {
   final String title;
   final String description;
   final double estimatedHours;
+  final List<String> subSteps;
+  final String difficulty; // "Easy" / "Medium" / "Hard"
+  final String motivationTip;
+  final String expectedOutcome;
   final String source;
+  final String reward;
   final DateTime assignedDate;
   final bool isCompleted;
   final bool isSkipped;
@@ -22,7 +27,12 @@ class AiGeneratedTaskModel {
     required this.title,
     required this.description,
     required this.estimatedHours,
+    this.subSteps = const [],
+    this.difficulty = "Medium",
+    this.motivationTip = "",
+    this.expectedOutcome = "",
     required this.source,
+    this.reward = "",
     required this.assignedDate,
     this.isCompleted = false,
     this.isSkipped = false,
@@ -33,7 +43,6 @@ class AiGeneratedTaskModel {
 
   factory AiGeneratedTaskModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    
     return AiGeneratedTaskModel(
       id: doc.id,
       goalId: data['goalId'] ?? '',
@@ -41,7 +50,12 @@ class AiGeneratedTaskModel {
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       estimatedHours: (data['estimatedHours'] ?? 0).toDouble(),
+      subSteps: List<String>.from(data['subSteps'] ?? []),
+      difficulty: data['difficulty'] ?? 'Medium',
+      motivationTip: data['motivationTip'] ?? '',
+      expectedOutcome: data['expectedOutcome'] ?? '',
       source: data['source'] ?? '',
+      reward: data['reward'] ?? '',
       assignedDate: data['assignedDate'] != null
           ? (data['assignedDate'] as Timestamp).toDate()
           : DateTime.now(),
@@ -67,7 +81,12 @@ class AiGeneratedTaskModel {
       'title': title,
       'description': description,
       'estimatedHours': estimatedHours,
+      'subSteps': subSteps,
+      'difficulty': difficulty,
+      'motivationTip': motivationTip,
+      'expectedOutcome': expectedOutcome,
       'source': source,
+      'reward': reward,
       'assignedDate': Timestamp.fromDate(assignedDate),
       'isCompleted': isCompleted,
       'isSkipped': isSkipped,
@@ -84,7 +103,12 @@ class AiGeneratedTaskModel {
     String? title,
     String? description,
     double? estimatedHours,
+    List<String>? subSteps,
+    String? difficulty,
+    String? motivationTip,
+    String? expectedOutcome,
     String? source,
+    String? reward,
     DateTime? assignedDate,
     bool? isCompleted,
     bool? isSkipped,
@@ -99,7 +123,12 @@ class AiGeneratedTaskModel {
       title: title ?? this.title,
       description: description ?? this.description,
       estimatedHours: estimatedHours ?? this.estimatedHours,
+      subSteps: subSteps ?? this.subSteps,
+      difficulty: difficulty ?? this.difficulty,
+      motivationTip: motivationTip ?? this.motivationTip,
+      expectedOutcome: expectedOutcome ?? this.expectedOutcome,
       source: source ?? this.source,
+      reward: reward ?? this.reward,
       assignedDate: assignedDate ?? this.assignedDate,
       isCompleted: isCompleted ?? this.isCompleted,
       isSkipped: isSkipped ?? this.isSkipped,

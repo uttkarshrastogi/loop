@@ -8,6 +8,7 @@ import 'package:loop/core/model/openai_model.dart';
 import 'package:loop/core/services/openai_service.dart';
 import 'package:loop/feature/goal/data/models/create_goal_model.dart';
 import 'package:loop/feature/user/data/models/user_routine_model.dart';
+import 'package:loop/feature/user/data/models/user_routine_model.dart';
 import 'package:uuid/uuid.dart';
 import '../../../ai/data/models/ai_generated_task_model.dart';
 
@@ -23,13 +24,10 @@ class AIPlannerService {
   Future<List<AiGeneratedTaskModel>> generateLearningPlan({
     required CreateGoalModel goalModel,
     required UserRoutineModel routineModel,
+    required String userId,
+    required String loopDocId,
   }) async {
     try {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
-      if (userId == null) {
-        throw Exception('User not authenticated');
-      }
-
       // Format the routine details for the AI prompt
       final routineDetails = routineModel.getFormattedRoutine();
 
@@ -42,7 +40,7 @@ class AIPlannerService {
       // Call OpenAI to generate the learning plan
       final aiResponse = await _openAIService.generateLearningPlan(
         goal: goalModel.title ?? 'Learn new skills',
-        deadline: deadline,
+        deadline: goalModel.endDate!,
         routineDetails: routineDetails,
       );
 
@@ -51,14 +49,14 @@ class AIPlannerService {
         aiResponse,
         userId,
         goalModel.title ?? 'Unknown goal',
+        loopDocId,
       );
 
       // Save tasks to Firestore
-      await _saveTasks(tasks);
+      await _saveTasks(tasks, userId: userId, loopDocId: loopDocId);
 
       return tasks;
     } catch (e) {
-      rethrow;
       debugPrint('Error generating learning plan: $e');
       throw Exception('Failed to generate learning plan: $e');
     }
@@ -86,15 +84,15 @@ class AIPlannerService {
 
   /// Convert AI response to AiGeneratedTaskModel objects
   List<AiGeneratedTaskModel> _convertAiResponseToTasks(
-      OpenaiModel aiResponse,
+      OpenrouterModel aiResponse,
       String userId,
       String goalTitle,
+      String loopDocId,
       ) {
-    const String tempGoalId = 'temp-goal-id';
     final tasks = <AiGeneratedTaskModel>[];
     final now = DateTime.now();
 
-    final content = aiResponse.response;
+    final content = aiResponse.choices?.first.text;
     if (content == null) {
       throw Exception('OpenAI response content is null.');
     }
@@ -108,34 +106,33 @@ class AIPlannerService {
 
     final List<dynamic> parsed = json.decode(jsonStr);
 
-
-    int dayOffset = 0;
-
     for (var i = 0; i < parsed.length; i++) {
       final taskData = parsed[i] as Map<String, dynamic>;
-
-      final assignedDate = DateTime.now().add(Duration(days: i));
+      final assignedDate = now.add(Duration(days: i));
 
       final task = AiGeneratedTaskModel(
         id: _uuid.v4(),
-        goalId: 'temp-goal-id',
+        goalId: loopDocId,
         userId: userId,
         title: taskData['title'] ?? 'Untitled task',
         description: taskData['description'] ?? '',
         estimatedHours: _parseHours(taskData['hours']),
+        subSteps: List<String>.from(taskData['subSteps'] ?? []),
+        difficulty: taskData['difficulty'] ?? 'Medium',
+        motivationTip: taskData['motivationTip'] ?? '',
+        expectedOutcome: taskData['expectedOutcome'] ?? '',
         source: (taskData['source'] is List)
             ? taskData['source'].join(', ')
             : (taskData['source'] ?? ''),
+        reward: taskData['reward'] ?? '',
         assignedDate: assignedDate,
       );
 
-
       tasks.add(task);
     }
-
-
     return tasks;
   }
+
 
   double _estimateHoursFromTimeSlot(String timeSlot) {
     try {
@@ -155,8 +152,6 @@ class AIPlannerService {
     );
     return time.hour + time.minute / 60.0;
   }
-
-
 
   /// Parse hours from various formats (string, number, etc.)
   double _parseHours(dynamic hoursData) {
@@ -180,26 +175,41 @@ class AIPlannerService {
   }
 
   /// Save tasks to Firestore
-  Future<void> _saveTasks(List<AiGeneratedTaskModel> tasks) async {
+  /// Updated: Now requires userId and loopDocId to nest tasks correctly
+  Future<void> _saveTasks(List<AiGeneratedTaskModel> tasks, {required String userId, required String loopDocId}) async {
     final batch = _firestore.batch();
 
     for (final task in tasks) {
-      final docRef = _firestore.collection('ai_generated_tasks').doc(task.id); // use task.id explicitly
+      final docRef = _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('goal')
+          .doc(loopDocId)
+          .collection('ai_generated_tasks')
+          .doc(task.id);
       batch.set(docRef, task.toFirestore());
     }
 
     await batch.commit();
   }
 
-
   /// Update task status (complete/skip)
   Future<void> updateTaskStatus(
+    String userId,
+    String loopDocId,
     String taskId,
     bool isCompleted,
     bool isSkipped,
   ) async {
     try {
-      await _firestore.collection('ai_generated_tasks').doc(taskId).update({
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('goal')
+          .doc(loopDocId)
+          .collection('ai_generated_tasks')
+          .doc(taskId)
+          .update({
         'isCompleted': isCompleted,
         'isSkipped': isSkipped,
         'completedAt': isCompleted ? FieldValue.serverTimestamp() : null,
@@ -212,10 +222,14 @@ class AIPlannerService {
   }
 
   /// Get tasks for a specific goal
-  Future<List<AiGeneratedTaskModel>> getTasksForGoal(String goalId) async {
+  Future<List<AiGeneratedTaskModel>> getTasksForGoal(String userId, String loopDocId, String goalId) async {
     try {
       final snapshot =
           await _firestore
+              .collection('users')
+              .doc(userId)
+              .collection('goal')
+              .doc(loopDocId)
               .collection('ai_generated_tasks')
               .where('goalId', isEqualTo: goalId)
               .orderBy('assignedDate')
@@ -231,21 +245,19 @@ class AIPlannerService {
   }
 
   /// Get tasks for today
-  Future<List<AiGeneratedTaskModel>> getTodayTasks() async {
+  Future<List<AiGeneratedTaskModel>> getTodayTasks(String userId, String loopDocId) async {
     try {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
-      if (userId == null) {
-        throw Exception('User not authenticated');
-      }
-
       final today = DateTime.now();
       final startOfDay = DateTime(today.year, today.month, today.day);
       final endOfDay = startOfDay.add(const Duration(days: 1));
 
       final snapshot =
           await _firestore
+              .collection('users')
+              .doc(userId)
+              .collection('goal')
+              .doc(loopDocId)
               .collection('ai_generated_tasks')
-              .where('userId', isEqualTo: userId)
               .where('assignedDate', isGreaterThanOrEqualTo: startOfDay)
               .where('assignedDate', isLessThan: endOfDay)
               .get();
@@ -263,11 +275,11 @@ class AIPlannerService {
   Future<Map<String, dynamic>> generateFeedback({
     required String goalId,
     required String progress,
-    required String userFeedback,})
-  async {
+    required String userFeedback,
+  }) async {
     try {
       // Get the goal details
-      final goalDoc = await _firestore.collection('goals').doc(goalId).get();
+      final goalDoc = await _firestore.collection('goal').doc(goalId).get();
       final goalTitle = goalDoc.data()?['title'] ?? 'your goal';
 
       // Get the AI feedback
@@ -283,4 +295,42 @@ class AIPlannerService {
       throw Exception('Failed to generate feedback: $e');
     }
   }
+  Future<List<List<AiGeneratedTaskModel>>> getAllTasksGroupedByGoal(String userId) async {
+    try {
+      final goalDocs = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('goal') // ✅ Make sure this is 'goals' not 'goal'
+          .get();
+
+      List<List<AiGeneratedTaskModel>> groupedTasks = [];
+
+      for (final goalDoc in goalDocs.docs) {
+        final loopDocId = goalDoc.id;
+
+        final tasksSnapshot = await _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('goal')
+            .doc(loopDocId)
+            .collection('ai_generated_tasks')
+            .orderBy('assignedDate')
+            .get();
+
+        final tasks = tasksSnapshot.docs
+            .map((doc) => AiGeneratedTaskModel.fromFirestore(doc))
+            .toList();
+
+        if (tasks.isNotEmpty) {
+          groupedTasks.add(tasks);
+        }
+      }
+
+      return groupedTasks;
+    } catch (e) {
+      debugPrint('Error fetching grouped tasks: $e');
+      return [];
+    }
+  }
+
 }

@@ -639,6 +639,40 @@ Widget calculateDateDifference(String expiryDateString, BuildContext context) {
     );
   }
 }
+DateTime dateConvertDateTime(String dateString) {
+  try {
+
+    DateTime dateTime;
+
+    // Normalize format: 17/6/2025 -> 17/06/2025
+    RegExp normalizeRegex = RegExp(r'^(\d{1,2})/(\d{1,2})/(\d{4})$');
+    final match = normalizeRegex.firstMatch(dateString);
+    if (match != null) {
+      final normalized =
+          "${match.group(1)!.padLeft(2, '0')}/${match.group(2)!.padLeft(2, '0')}/${match.group(3)}";
+      dateTime = DateFormat("dd/MM/yyyy").parseStrict(normalized);
+    } else {
+      dateTime = DateTime.parse(dateString); // fallback
+    }
+
+    return dateTime;
+  } catch (e) {
+    return DateTime.now();
+  }
+}
+String formatTo12Hour(String timeStr) {
+  try {
+    final time = TimeOfDay(
+      hour: int.parse(timeStr.split(":")[0]),
+      minute: int.parse(timeStr.split(":")[1]),
+    );
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat.jm().format(dt); // 12hr format like "7:00 AM"
+  } catch (_) {
+    return timeStr;
+  }
+}
 
 Widget calculateDateDifferenceHome(
     String expiryDateString, BuildContext context) {

@@ -58,7 +58,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
   }
   
   void _loadTodayTasks() {
-    context.read<JourneyBloc>().add(LoadTodayTasks());
+    if (_goalId != null) {
+      context.read<JourneyBloc>().add(LoadTodayTasks(loopDocId: _goalId!));
+    }
   }
   
   Future<void> _submitFeedback() async {

@@ -21,6 +21,21 @@ class DevConfig {
           // Add more endpoints if required later
         },
       ),
+      "open-router": ApiConfig(
+        url: "https://openrouter.ai",
+        headerData: {
+          // Example headers if needed
+          // "appId": "YOUR_APP_ID",
+          // "apiSecretKey": "YOUR_SECRET_KEY",
+        },
+        apiEndpoints: {
+          "chat_completions": ApiEndpoint(
+            path: "/api/v1/completions",
+            method: Method.POST,
+          ),
+          // Add more endpoints if required later
+        },
+      ),
       "ai": ApiConfig(
         url: "https://api.rabbithole.cred.club/v1",
         headerData: {

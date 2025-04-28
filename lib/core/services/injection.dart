@@ -21,8 +21,8 @@ void setupLocator() {
   sl.registerLazySingleton<AuthBloc>(() => AuthBloc(authService: sl()));
 
   //goal
-  sl.registerSingleton<GoalService>(GoalService());
-  sl.registerLazySingleton<GoalBloc>(() => GoalBloc(sl()));
+  // sl.registerSingleton<GoalService>(GoalService());
+  // sl.registerLazySingleton<GoalBloc>(() => GoalBloc(sl()));
 
 
   //miscellaneous

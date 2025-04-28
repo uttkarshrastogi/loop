@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 import '../../data/datasources/auth_service.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -16,7 +19,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final response = await authService.signInWithGoogle();
         emit(AuthState.success(response));
       } catch (e) {
-        rethrow;
         emit(AuthState.error(message: e.toString()));
       }
     }); on<_SignOut>((event, emit) async{

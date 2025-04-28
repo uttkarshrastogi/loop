@@ -39,7 +39,7 @@ class AppButton extends StatelessWidget {
             : backGroundColor??AppColors.surfaceVariant;
 
     final borderColor = withBorder
-        ? (isDisabled ? AppColors.neutral400 : AppColors.brandFuchsiaPurple400)
+        ? (isDisabled ? AppColors.neutral400 : AppColors.brandPurple)
         : Colors.transparent;
 
 

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
   class AuthService {
    Future<UserCredential?> signInWithGoogle() async {
@@ -12,7 +13,23 @@ import 'package:google_sign_in/google_sign_in.dart';
         idToken: googleAuth.idToken,
       );
       print(["tokenutt", googleUser.serverAuthCode]);
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      // Firestore user creation logic
+      final user = userCredential.user;
+      if (user != null) {
+        final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+        final docSnapshot = await userDoc.get();
+        if (!docSnapshot.exists) {
+          await userDoc.set({
+            'uid': user.uid,
+            'email': user.email,
+            'displayName': user.displayName,
+            'photoURL': user.photoURL,
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+        }
+      }
+      return userCredential;
     } catch (e) {
       print('Google Sign-In failed: $e');
       return null;

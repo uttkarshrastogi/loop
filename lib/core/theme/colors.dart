@@ -148,7 +148,8 @@ class AppColors {
   static const Color brandFuchsiaPurple150 = Color(0xFFFAE8F9);
   static const Color brandFuchsiaPurple200 = Color(0xFFD0CFF2);
   static const Color brandFuchsiaPurple300 = Color(0xFFCAAEAA);
-  static const Color brandFuchsiaPurple400 = Color(0xFF8578E1);
+
+  // static const Color brandFuchsiaPurple450 = Color(0xFF4e49a4);
   static const Color brandFuchsiaPurple500 = Color(0xFF952D4C);
   static const Color brandFuchsiaPurple600 = Color(0xFF7735AA);
   static const Color brandFuchsiaPurple700 = Color(0xFF59207F);
@@ -237,30 +238,43 @@ class AppColors {
   );
   // LoopList Theme Colors 🌑sss
 
-  static const Color background = Color(0xFF171616);
-    static const Color bottomSheetBackground = Color(0xFF121212);
-  static const Color  primary = Color(0xFFD4C9BE);
-  static const Color surface = Color(0xFFD4C9BE);            // Cards, sheets
-  static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
-  static const Color border = Color(0xFF5D5D5E);
+
+  // 🔲 Backgrounds
+  static const Color background =Color(0xFF19191D);
   static const Color backgroundZaxis = Color(0xFF151313);
-// Dimmed background overlay (slightly transparent, soft gray-black)
-  static const Color barrierBackground = Color(0xB31C1C1E); // ~70% opacity of iOS dark gray
-// Dialog container background (deeper, smoother black glass)
-  static const Color dialogBackground = Color(0xE6121212); // ~90% opacity, rich dark gray
+  static const Color widgetBackground = Color(0xFF1E1B2E);
+  static const Color bottomSheetBackground = Color(0xFF121212);
+  static const Color dialogBackground = Color(0xE6121212);
+  static const Color barrierBackground = Color(0xB31C1C1E);
 
-  // Dividers, outlines
-  static const Color textPrimary = Color(0xFFE0E0E0);
-  static const Color textSecondary = Color(0xFF757575);
-  static const Color textPlaceholder = Color(0xFF888888);// For main text like titles
-  static const Color textButton = Color(0xFF9E9E9E);       // For button text (looks correct)
+  // 🧱 Surfaces
+  static const Color surface = Color(0xFFD4C9BE);
+  static const Color surfaceVariant = Color(0xFF3A3A3B);
+  static const Color widgetBorder = Color(0xFF2F313B);
+  static const Color border = Color(0xFF3A3749);
 
-  // For hints / input placeholders
-       // Main white text
-  // static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
-  static const Color danger = Color(0xFFFF453A);             // Logout, error
+  // ✍️ Text
+  static const Color textPrimary = Color(0xFFFFFFFF);   // Bright white
+  static const Color textSecondary = Color(0xFFC7C7D2); // Soft body color
+  static const Color textTertiary = Color(0xFF8E8E99);  // Hints, placeholders
+  static const Color textButton = Color(0xFFA6A6B0);    // Subtle button text
+
+
+
+  // 🎨 Brand / Primary
+  static const Color primary = Color(0xFFD4C9BE);
+  static const Color brandPurple = Color(0xFF6857D9);
+
+
+ // Optional CTA color
+
+  // ✅ Status Colors
+  static const Color danger = Color(0xFFFF453A);
   static const Color success = Color(0xFF00C3A5);
-  // Semantic Shortcuts
+  static const Color warning = Color(0xFFFFC107); // yellow500
+  static const Color info = Color(0xFF2196F3);     // blue500
+
+  // ✅ Light/Dark variants for states
   static const Color error = red500;
   static const Color errorLight = red100;
   static const Color errorDark = red700;
@@ -268,15 +282,37 @@ class AppColors {
   static const Color successLight = green100;
   static const Color successDark = green700;
 
-  static const Color warning = yellow500;
   static const Color warningLight = yellow100;
   static const Color warningDark = yellow700;
 
-  static const Color info = blue500;
   static const Color infoLight = blue100;
   static const Color infoDark = blue700;
+
+  // 🧊 Greys
   static const Color grey = Color(0xFFC9C9C9);
   static const Color lightGrey = Color(0xFFB2B6BA);
-// Confirm, complete
+
+  //gradient
+  static const List<Color> vibrantPurpleGlow = [
+    Color(0xFFB388FF), // light purple
+    Color(0xFF7C4DFF), // deep purple
+    Color(0xFF651FFF), // stronger royal purple
+    Color(0xFFB388FF), // back to light purple
+  ];
+  static const List<Color> brandGlow = [
+    Color(0xFFB388FF), // soft purple
+    Color(0xFF9C27B0), // vibrant purple (more pinkish hue)
+    Color(0xFF7C4DFF), // deep rich purple
+    Color(0xFF536DFE), // electric blue hint
+    Color(0xFFB388FF), // back to soft purple
+  ];
+  static const List<Color> vibrantPurpleGlowPunchy= [
+    Color(0xFFCE93D8), // lilac (soft pinkish purple)
+    Color(0xFFAB47BC), // bright purple
+    Color(0xFF7E57C2), // royal deep purple
+    Color(0xFF5C6BC0), // neon blue hint
+    Color(0xFFBA68C8), // magenta pink touch
+  ];
+
 
 }

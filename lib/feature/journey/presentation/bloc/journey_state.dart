@@ -10,6 +10,7 @@ abstract class JourneyState with _$JourneyState {
   const factory JourneyState.loading() = JourneyLoading;
   const factory JourneyState.tasksLoaded(List<AiGeneratedTaskModel> tasks) = JourneyTasksLoaded;
   const factory JourneyState.todayTasksLoaded(List<AiGeneratedTaskModel> tasks) = JourneyTodayTasksLoaded;
+  const factory JourneyState.allTasksLoaded(List<List<AiGeneratedTaskModel>> tasks) = JourneyAllTasksLoaded;
   const factory JourneyState.planGenerated() = JourneyPlanGenerated;
   const factory JourneyState.taskStatusUpdated() = JourneyTaskStatusUpdated;
   const factory JourneyState.error(String message) = JourneyError;

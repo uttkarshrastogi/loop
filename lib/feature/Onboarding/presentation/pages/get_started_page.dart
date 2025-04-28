@@ -8,7 +8,6 @@ import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
-import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 import '../../../../core/widgets/icons/titlt_parallax_effect.dart';
@@ -29,11 +28,6 @@ class GetStartedPage extends StatelessWidget {
           },
           success: (user) {
             lBloc.add(const LoaderEvent.loadingOFF());
-            print(FirebaseAuth.instance.currentUser?.email);
-            Navigator.of(context).pushNamed(AddGoalDialog.routeName);
-            // context.push(
-            //   DashboardPage.routeName,
-            // );
           },
           error: (e){
             ScaffoldMessenger.of(
@@ -55,23 +49,6 @@ class GetStartedPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TiltParallaxImage(),
-                  // ParallaxImage(),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: AppColors.neutral1100.withOpacity(0.5),
-                  //         blurRadius: 60,
-                  //         spreadRadius: 0,
-                  //         offset: const Offset(0, 20),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   child: Image.asset(
-                  //     "assets/LiconBG.png",
-                  //     width: MediaQuery.of(context).size.width / 1.4,
-                  //   ),
-                  // ),
                   Text(
                     "Welcome to",
                     style: AppTextStyles.paragraphLarge.copyWith(

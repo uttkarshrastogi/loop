@@ -7,13 +7,13 @@ import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/goal/data/models/create_goal_model.dart';
-import 'package:loop/feature/journey/presentation/pages/generate_screen.dart';
+import 'package:loop/feature/journey/presentation/pages/generate_preview_screen.dart';
 import 'package:loop/feature/user/data/models/user_routine_model.dart';
 
 class CalendarIntegrationScreen extends StatefulWidget {
   static const String routeName = '/calendar-integration';
 
-    final CreateGoalModel createGoalModel;
+  final CreateGoalModel createGoalModel;
   final UserRoutineModel userRoutineModel;
 
   const CalendarIntegrationScreen({Key? key, required this.createGoalModel, required this.userRoutineModel}) : super(key: key);
@@ -48,9 +48,9 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
       setState(() {
         _isConnected = isSignedIn;
         _statusMessage =
-            isSignedIn
-                ? 'Connected to Google Calendar as ${account?.email}'
-                : 'Not connected to Google Calendar';
+        isSignedIn
+            ? 'Connected to Google Calendar as ${account?.email}'
+            : 'Not connected to Google Calendar';
       });
     } catch (e) {
       setState(() {
@@ -114,29 +114,13 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
   }
 
   void _continueToJourney() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder:
-    //         (context) => TodoJourneyScreen(
-    //           createGoalModel: widget.createGoalModel,userRoutineModel:widget.userRoutineModel ,
-    //         ),
-    //   ),
-    // );
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) =>
-                GenerateScreen(
-              createGoalModel: widget.createGoalModel,userRoutineModel:widget.userRoutineModel ,
-            ),
-      ),
+    context.push(
+      GeneratePreviewScreen.routeName,
+      extra: {
+        'createGoalModel': widget.createGoalModel,
+        'userRoutineModel': widget.userRoutineModel,
+      },
     );
-    // context.push(
-    //   TodoJourneyScreen.routeName,
-    //   extra: {'goalId': 'temp-goal-id'},
-    // );
   }
 
   @override
@@ -144,7 +128,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
     return PageTemplate(
       mascot: Image.asset(
         "assets/loop_mascot_calendar.png",
-     height: MediaQuery.of(context).size.height/6,
+        height: MediaQuery.of(context).size.height/6,
       ),
       showBottomGradient:true ,
       title: 'Calendar Integration',
@@ -167,9 +151,9 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color:
-                  _isConnected
-                      ? AppColors.success.withOpacity(0.1)
-                      : AppColors.greyButton,
+              _isConnected
+                  ? AppColors.success.withOpacity(0.1)
+                  : AppColors.greyButton,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -177,9 +161,9 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
                 Icon(
                   _isConnected ? Icons.check_circle : Icons.info_outline,
                   color:
-                      _isConnected
-                          ? AppColors.success
-                          : AppColors.greyButton,
+                  _isConnected
+                      ? AppColors.success
+                      : AppColors.greyButton,
                 ),
                 const Gap(16),
                 Expanded(
@@ -201,21 +185,21 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
             icon: Icons.schedule,
             title: 'Find available time slots',
             description:
-                'We\'ll analyze your calendar to find the best times for learning.',
+            'We\'ll analyze your calendar to find the best times for learning.',
           ),
           const Gap(16),
           _buildBenefitItem(
             icon: Icons.event_available,
             title: 'Avoid scheduling conflicts',
             description:
-                'Your learning plan will work around your existing commitments.',
+            'Your learning plan will work around your existing commitments.',
           ),
           const Gap(16),
           _buildBenefitItem(
             icon: Icons.sync,
             title: 'Keep everything in sync',
             description:
-                'Learning tasks can be added to your calendar automatically.',
+            'Learning tasks can be added to your calendar automatically.',
           ),
           const Gap(28),
           if (_isConnected)
@@ -234,7 +218,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
             ),
           const Gap(16),
           AppButton(
-            backGroundColor: AppColors.brandFuchsiaPurple400,
+            backGroundColor: AppColors.brandPurple,
             text: 'Continue with Calendar',
             // buttonType: _isConnected ? AppButtonType.primary : AppButtonType.secondary,
             onPressed: _continueToJourney,
@@ -256,10 +240,10 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppColors.brandFuchsiaPurple400.withOpacity(0.2),
+            color: AppColors.brandPurple.withOpacity(0.2),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: AppColors.brandFuchsiaPurple400, size: 24),
+          child: Icon(icon, color: AppColors.brandPurple, size: 24),
         ),
         const Gap(16),
         Expanded(
@@ -269,8 +253,8 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
               Text(title, style: AppTextStyles.paragraphSmall),
               const Gap(4),
               Text(
-                description,
-                style: AppTextStyles.paragraphXSmall
+                  description,
+                  style: AppTextStyles.paragraphXSmall
               ),
             ],
           ),

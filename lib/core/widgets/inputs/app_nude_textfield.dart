@@ -26,7 +26,7 @@ class AppNudeTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       style: textStyle.copyWith(color: AppColors.white),
-      cursorColor: cursorColor ?? AppColors.brandFuchsiaPurple400, // Optional override
+      cursorColor: cursorColor ?? AppColors.brandPurple, // Optional override
       decoration: InputDecoration(
         filled: false,
         hintText: hintText,

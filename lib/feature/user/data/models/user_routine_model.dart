@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 final _uuid = Uuid();
@@ -7,9 +8,11 @@ class UserRoutineModel {
   final String? id;
   final String userId;
   final String goalId;
+  final String? title;
+  final DateTime? dueDate;
   final String wakeUpTime;
   final String sleepTime;
-  final Map<String, String> workHours; // {"start": "09:00", "end": "17:00"}
+  final Map<String, String> workHours;
   final List<FixedActivity> fixedActivities;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -18,6 +21,8 @@ class UserRoutineModel {
     this.id,
     required this.userId,
     String? goalId,
+    this.title,
+    this.dueDate,
     required this.wakeUpTime,
     required this.sleepTime,
     required this.workHours,
@@ -32,15 +37,17 @@ class UserRoutineModel {
     return UserRoutineModel(
       id: doc.id,
       userId: data['userId'] ?? '',
-      goalId: data['goalId'] ??'',
+      goalId: data['goalId'] ?? '',
+      title: data['title'],
+      dueDate: data['dueDate'] != null ? (data['dueDate'] as Timestamp).toDate() : null,
       wakeUpTime: data['wakeUpTime'] ?? '07:00',
       sleepTime: data['sleepTime'] ?? '23:00',
       workHours: Map<String, String>.from(
         data['workHours'] ?? {'start': '09:00', 'end': '17:00'},
       ),
       fixedActivities: (data['fixedActivities'] as List<dynamic>?)
-              ?.map((activity) => FixedActivity.fromMap(activity))
-              .toList() ??
+          ?.map((activity) => FixedActivity.fromMap(activity))
+          .toList() ??
           [],
       createdAt: data['createdAt'] != null
           ? (data['createdAt'] as Timestamp).toDate()
@@ -55,11 +62,13 @@ class UserRoutineModel {
     return {
       'userId': userId,
       'goalId': goalId.isNotEmpty ? goalId : _uuid.v4(),
+      if (title != null) 'title': title,
+      if (dueDate != null) 'dueDate': Timestamp.fromDate(dueDate!),
       'wakeUpTime': wakeUpTime,
       'sleepTime': sleepTime,
       'workHours': workHours,
       'fixedActivities':
-          fixedActivities.map((activity) => activity.toMap()).toList(),
+      fixedActivities.map((activity) => activity.toMap()).toList(),
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     };
@@ -69,6 +78,8 @@ class UserRoutineModel {
     String? id,
     String? userId,
     String? goalId,
+    String? title,
+    DateTime? dueDate,
     String? wakeUpTime,
     String? sleepTime,
     Map<String, String>? workHours,
@@ -80,6 +91,8 @@ class UserRoutineModel {
       id: id ?? this.id,
       userId: userId ?? this.userId,
       goalId: goalId ?? this.goalId,
+      title: title ?? this.title,
+      dueDate: dueDate ?? this.dueDate,
       wakeUpTime: wakeUpTime ?? this.wakeUpTime,
       sleepTime: sleepTime ?? this.sleepTime,
       workHours: workHours ?? this.workHours,
@@ -91,6 +104,7 @@ class UserRoutineModel {
 
   String getFormattedRoutine() {
     final buffer = StringBuffer();
+    buffer.writeln('Goal: ${title ?? "No Title"} (due ${dueDate != null ? DateFormat.yMMMd().format(dueDate!) : "N/A"})');
     buffer.writeln('Wake up at $wakeUpTime');
     buffer.writeln('Work from ${workHours['start']} to ${workHours['end']}');
 
@@ -103,7 +117,6 @@ class UserRoutineModel {
     }
 
     buffer.writeln('Sleep at $sleepTime');
-
     return buffer.toString();
   }
 }

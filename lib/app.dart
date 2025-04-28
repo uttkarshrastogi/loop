@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:loop/core/routes/index.dart';
+import 'package:loop/core/routes/app_router.dart';
 import 'package:loop/core/widgets/loaders/app_loader.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
-import 'package:loop/feature/goal/presentation/bloc/goal_bloc.dart';
 import 'package:loop/feature/journey/presentation/bloc/journey_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'core/services/injection.dart';
@@ -13,13 +12,9 @@ import 'core/widgets/connectivity/bloc/bloc/connectivity_bloc.dart';
 import 'core/widgets/connectivity/bloc/bloc/connectivity_state.dart';
 import 'core/widgets/connectivity/presentation/connectivity_screen.dart';
 import 'core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
-import 'package:loop/feature/Onboarding/presentation/pages/get_started_page.dart';
-import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
-
-import 'feature/journey/presentation/pages/add_goal_dialog.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +24,15 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => sl<LoaderBloc>()),
           BlocProvider(create: (context) => sl<AuthBloc>()),
           BlocProvider(create: (context) => sl<ConnectivityBloc>()),
-          BlocProvider(create: (context) => sl<GoalBloc>()),
           BlocProvider(create: (context) => sl<JourneyBloc>()),
           BlocProvider(create: (_) => UIInteractionCubit()),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          initialRoute: GetStartedPage.routeName,
-          routes: {
-            Index.routeName:(context) => const Index(),
-            GetStartedPage.routeName: (context) => const GetStartedPage(),
-            DashboardPage.routeName: (context) => const DashboardPage(),
-            AddGoalDialog.routeName: (context) => const AddGoalDialog(),
-          },
-        
+          routerDelegate: AppRouter.router.routerDelegate,
+          routeInformationParser: AppRouter.router.routeInformationParser,
+          routeInformationProvider: AppRouter.router.routeInformationProvider,
           builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(

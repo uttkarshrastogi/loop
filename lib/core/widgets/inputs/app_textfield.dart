@@ -104,26 +104,23 @@ class _AppTextFieldState extends State<AppTextField> {
             : _isFocused
                 ? AppColors.blue500
                 : AppColors.border;
-
-    Color labelColor =
-        widget.isDisabled ? AppColors.neutral300 : AppColors.neutral400;
     Color inputTextColor =
-        widget.isDisabled ? AppColors.neutral300 : AppColors.neutral800;
+        widget.isDisabled ? AppColors.neutral300 : Colors.white;
 
     if (widget.fieldTheme == FieldTheme.dark) {
       borderColor = _errorText != null
           ? Colors.red
           : widget.isDisabled
-              ? Color(0xff525359)
-              : _isFocused
-                  ? AppColors.blue500
-                  : Color(0xff525359);
-      inputTextColor = widget.isDisabled ? AppColors.neutral300 : Colors.white;
+          ? const Color(0xFF4A4A4A)
+          : _isFocused
+          ? AppColors.brandPurple // Use your theme purple
+          : AppColors.widgetBorder; // subtle neutral gray
+      inputTextColor =   widget.isDisabled ? AppColors.neutral300 : AppColors.textPrimary;
     }
 
     Color bgColor = widget.fieldTheme == FieldTheme.light
         ? Colors.white
-        : Color(0xff292D33);
+        :AppColors.widgetBackground;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,25 +158,6 @@ class _AppTextFieldState extends State<AppTextField> {
             decoration: InputDecoration(
                 alignLabelWithHint: true,
                 labelText: widget.labelText,
-
-//  label: Text.rich(
-//                   TextSpan(
-//                     children: <InlineSpan>[
-//                       WidgetSpan(
-//                         child: Text(
-//                           'Username',
-//                         ),
-//                       ),
-//                       WidgetSpan(
-//                         child: Text(
-//                           '*',
-//                           style: TextStyle(color: Colors.red),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
@@ -195,9 +173,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 floatingLabelAlignment: FloatingLabelAlignment.start,
                 labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       letterSpacing: 1,
-                      color: widget.isDisabled
-                          ? AppColors.neutral300
-                          : AppColors.neutral400,
+                  color: AppColors.textTertiary,
                     ),
                 contentPadding: const EdgeInsets.all(16),
                 suffixIcon: widget.suffixIcon,

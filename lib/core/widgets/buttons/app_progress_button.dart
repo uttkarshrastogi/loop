@@ -33,7 +33,7 @@ class AppProgressButton extends StatelessWidget {
           value: progress,
           minHeight: 4,
           backgroundColor: const Color(0xFF2C2C2E),
-          valueColor: AlwaysStoppedAnimation(AppColors.brandFuchsiaPurple400),
+          valueColor: AlwaysStoppedAnimation(AppColors.brandPurple),
         ),
         const SizedBox(height: 12),
         // Button
@@ -42,7 +42,7 @@ class AppProgressButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isDisabled ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.brandFuchsiaPurple400,
+              backgroundColor: AppColors.brandPurple,
               disabledBackgroundColor: AppColors.neutral200,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
