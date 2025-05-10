@@ -660,17 +660,16 @@ DateTime dateConvertDateTime(String dateString) {
     return DateTime.now();
   }
 }
-String formatTo12Hour(String timeStr) {
+
+String formatTo12Hour(String? time24) {
+  if (time24 == null || time24.isEmpty) {
+    return "—"; // or "N/A" or any placeholder you prefer
+  }
   try {
-    final time = TimeOfDay(
-      hour: int.parse(timeStr.split(":")[0]),
-      minute: int.parse(timeStr.split(":")[1]),
-    );
-    final now = DateTime.now();
-    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    return DateFormat.jm().format(dt); // 12hr format like "7:00 AM"
-  } catch (_) {
-    return timeStr;
+    final time = DateFormat("HH:mm").parse(time24);
+    return DateFormat("h:mm a").format(time); // e.g., 3:00 PM
+  } catch (e) {
+    return time24; // fallback if parsing fails
   }
 }
 

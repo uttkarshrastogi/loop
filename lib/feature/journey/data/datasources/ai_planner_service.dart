@@ -57,6 +57,7 @@ class AIPlannerService {
 
       return tasks;
     } catch (e) {
+      rethrow;
       debugPrint('Error generating learning plan: $e');
       throw Exception('Failed to generate learning plan: $e');
     }
@@ -92,7 +93,8 @@ class AIPlannerService {
     final tasks = <AiGeneratedTaskModel>[];
     final now = DateTime.now();
 
-    final content = aiResponse.choices?.first.text;
+    final content = aiResponse.choices?.first.message?.content;
+
     if (content == null) {
       throw Exception('OpenAI response content is null.');
     }
@@ -114,9 +116,10 @@ class AIPlannerService {
         id: _uuid.v4(),
         goalId: loopDocId,
         userId: userId,
+        goalTitle: goalTitle,
         title: taskData['title'] ?? 'Untitled task',
         description: taskData['description'] ?? '',
-        estimatedHours: _parseHours(taskData['hours']),
+        estimatedHours: _parseHours(taskData['estimatedTime']),
         subSteps: List<String>.from(taskData['subSteps'] ?? []),
         difficulty: taskData['difficulty'] ?? 'Medium',
         motivationTip: taskData['motivationTip'] ?? '',
@@ -272,29 +275,29 @@ class AIPlannerService {
   }
 
   /// Generate feedback and adjust plan based on user progress
-  Future<Map<String, dynamic>> generateFeedback({
-    required String goalId,
-    required String progress,
-    required String userFeedback,
-  }) async {
-    try {
-      // Get the goal details
-      final goalDoc = await _firestore.collection('goal').doc(goalId).get();
-      final goalTitle = goalDoc.data()?['title'] ?? 'your goal';
-
-      // Get the AI feedback
-      final feedback = await _openAIService.generateFeedback(
-        goal: goalTitle,
-        progress: progress,
-        feedback: userFeedback,
-      );
-
-      return feedback;
-    } catch (e) {
-      debugPrint('Error generating feedback: $e');
-      throw Exception('Failed to generate feedback: $e');
-    }
-  }
+  // Future<Map<String, dynamic>> generateFeedback({
+  //   required String goalId,
+  //   required String progress,
+  //   required String userFeedback,
+  // }) async {
+  //   try {
+  //     // Get the goal details
+  //     final goalDoc = await _firestore.collection('goal').doc(goalId).get();
+  //     final goalTitle = goalDoc.data()?['title'] ?? 'your goal';
+  //
+  //     // Get the AI feedback
+  //     final feedback = await _openAIService.generateFeedback(
+  //       goal: goalTitle,
+  //       progress: progress,
+  //       feedback: userFeedback,
+  //     );
+  //
+  //     return feedback;
+  //   } catch (e) {
+  //     debugPrint('Error generating feedback: $e');
+  //     throw Exception('Failed to generate feedback: $e');
+  //   }
+  // }
   Future<List<List<AiGeneratedTaskModel>>> getAllTasksGroupedByGoal(String userId) async {
     try {
       final goalDocs = await _firestore

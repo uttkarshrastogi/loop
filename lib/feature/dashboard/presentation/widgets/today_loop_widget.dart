@@ -1,227 +1,158 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
-import 'package:loop/core/widgets/dialog/app_dialog.dart';
-import 'package:loop/feature/journey/presentation/bloc/journey_bloc.dart';
-import 'package:loop/feature/journey/presentation/bloc/journey_state.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:loop/feature/dashboard/presentation/widgets/single_task_card.dart';
+import 'package:loop/feature/dashboard/presentation/widgets/task_detail_screen.dart';
+import 'package:loop/feature/journey/presentation/pages/add_goal_dialog.dart';
 import '../../../ai/data/models/ai_generated_task_model.dart';
-import '../../../journey/presentation/bloc/journey_event.dart';
-import '../../../journey/presentation/pages/add_goal_dialog.dart';
+import '../../../journey/presentation/bloc/journey_bloc.dart';
+import '../../../journey/presentation/bloc/journey_state.dart';
 
-class TodayLoopView extends StatefulWidget {
-  final String? currentGoalId;
-
-  const TodayLoopView({super.key, required this.currentGoalId});
+class AllGoalsWidgetV2 extends StatefulWidget {
+  const AllGoalsWidgetV2({Key? key}) : super(key: key);
 
   @override
-  State<TodayLoopView> createState() => _TodayLoopViewState();
+  State<AllGoalsWidgetV2> createState() => _AllGoalsWidgetV2State();
 }
 
-class _TodayLoopViewState extends State<TodayLoopView> {
-  final Map<String, bool> _expandedTaskIds = {};
+class _AllGoalsWidgetV2State extends State<AllGoalsWidgetV2> {
+  // track which goals are expanded
+  final Map<String, bool> _expandedGoals = {};
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  context.push(AddGoalDialog.routeName);
-                  // showAppDialog(
-                  //   context: context,
-                  //   child: const AddGoalDialog(),
-                  //   title: "Create LOOP",
-                  // );
-                },
-                child: Icon(Icons.add, color: AppColors.brandPurple),
-              ),
-            ],
-          ),
-          const Gap(16),
-          BlocBuilder<JourneyBloc, JourneyState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                tasksLoaded: (tasks) {
-                  if (tasks.isEmpty) {
-                    return const Text(
-                      "No generated tasks yet. Start by creating one!",
-                      style: TextStyle(color: Colors.white54),
-                    );
-                  }
-
-                  final today = DateTime.now();
-                  final tomorrow = today.add(const Duration(days: 1));
-                  final grouped = <String, List<AiGeneratedTaskModel>>{};
-
-                  for (final task in tasks) {
-                    final date = DateTime(task.assignedDate.year, task.assignedDate.month, task.assignedDate.day);
-                    final key = _isSameDay(date, today)
-                        ? 'Today'
-                        : _isSameDay(date, tomorrow)
-                        ? 'Tomorrow'
-                        : DateFormat('EEEE, MMMM d').format(date);
-                    grouped.putIfAbsent(key, () => []).add(task);
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: grouped.entries.map((entry) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(entry.key, style: AppTextStyles.headingH6.copyWith(color: AppColors.border)),
-                          const Gap(8),
-                          ...entry.value.map((task) => _buildExpandableTaskCard(task)).toList(),
-                          const Gap(16),
-                        ],
-                      );
-                    }).toList(),
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (msg) => Text("Error loading tasks: $msg"),
-                orElse: () => const SizedBox.shrink(),
+    return BlocBuilder<JourneyBloc, JourneyState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          allTasksLoaded: (groupedTasks) {
+            if (groupedTasks.isEmpty) {
+              return const Center(
+                child: Text(
+                  "No goals created yet!",
+                  style: TextStyle(color: Colors.white54),
+                ),
               );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+            }
 
-  Widget _buildExpandableTaskCard(AiGeneratedTaskModel task) {
-    final isExpanded = _expandedTaskIds[task.id] ?? false;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _expandedTaskIds[task.id!] = !isExpanded;
-        });
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                _buildStatusIcon(task),
-                const Gap(12),
-                Expanded(
-                  child: Text(
-                    cleanTitle(task.title),
-                    style: AppTextStyles.paragraphLarge.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                GestureDetector(onTap: () {
+                  context.push(AddGoalDialog.routeName);
+                }, child: Icon(Icons.add,color: AppColors.brandPurple,)),
+
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(16),
+                  itemCount: groupedTasks.length,
+                  itemBuilder: (context, index) {
+                    final goalTasks = groupedTasks[index];
+                    final goalId = goalTasks.first.goalId;
+                    final isExpanded = _expandedGoals[goalId] ?? false;
+
+                    // compute simple progress %
+                    final completedCount =
+                        goalTasks.where((t) => t.isCompleted).length;
+                    final progress =
+                        goalTasks.isEmpty
+                            ? 0.0
+                            : completedCount / goalTasks.length;
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      color: AppColors.widgetBackground,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ExpansionTile(
+                        key: PageStorageKey(goalId),
+                        initiallyExpanded: isExpanded,
+                        onExpansionChanged: (open) {
+                          setState(() {
+                            _expandedGoals[goalId] = open;
+                          });
+                        },
+                        tilePadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        leading: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                value: progress,
+                                strokeWidth: 4,
+                                backgroundColor: AppColors.neutral200,
+                                valueColor: AlwaysStoppedAnimation(
+                                  AppColors.brandPurple,
+                                ),
+                              ),
+                              Text(
+                                "${(progress * 100).round()}%",
+                                style: AppTextStyles.paragraphXSmall.copyWith(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        title: Text(
+                          "Goal ${index + 1}",
+                          style: AppTextStyles.headingH5.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        children: [
+                          const Gap(8),
+                          ...goalTasks.map((task) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                              ),
+                              child: _buildTaskCard(task, context),
+                            );
+                          }).toList(),
+                          const Gap(12),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
-            ),
-            if (isExpanded) ...[
-              const Gap(8),
-              Text(task.description, style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white70)),
-              if (task.source.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: InkWell(
-                    onTap: () => launchUrl(Uri.parse(task.source)),
-                    child: Text("View Resource",
-                        style: AppTextStyles.paragraphMedium.copyWith(
-                          color: AppColors.primary,
-                          decoration: TextDecoration.underline,
-                        )),
-                  ),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error:
+              (msg) => Center(
+                child: Text(
+                  "Error: $msg",
+                  style: const TextStyle(color: Colors.redAccent),
                 ),
-              const Gap(8),
-              Text('${task.estimatedHours} hours', style: AppTextStyles.paragraphSmall.copyWith(color: Colors.grey)),
-              const Gap(12),
-              if (!task.isCompleted && !task.isSkipped)
-                Row(
-                  children: [
-                    AppButton(
-                      width: 100,
-                      text: "Skip",
-                      onPressed: () => _updateStatus(task.id!, isSkipped: true),
-                      isGhost: true,
-                      withBorder: true,
-                    ),
-                    const Gap(12),
-                    AppButton(
-                      width: 150,
-                      text: "Complete",
-                      onPressed: () => _updateStatus(task.id!, isCompleted: true),
-                      withBorder: true,
-                      backGroundColor: AppColors.brandPurple,
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    Text(task.isCompleted ? "✅ Completed" : "❌ Skipped"),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () => _updateStatus(task.id!, isCompleted: false, isSkipped: false),
-                      child: Text("Reset", style: AppTextStyles.paragraphSmall.copyWith(color: AppColors.brandPurple)),
-                    ),
-                  ],
-                )
-            ]
-          ],
-        ),
-      ),
+              ),
+          orElse: () => Center(child: Text(state.toString())),
+        );
+      },
     );
   }
 
-  void _updateStatus(String taskId, {bool isCompleted = false, bool isSkipped = false}) {
-    if (widget.currentGoalId == null) {
-      print('No goalId (loopDocId) set!');
-      return;
-    }
-    context.read<JourneyBloc>().add(
-      UpdateTaskStatus(
-        taskId: taskId,
-        isCompleted: isCompleted,
-        isSkipped: isSkipped,
-        loopDocId: widget.currentGoalId!,
-      ),
+  Widget _buildTaskCard(AiGeneratedTaskModel task, BuildContext context) {
+    return GoalTaskCard(
+      hasGradient: true,
+      task: task,
+      onComplete: () {
+        context.push(TaskDetailScreen.routeName, extra: task);
+      },
+      onSkip: () {},
+      onEdit: () {},
+      onViewTip: () {},
     );
-  }
-
-  Widget _buildStatusIcon(AiGeneratedTaskModel task) {
-    if (task.isCompleted) {
-      return const Icon(Icons.check_circle, color: Colors.deepPurpleAccent);
-    } else if (task.isSkipped) {
-      return const Icon(Icons.cancel_rounded, color: Colors.redAccent);
-    } else {
-      return const Icon(Icons.radio_button_unchecked, color: Colors.grey);
-    }
-  }
-
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
-
-  String cleanTitle(String title) {
-    final regex = RegExp(r'^(Day \d+:|Week \d+:)\s*');
-    return title.replaceFirst(regex, '');
   }
 }

@@ -40,6 +40,7 @@ class GetStartedPage extends StatelessWidget {
         );
       },
       child: PageTemplate(
+        padding: EdgeInsets.fromLTRB(24,0,24,0),
         content: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -51,18 +52,13 @@ class GetStartedPage extends StatelessWidget {
                   TiltParallaxImage(),
                   Text(
                     "Welcome to",
-                    style: AppTextStyles.paragraphLarge.copyWith(
-                      color: AppColors.textSecondary,
+                    style: AppTextStyles.headingH4.copyWith(
+                      color: AppColors.textPrimary,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  Text(
-                    "Loop",
-                    style: AppTextStyles.headingH3.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  Gap(8),
+                  Image.asset("assets/Loop Name Logo.png",width: 80,),
                   // AppLoader(),
                 ],
               ),

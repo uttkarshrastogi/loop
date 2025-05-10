@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/cards/app_card.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
-import 'package:loop/feature/journey/presentation/pages/add_goal_dialog.dart';
 import 'package:loop/feature/journey/presentation/pages/generate_screen.dart';
 import 'package:loop/feature/journey/presentation/pages/routine_input_screen.dart';
 import '../../../../core/theme/text_styles.dart';
+import '../../../../core/utils/data_conversion.dart';
 import '../../../goal/data/models/create_goal_model.dart';
 import '../../../user/data/models/user_routine_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../widgets/goal_edit_card.dart';
+import 'add_goal_dialog.dart';
 
 class GeneratePreviewScreen extends StatelessWidget {
   static const routeName = '/GeneratePreviewScreen';
@@ -36,7 +36,7 @@ class GeneratePreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-      showBackArrow: false,
+      showBackArrow: true,
       showBottomGradient: true,
       content: ListView(
         children: [
@@ -49,30 +49,31 @@ class GeneratePreviewScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _sectionCard(
             onEdit: () async{
-              final updatedGoal = await showDialog<CreateGoalModel>(
-                context: context,
-                // isScrollControlled: true,
-                // backgroundColor: Colors.transparent,
-                builder: (context) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
-                  child: FractionallySizedBox(
-                    heightFactor: 0.8,
-                    child: GoalEditCard(initialGoal: goalModel),
-                  ),
-                ),
-              );
 
-              if (updatedGoal != null) {
-                // setState(() => goalModel = updatedGoal);
-                // ⚡ you update your UI with the new goal info
-              }
-              // context.go(AddGoalDialog.routeName, extra: {
-              //   "goalModel": goalModel,
-              //   "routineModel": routineModel,
-              // });
+              // final updatedGoal = await showDialog<CreateGoalModel>(
+              //   context: context,
+              //   // isScrollControlled: true,
+              //   // backgroundColor: Colors.transparent,
+              //   builder: (context) => Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
+              //     child: FractionallySizedBox(
+              //       heightFactor: 0.8,
+              //       child: GoalEditCard(initialGoal: goalModel),
+              //     ),
+              //   ),
+              // );
+
+              // if (updatedGoal != null) {
+              //   setState(() => goalModel = updatedGoal);
+              //   // ⚡ you update your UI with the new goal info
+              // }
+              context.go(AddGoalDialog.routeName, extra: {
+                "goalModel": goalModel,
+                "routineModel": routineModel,
+              });
             },
             title: "Your Goal",
-            icon: Icons.flag_rounded,
+            icon: HeroIcons.flag,
             children: [
               _labelValue(label: "Title", value: goalModel.title ?? "No title"),
               _labelValue(label: "Description", value: goalModel.description ?? "—"),
@@ -88,13 +89,13 @@ class GeneratePreviewScreen extends StatelessWidget {
               });
             },
             title: "Your Routine",
-            icon: Icons.schedule_rounded,
+            icon: HeroIcons.clock,
             children: [
-              _labelValue(label: "Wake Up Time", value: routineModel.wakeUpTime),
-              _labelValue(label: "Sleep Time", value: routineModel.sleepTime),
+              _labelValue(label: "Wake Up Time", value:formatTo12Hour( routineModel.wakeUpTime)),
+              _labelValue(label: "Sleep Time", value:formatTo12Hour( routineModel.sleepTime)),
               _labelValue(
                 label: "Work Hours",
-                value: "${routineModel.workHours['start']} - ${routineModel.workHours['end']}",
+                value: "${formatTo12Hour(routineModel.workHours['start'])} - ${formatTo12Hour(routineModel.workHours['end'])}",
               ),
               if (routineModel.fixedActivities.isNotEmpty) ...[
                 const SizedBox(height: 16),
@@ -118,11 +119,11 @@ class GeneratePreviewScreen extends StatelessWidget {
               ],
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Center(
             child: Text(
               "You can always tweak later.",
-              style: AppTextStyles.paragraphSmall.copyWith(
+              style: AppTextStyles.paragraphXSmall.copyWith(
                 color: AppColors.textSecondary,
               ),
             ),
@@ -130,7 +131,7 @@ class GeneratePreviewScreen extends StatelessWidget {
           const SizedBox(height: 40),
           AppButton(
             backGroundColor: AppColors.brandPurple,
-            text: "Build My Loop →", // Changed Button Text (More Motivating)
+            text: "Build My Loop", // Changed Button Text (More Motivating)
             height: 48,
             onPressed: () => _saveGoalAndRoutine(context),
           ),
@@ -189,7 +190,7 @@ class GeneratePreviewScreen extends StatelessWidget {
 
   Widget _labelValue({required String label, required String value}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +199,7 @@ class GeneratePreviewScreen extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 90),
             child: Text(
               "$label:",
-              style: AppTextStyles.paragraphSmall.copyWith(
+              style: AppTextStyles.paragraphXSmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.textPrimary,
               ),
@@ -208,7 +209,7 @@ class GeneratePreviewScreen extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: AppTextStyles.paragraphMedium.copyWith(
+              style: AppTextStyles.paragraphSmall.copyWith(
                 fontWeight: FontWeight.w400,
                 color: AppColors.textSecondary,
               ),
@@ -222,26 +223,26 @@ class GeneratePreviewScreen extends StatelessWidget {
   Widget _sectionCard({
     required String title,
     required List<Widget> children,
-    IconData? icon,
+    HeroIcons? icon,
     VoidCallback? onEdit, // <-- NEW: optional edit callback
   }) {
     return AppCard(
-      margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (icon != null) ...[
-                Icon(icon, color: AppColors.brandPurple, size: 20),
+                HeroIcon(icon, color: AppColors.brandPurple, size: 20),
                 const SizedBox(width: 8),
               ],
               Expanded(
                 child: Text(
                   title,
-                  style: AppTextStyles.headingH5.copyWith(
+                  style: AppTextStyles.paragraphMedium.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
                   ),
@@ -249,7 +250,7 @@ class GeneratePreviewScreen extends StatelessWidget {
               ),
               if (onEdit != null) ...[
                 IconButton(
-                  icon: const Icon(Icons.edit, size: 18, color: AppColors.textSecondary),
+                  icon: const HeroIcon(HeroIcons.pencil, size: 18, color: AppColors.textSecondary),
                   onPressed: onEdit,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -257,7 +258,7 @@ class GeneratePreviewScreen extends StatelessWidget {
               ]
             ],
           ),
-          const SizedBox(height: 16),
+          // const SizedBox(height: 16),
           ...children,
         ],
       ),

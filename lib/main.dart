@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app.dart';
 import 'core/services/injection.dart';
+import 'core/theme/theme_cubit.dart';
 import 'core/utils/prefrence_utils.dart';
 import 'firebase_options.dart';
 
@@ -22,5 +24,10 @@ void main() async {
     print("Failed to initialize Firebase: $e");
   }
   setupLocator();
-  runApp( MyApp());
+  runApp(
+    BlocProvider(
+      create: (_) => ThemeCubit(),
+      child:  MyApp(),
+    ),
+  );
 }

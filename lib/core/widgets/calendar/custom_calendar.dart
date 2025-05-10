@@ -58,11 +58,29 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.5,
-            padding: const EdgeInsets.all(16),
+            // color: AppColors.background,
+            decoration: BoxDecoration(
+               color: AppColors.background,
+              borderRadius: BorderRadius.circular(16)
+            ),
+            padding: const EdgeInsets.only(top: 16),
             child: Column(
               children: [
                 Text("Select Year", style: AppTextStyles.headingH6),
-                Expanded(
+              Expanded(
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: Theme.of(context).colorScheme.copyWith(
+                      primary: AppColors.brandPurple, // Your brand color
+                      onPrimary: AppColors.blue50,
+                      onSurface: AppColors.black,
+                      surface: AppColors.background,
+                    ),
+                    canvasColor: AppColors.background,
+                    textTheme: Theme.of(context).textTheme.copyWith(
+                      bodyLarge: AppTextStyles.paragraphMedium.copyWith(color: AppColors.textTertiary), // your text style
+                    ),
+                  ),
                   child: YearPicker(
                     firstDate: widget.firstDate,
                     lastDate: widget.lastDate,
@@ -73,6 +91,8 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
                     },
                   ),
                 ),
+              )
+
               ],
             ),
           ),
@@ -257,6 +277,7 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
               backGroundColor: AppColors.brandPurple,
             ),
           ),
+          Gap(10),
         ],
       ),
     );

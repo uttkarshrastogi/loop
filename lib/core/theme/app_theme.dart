@@ -8,7 +8,7 @@ import 'text_styles.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      textTheme: GoogleFonts.interTextTheme(),
+      // textTheme: GoogleFonts.interTextTheme(),
       fontFamily: 'Geist',
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,

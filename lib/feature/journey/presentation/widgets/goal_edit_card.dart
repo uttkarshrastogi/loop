@@ -37,36 +37,45 @@ class _GoalEditCardState extends State<GoalEditCard> {
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Edit Your Goal", style: AppTextStyles.headingH4),
-          const Gap(16),
-          AppTextField(
-            labelText: 'What do you want to achieve?',
-            controller: _titleController,
-            fieldTheme: FieldTheme.dark,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: true,
+      body: Align(
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Edit Your Goal", style: AppTextStyles.headingH4),
+                const Gap(16),
+                AppTextField(
+                  labelText: 'What do you want to achieve?',
+                  controller: _titleController,
+                  fieldTheme: FieldTheme.dark,
+                ),
+                const Gap(16),
+                AppTextField(
+                  labelText: 'Describe your Loop (optional)',
+                  controller: _descController,
+                  fieldTheme: FieldTheme.dark,
+                ),
+                const Gap(24),
+                AppButton(
+                  text: "Save",
+                  backGroundColor: AppColors.brandPurple,
+                  onPressed: () {
+                    final updatedGoal = widget.initialGoal.copyWith(
+                      title: _titleController.text.trim(),
+                      description: _descController.text.trim(),
+                    );
+                    Navigator.of(context).pop(updatedGoal);
+                  },
+                ),
+              ],
+            ),
           ),
-          const Gap(16),
-          AppTextField(
-            labelText: 'Describe your Loop (optional)',
-            controller: _descController,
-            fieldTheme: FieldTheme.dark,
-          ),
-          const Gap(24),
-          AppButton(
-            text: "Save",
-            backGroundColor: AppColors.brandPurple,
-            onPressed: () {
-              final updatedGoal = widget.initialGoal.copyWith(
-                title: _titleController.text.trim(),
-                description: _descController.text.trim(),
-              );
-              Navigator.of(context).pop(updatedGoal);
-            },
-          ),
-        ],
+        ),
       ),
     );
   }

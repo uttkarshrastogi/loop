@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loop/core/services/openai_service.dart';
 import 'package:loop/feature/auth/data/datasources/auth_service.dart';
@@ -9,6 +10,7 @@ import 'package:loop/feature/journey/presentation/bloc/journey_bloc.dart';
 
 import '../widgets/connectivity/bloc/bloc/connectivity_bloc.dart';
 import '../widgets/globalLoader/bloc/bloc/loader_bloc.dart';
+import 'firestore_helper.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -31,4 +33,10 @@ void setupLocator() {
 
   //ai
   sl.registerSingleton<JourneyBloc>(JourneyBloc(sl()));
+
+//firestore helper
+  sl.registerLazySingleton<FirestoreHelper>(() => FirestoreHelper(
+    firestore: FirebaseFirestore.instance,
+    loaderBloc: sl(),
+  ));
 }

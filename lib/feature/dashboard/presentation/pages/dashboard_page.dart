@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:loop/core/theme/colors.dart';
+import 'package:loop/core/theme/theme_switch.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:loop/core/uiBloc/uiInteraction/ui_interaction_cubit.dart';
@@ -84,7 +85,7 @@ class _DashboardPageState extends State<DashboardPage>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          
+                          ThemeSwitch(),
                           IconButton(
                             onPressed: () {
                               context.read<AuthBloc>().add(
@@ -123,7 +124,7 @@ class _DashboardPageState extends State<DashboardPage>
                           controller: _tabController,
                           children: [
                             const AllGoalsWidget(),
-                            TodayLoopView(currentGoalId: _currentGoalId),
+                            AllGoalsWidgetV2(),
                           ],
                         ),
                       ),

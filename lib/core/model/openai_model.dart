@@ -171,14 +171,14 @@ class Choice {
   dynamic logprobs;
   String? finishReason;
   String? nativeFinishReason;
-  String? text;
+  Message? message; // changed from `String? text` to `Message? message`
   dynamic reasoning;
 
   Choice({
     this.logprobs,
     this.finishReason,
     this.nativeFinishReason,
-    this.text,
+    this.message,
     this.reasoning,
   });
 
@@ -186,14 +186,14 @@ class Choice {
     dynamic logprobs,
     String? finishReason,
     String? nativeFinishReason,
-    String? text,
+    Message? message,
     dynamic reasoning,
   }) =>
       Choice(
         logprobs: logprobs ?? this.logprobs,
         finishReason: finishReason ?? this.finishReason,
         nativeFinishReason: nativeFinishReason ?? this.nativeFinishReason,
-        text: text ?? this.text,
+        message: message ?? this.message,
         reasoning: reasoning ?? this.reasoning,
       );
 
@@ -201,7 +201,7 @@ class Choice {
     logprobs: json["logprobs"],
     finishReason: json["finish_reason"],
     nativeFinishReason: json["native_finish_reason"],
-    text: json["text"],
+    message: json["message"] == null ? null : Message.fromJson(json["message"]),
     reasoning: json["reasoning"],
   );
 
@@ -209,10 +209,27 @@ class Choice {
     "logprobs": logprobs,
     "finish_reason": finishReason,
     "native_finish_reason": nativeFinishReason,
-    "text": text,
+    "message": message?.toJson(),
     "reasoning": reasoning,
   };
 }
+class Message {
+  String? role;
+  String? content;
+
+  Message({this.role, this.content});
+
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
+    role: json["role"],
+    content: json["content"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "role": role,
+    "content": content,
+  };
+}
+
 
 class Usage {
   int? promptTokens;

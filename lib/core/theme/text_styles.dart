@@ -73,7 +73,7 @@ class AppTextStyles {
     fontFamily: 'Geist',
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    height: 1.5,
+    height: 1.3,
     color: AppColors.textSecondary,
   );
 
@@ -89,7 +89,7 @@ class AppTextStyles {
     fontFamily: 'Geist',
     fontSize: 12,
     fontWeight: FontWeight.normal,
-    height: 1.67,
+    height: 1.33,
     color: AppColors.textTertiary,
   );
 

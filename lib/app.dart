@@ -7,6 +7,7 @@ import 'package:toastification/toastification.dart';
 import 'core/services/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/theme/theme_cubit.dart';
 import 'core/uiBloc/uiInteraction/ui_interaction_cubit.dart';
 import 'core/widgets/connectivity/bloc/bloc/connectivity_bloc.dart';
 import 'core/widgets/connectivity/bloc/bloc/connectivity_state.dart';
@@ -27,39 +28,46 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => sl<JourneyBloc>()),
           BlocProvider(create: (_) => UIInteractionCubit()),
         ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          routerDelegate: AppRouter.router.routerDelegate,
-          routeInformationParser: AppRouter.router.routeInformationParser,
-          routeInformationProvider: AppRouter.router.routeInformationProvider,
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(
-                context,
-              ).copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: Stack(
-                children: [
-                  child!,
-                  BlocBuilder<LoaderBloc, LoaderState>(
-                    builder: (context, state) {
-                      if (state.count > 0) {
-                        return const AppLoader();
-                      }
-                      return const SizedBox.shrink();
-                    },
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, mode) {
+            return MaterialApp.router(
+              // themeMode: mode,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.lightTheme,
+              // darkTheme:AppTheme.dark() ,
+              routerDelegate: AppRouter.router.routerDelegate,
+              routeInformationParser: AppRouter.router.routeInformationParser,
+              routeInformationProvider: AppRouter.router
+                  .routeInformationProvider,
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaler: const TextScaler.linear(1.0)),
+                  child: Stack(
+                    children: [
+                      child!,
+                      BlocBuilder<LoaderBloc, LoaderState>(
+                        builder: (context, state) {
+                          if (state.count > 0) {
+                            return const AppLoader();
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      BlocBuilder<ConnectivityBloc, ConnectivityState>(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => const SizedBox.shrink(),
+                            connected: () => const SizedBox.shrink(),
+                            disconnected: () => const Connectivity(),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  BlocBuilder<ConnectivityBloc, ConnectivityState>(
-                    builder: (context, state) {
-                      return state.when(
-                        initial: () => const SizedBox.shrink(),
-                        connected: () => const SizedBox.shrink(),
-                        disconnected: () => const Connectivity(),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                );
+              },
             );
           },
         ),

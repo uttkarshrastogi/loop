@@ -35,8 +35,8 @@ class AppButton extends StatelessWidget {
     final backgroundColor = isDisabled
         ? AppColors.neutral200
         : isGhost
-            ? Colors.transparent
-            : backGroundColor??AppColors.surfaceVariant;
+        ? Colors.transparent
+        : backGroundColor??AppColors.surfaceVariant;
 
     final borderColor = withBorder
         ? (isDisabled ? AppColors.neutral400 : AppColors.brandPurple)
@@ -50,7 +50,7 @@ class AppButton extends StatelessWidget {
           disabledBackgroundColor: AppColors.neutral200,
           backgroundColor: backgroundColor,
           padding: EdgeInsets.symmetric(
-              // Adjust padding based on button height
+            // Adjust padding based on button height
               horizontal: paddingHorizontal,
               vertical: width == null ? 8 : 12),
           shape: RoundedRectangleBorder(

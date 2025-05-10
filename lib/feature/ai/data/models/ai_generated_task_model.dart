@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AiGeneratedTaskModel {
   final String? id;
+  final String? goalTitle;
   final String goalId;
   final String userId;
   final String title;
@@ -21,6 +22,7 @@ class AiGeneratedTaskModel {
   final DateTime? updatedAt;
 
   AiGeneratedTaskModel({
+    this.goalTitle,
     this.id,
     required this.goalId,
     required this.userId,
@@ -45,11 +47,12 @@ class AiGeneratedTaskModel {
     final data = doc.data() as Map<String, dynamic>;
     return AiGeneratedTaskModel(
       id: doc.id,
+      goalTitle: data['GoalTitle'],
       goalId: data['goalId'] ?? '',
       userId: data['userId'] ?? '',
       title: data['title'] ?? '',
       description: data['description'] ?? '',
-      estimatedHours: (data['estimatedHours'] ?? 0).toDouble(),
+      estimatedHours: (data['estimatedTime'] ?? 0).toDouble(),
       subSteps: List<String>.from(data['subSteps'] ?? []),
       difficulty: data['difficulty'] ?? 'Medium',
       motivationTip: data['motivationTip'] ?? '',
@@ -75,6 +78,7 @@ class AiGeneratedTaskModel {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'GoalTitle':goalTitle,
       'id': id,
       'goalId': goalId,
       'userId': userId,
@@ -97,7 +101,9 @@ class AiGeneratedTaskModel {
   }
 
   AiGeneratedTaskModel copyWith({
+
     String? id,
+    String? goalTitle,
     String? goalId,
     String? userId,
     String? title,
@@ -118,6 +124,7 @@ class AiGeneratedTaskModel {
   }) {
     return AiGeneratedTaskModel(
       id: id ?? this.id,
+      goalTitle: goalTitle ?? this.goalTitle,
       goalId: goalId ?? this.goalId,
       userId: userId ?? this.userId,
       title: title ?? this.title,

@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/theme/spacing.dart';
 import 'package:loop/core/routes/index.dart';
+import 'package:loop/core/theme/text_styles.dart';
 
 class PageTemplate extends StatelessWidget {
   final Widget content; // Main content widget
@@ -74,20 +76,18 @@ class PageTemplate extends StatelessWidget {
                 title: title != null
                     ? Text(
                         title!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.neutral700,
-                        ),
+                        style: AppTextStyles.paragraphMedium,
                         textAlign: TextAlign.center,
                       )
                     : null,
-                leadingWidth: 80,
+          leadingWidth: 56,
+
+          bottomOpacity: 0.3,
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: statusBarColor,
                   statusBarIconBrightness: Brightness.dark,
                 ),
-                leading: AppIconContainer(icon: Icons.arrow_back_rounded, onTap: () {
+                leading: AppIconContainer(icon: HeroIcons.arrowLeft, onTap: () {
                   context.pop();
                 },),
               )
@@ -100,9 +100,9 @@ class PageTemplate extends StatelessWidget {
         decoration: BoxDecoration(gradient: linearGradient),
         padding: padding ??
             const EdgeInsets.only(
-                top: AppSpacing.spacing5,
-                left: AppSpacing.spacing5,
-                right: AppSpacing.spacing5,
+                top: AppSpacing.spacing4,
+                left: AppSpacing.spacing4,
+                right: AppSpacing.spacing4,
             ),
         margin: EdgeInsets.only(bottom: keyboardVisible ? 20 : 0),
         child: Column(
@@ -156,58 +156,10 @@ class PageTemplate extends StatelessWidget {
   }
 }
 
-class BackButtonLight extends StatelessWidget {
-  final bool? isHome;
-  const BackButtonLight({
-    super.key,
-    this.isHome = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 0.0, left: 10, bottom: 2),
-      child: Align(
-          alignment: Alignment.center,
-          child: GestureDetector(
-            onTap: () {
-              if (isHome!) {
-                // context.go(Index.routeName);
-              } else {
-                Navigator.of(context).pop();
-              }
-            },
-            child: Container(
-              width: 48,
-              height: 48,
-              padding: const EdgeInsets.all(AppSpacing.spacing2),
-              decoration: BoxDecoration(
-                  color: Colors.white, // Updated color
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 228, 228, 228),
-                      spreadRadius: 0.5,
-                      blurRadius: 1,
-                      offset: Offset(1, 1),
-                    ),
-                  ]),
-              child: const Center(
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 22,
-                  color: Color(0xff1F2937), // Updated color
-                ),
-              ),
-            ),
-          )),
-    );
-  }
-}
 
 
 class AppIconContainer extends StatelessWidget {
-  final IconData icon;
+  final HeroIcons icon;
   final VoidCallback onTap;
 
   const AppIconContainer({
@@ -219,24 +171,38 @@ class AppIconContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(top: 14, left: 24, right: 0, bottom: 0),
+      padding: const EdgeInsets.only(left: 12.0,top: 12,bottom: 12), // Enough margin from screen edge
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          height: 40,
+          width: 40,
           decoration: BoxDecoration(
-            color: AppColors.widgetBackground,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.widgetBorder),
+            color: Colors.transparent, // Visible but subtle
+            borderRadius: BorderRadius.circular(8), // Clean curve
+            border: Border.all(
+              color: AppColors.border, // Soft but visible
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
-          padding: const EdgeInsets.all(0),
-          child: Icon(
-            icon,
-            size: 30,
-            color: AppColors.textPrimary,
+          child: Center(
+            child: HeroIcon(
+              icon,
+              size: 18,
+              color: AppColors.primary,
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+
 

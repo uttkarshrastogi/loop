@@ -4,6 +4,7 @@ import 'package:loop/core/routes/redirect.dart';
 import 'package:loop/feature/journey/presentation/pages/add_goal_dialog.dart';
 import 'package:loop/feature/journey/presentation/pages/generate_preview_screen.dart';
 import '../../feature/Onboarding/presentation/pages/get_started_page.dart';
+import '../../feature/Onboarding/presentation/pages/onboarding_screen.dart';
 import '../../feature/ai/data/models/ai_generated_task_model.dart';
 import '../../feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../../feature/dashboard/presentation/widgets/task_detail_screen.dart';
@@ -106,12 +107,19 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: DailyCheckInScreen.routeName,
+        path: OnboardingScreen.routeName,
         pageBuilder: (context, state) => buildSlidePage(
           key: state.pageKey,
-          child: DailyCheckInScreen(arguments: state.extra as Map<String, dynamic>?),
+          child: OnboardingScreen(),
         ),
       ),
+      // GoRoute(
+      //   path: DailyCheckInScreen.routeName,
+      //   pageBuilder: (context, state) => buildSlidePage(
+      //     key: state.pageKey,
+      //     child: DailyCheckInScreen(arguments: state.extra as Map<String, dynamic>?),
+      //   ),
+      // ),
       GoRoute(
         path: GenerateScreen.routeName,
         pageBuilder: (context, state) {

@@ -51,6 +51,21 @@ class DevConfig {
           // Add more endpoints if required later
         },
       ),
+      "firebase": ApiConfig(
+        url: "https://generateplan-2dsjy3di5q-uc.a.run.app",
+        headerData: {
+          // Example headers if needed
+          // "appId": "YOUR_APP_ID",
+          // "apiSecretKey": "YOUR_SECRET_KEY",
+        },
+        apiEndpoints: {
+          "chat_completions": ApiEndpoint(
+            path: "",
+            method: Method.POST,
+          ),
+          // Add more endpoints if required later
+        },
+      ),
 
       "render": ApiConfig(
         url: "https://loop-backend-8uow.onrender.com/api",

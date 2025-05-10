@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:loop/core/theme/colors.dart';
 
@@ -31,7 +33,7 @@ class AppCard extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(18),
       margin: margin ?? EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: backgroundColor ?? AppColors.widgetBackground,
+        color: backgroundColor ??AppColors.background,
         borderRadius: borderRadius,
         border: border,
         boxShadow: hasGlow
@@ -54,24 +56,43 @@ class AppCard extends StatelessWidget {
           : cardContent;
     }
 
-    return GestureDetector(
+    return  GestureDetector(
       onTap: onTap,
-      child: RepaintBoundary( // 🚀 optimization: prevents re-rendering full parent
+      child: RepaintBoundary(
         child: Stack(
           children: [
+            // 🟣 BLURRED BORDER BACKGROUND
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: borderRadius,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                  child: const SizedBox.expand(),
+                ),
+              ),
+            ),
+            // 🟣 GLOW BORDER
             Positioned.fill(
               child: IgnorePointer(
                 child: AnimatedGradientBorder(borderRadius: borderRadius),
               ),
             ),
+            // CARD CONTENT
             Container(
               margin: const EdgeInsets.all(3),
-              child: cardContent,
+              child: ClipRRect(
+                borderRadius: borderRadius,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                  child: cardContent,
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+
   }
 }
 
@@ -92,7 +113,7 @@ class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 20), // ⏳ Slowed down animation to 20s
+      duration: const Duration(seconds: 20),
       vsync: this,
     )..repeat();
   }
@@ -105,30 +126,50 @@ class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary( // 🚀 isolates even inside
+    return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          return Container(
-            decoration: BoxDecoration(
+          return CustomPaint(
+            painter: _GradientBorderPainter(
+              animationValue: _controller.value,
               borderRadius: widget.borderRadius,
-              gradient: SweepGradient(
-                startAngle: 0.0,
-                endAngle: 6.28,
-                transform: GradientRotation(_controller.value * 6.28),
-                colors: AppColors.brandGlow,
-                stops: const [
-                  0.0,
-                  0.3,
-                  0.6,
-                  0.8,
-                  1.0,
-                ],
-              ),
             ),
           );
         },
       ),
     );
+  }
+}
+
+class _GradientBorderPainter extends CustomPainter {
+  final double animationValue;
+  final BorderRadiusGeometry borderRadius;
+
+  _GradientBorderPainter({required this.animationValue, required this.borderRadius});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final rrect = borderRadius.resolve(TextDirection.ltr).toRRect(rect);
+
+    final Paint paint = Paint()
+      ..shader = SweepGradient(
+        startAngle: 0.0,
+        endAngle: 6.28,
+        transform: GradientRotation(animationValue * 6.28),
+        colors: AppColors.brandGlow,
+        stops: const [0.0, 0.3, 0.6, 0.8, 1.0],
+      ).createShader(rect)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4 // less aggressive
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2); // Thickness of the animated border
+
+    canvas.drawRRect(rrect, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _GradientBorderPainter oldDelegate) {
+    return oldDelegate.animationValue != animationValue;
   }
 }

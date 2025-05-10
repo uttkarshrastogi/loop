@@ -2,27 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:loop/core/theme/colors.dart';
+import 'package:loop/core/widgets/animation/app_slide_animation.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/inputs/app_textfield.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/goal/data/models/create_goal_model.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pixel_preview/pixel_preview/preview_widget.dart';
-import 'package:pixel_preview/utils/presets.dart';
+import '../../../../core/services/firestore_helper.dart';
+import '../../../../core/services/injection.dart';
 import '../../../../core/theme/text_styles.dart';
-import '../../../../core/widgets/calendar/app_calendar_field.dart';
 import '../../../../core/widgets/calendar/custom_calendar.dart';
 import '../../../../core/widgets/cards/app_card.dart';
 import '../../../../core/widgets/divider/labeled_divider.dart';
-import '../../../../core/widgets/inputs/app_nude_textfield.dart';
-import '../../../../core/widgets/loaders/app_loader.dart';
-import '../../../../core/widgets/loaders/rive_loader.dart';
 import '../../../user/data/models/user_routine_model.dart';
 import 'generate_preview_screen.dart';
 import 'routine_input_screen.dart';
@@ -47,20 +42,13 @@ void _showCalendar(BuildContext context) {
     builder: (ctx) {
       return CustomCalendarPicker(
         initialDate: initial,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
+        firstDate:DateTime.now(),
+        lastDate:  DateTime.now().add(const Duration(days: 365)),
         onDateSelected: (selectedDate) async {
-          // bool isValid = await validateFamilyMemberAgeAndRelation(
-          //     context,
-          //     calculateAge(DateFormat('dd/MM/yyyy').format(selectedDate)),
-          //     true);
-          // setState(() {
-          //   if (isValid) {
-          //     initial = selectedDate;
-          //     calendarController.text =
-          //         DateFormat('dd/MM/yyyy').format(selectedDate);
-          //   }
-          // });
+          setState(() {
+            initial=selectedDate;
+            _dueDate=selectedDate;
+          });
         },
         onClose: () {
           Navigator.of(ctx).pop();
@@ -116,7 +104,6 @@ void _showCalendar(BuildContext context) {
 
   void _onCreatePressed() async {
     final title = _titleController.text.trim();
-    final desc = _descController.text.trim();
 
     if (title.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -141,13 +128,8 @@ void _showCalendar(BuildContext context) {
     // Check for existing routine in Firestore
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final routineDoc =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .collection('routine')
-              .doc('main')
-              .get();
+      final routineDoc = await sl<FirestoreHelper>().getDocument('users/${user.uid}/routine/main');
+
       if (routineDoc.exists || widget.initialRoutine != null) {
         final userRoutine =
             routineDoc.exists
@@ -194,11 +176,8 @@ void _showCalendar(BuildContext context) {
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-      // mascot:   Image.asset(
-      //   "assets/loop_mascot_hi.png",
-      // ),
+      showBackArrow: widget.initialRoutine==null,
       showBottomGradient: true,
-      showBackArrow: false,
       content: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(
@@ -207,8 +186,8 @@ void _showCalendar(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               AppCard(
+
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -217,14 +196,23 @@ void _showCalendar(BuildContext context) {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Start a new Loop",
-                          style: AppTextStyles.headingH4,
-                        ),
-                        const Gap(4),
-                        Text(
-                          "Pick a goal and turn it into a habit.",
-                          style: AppTextStyles.paragraphSmall,
+                        AppSlideAnimation(
+                          direction: SlideDirection.down,
+                          offset: 70.0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Hey ${FirebaseAuth.instance.currentUser?.displayName ?? 'there'}  👋,",
+                                style: AppTextStyles.headingH4,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "Pick a goal and turn it into a habit.",
+                                style: AppTextStyles.paragraphMedium,
+                              ),
+                            ],
+                          ),
                         ),
                         const Gap(24),
                         Wrap(
@@ -239,6 +227,7 @@ void _showCalendar(BuildContext context) {
                         ),
                       ],
                     ),
+
 
                     const Gap(12),
                     Padding(
@@ -291,16 +280,19 @@ void _showCalendar(BuildContext context) {
                       _showCalendar(context);
                     }),
                     const Gap(32),
-                    AppButton(
-                      text: "Build My Loop",
-                      onPressed: _onCreatePressed,
-                      backGroundColor: AppColors.brandPurple,
-                      height: 30,
+                    Hero(
+                      tag: "create_loop_btn",
+                      child: AppButton(
+                        text: "Continue",
+                        onPressed: _onCreatePressed,
+                        backGroundColor: AppColors.brandPurple,
+
+                        height: 30,
+                      ),
                     ),
                   ],
                 ),
               ),
-
             ],
           ),
         ),

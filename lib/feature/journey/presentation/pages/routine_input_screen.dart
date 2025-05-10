@@ -9,12 +9,10 @@ import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/cards/app_card.dart';
 import 'package:loop/core/widgets/icons/app_icon.dart';
-import 'package:loop/core/widgets/inputs/app_textfield.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/goal/data/models/create_goal_model.dart';
 import 'package:loop/feature/user/data/models/user_routine_model.dart';
 import 'package:loop/feature/journey/presentation/pages/calendar_integration_screen.dart';
-
 import '../../data/datasources/calendar_auth_service.dart';
 import 'generate_preview_screen.dart';
 
@@ -75,13 +73,18 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     if (widget.initialRoutine != null) {
       _wakeUpController.text = widget.initialRoutine!.wakeUpTime;
       _sleepController.text = widget.initialRoutine!.sleepTime;
-      _workStartController.text = widget.initialRoutine!.workHours['start'] ?? '';
+      _workStartController.text =
+          widget.initialRoutine!.workHours['start'] ?? '';
       _workEndController.text = widget.initialRoutine!.workHours['end'] ?? '';
 
       _wakeTime = _parseTimeOfDay(widget.initialRoutine!.wakeUpTime);
       _sleepTime = _parseTimeOfDay(widget.initialRoutine!.sleepTime);
-      _workStartTime = _parseTimeOfDay(widget.initialRoutine!.workHours['start'] ?? '09:00');
-      _workEndTime = _parseTimeOfDay(widget.initialRoutine!.workHours['end'] ?? '17:00');
+      _workStartTime = _parseTimeOfDay(
+        widget.initialRoutine!.workHours['start'] ?? '09:00',
+      );
+      _workEndTime = _parseTimeOfDay(
+        widget.initialRoutine!.workHours['end'] ?? '17:00',
+      );
 
       // Prefill fixed activities if any
       for (final activity in widget.initialRoutine!.fixedActivities) {
@@ -97,7 +100,6 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
 
     _updateMascotAsset();
   }
-
 
   @override
   void dispose() {
@@ -142,7 +144,6 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     });
   }
 
-
   Future<void> _saveRoutine() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -154,16 +155,16 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
         if (userId == null) throw Exception('User not authenticated');
 
         final fixedActivities =
-        _fixedActivities
-            .map(
-              (a) => FixedActivity(
-            name: a.nameController.text,
-            startTime: a.startTimeController.text,
-            endTime: a.endTimeController.text,
-            daysOfWeek: a.selectedDays,
-          ),
-        )
-            .toList();
+            _fixedActivities
+                .map(
+                  (a) => FixedActivity(
+                    name: a.nameController.text,
+                    startTime: a.startTimeController.text,
+                    endTime: a.endTimeController.text,
+                    daysOfWeek: a.selectedDays,
+                  ),
+                )
+                .toList();
         String _formatTime(TimeOfDay time) {
           final now = DateTime.now();
           final dt = DateTime(
@@ -179,12 +180,14 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
         final routine = UserRoutineModel(
           userId: userId,
           wakeUpTime:
-          '${_wakeTime.hour.toString().padLeft(2, '0')}:${_wakeTime.minute.toString().padLeft(2, '0')}',
+              '${_wakeTime.hour.toString().padLeft(2, '0')}:${_wakeTime.minute.toString().padLeft(2, '0')}',
           sleepTime:
-          '${_sleepTime.hour.toString().padLeft(2, '0')}:${_sleepTime.minute.toString().padLeft(2, '0')}',
+              '${_sleepTime.hour.toString().padLeft(2, '0')}:${_sleepTime.minute.toString().padLeft(2, '0')}',
           workHours: {
-            'start': '${_workStartTime.hour.toString().padLeft(2, '0')}:${_workStartTime.minute.toString().padLeft(2, '0')}',
-            'end': '${_workEndTime.hour.toString().padLeft(2, '0')}:${_workEndTime.minute.toString().padLeft(2, '0')}',
+            'start':
+                '${_workStartTime.hour.toString().padLeft(2, '0')}:${_workStartTime.minute.toString().padLeft(2, '0')}',
+            'end':
+                '${_workEndTime.hour.toString().padLeft(2, '0')}:${_workEndTime.minute.toString().padLeft(2, '0')}',
           },
           fixedActivities: fixedActivities,
         );
@@ -211,7 +214,6 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
               );
             }
           }
-
         }
       } catch (e) {
         print(e);
@@ -229,20 +231,38 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-      mascot: Image.asset(
-        asset ?? "",
-        height: MediaQuery.of(context).size.height / 6,
-      ),
+      // mascot: Image.asset(
+      //   asset ?? "",
+      //   height: MediaQuery.of(context).size.height / 6,
+      // ),
       showBottomGradient: true,
+      showBackArrow: widget.initialRoutine == null,
       title: 'Your Daily Routine',
-      showBackArrow: false,
-      content: SingleChildScrollView(child: Form(key: _formKey, child: _buildStepFlow())),
+      content: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom + 120, // enough space for footer
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
+                  child: _buildStepFlow(),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+
     );
   }
 
   Widget _buildStepFlow() {
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.center,
       child: AnimatedSize(
         duration: const Duration(milliseconds: 400),
         child: Column(
@@ -252,20 +272,23 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
           children: [
             // Gap(150),
             ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 320),
+              constraints: BoxConstraints(
+                minHeight: 320,
+                // maxHeight: MediaQuery.of(context).size.height / 1.2,
+              ),
               child: PageTransitionSwitcher(
                 duration: const Duration(milliseconds: 900),
                 reverse: !_isGoingForward,
                 transitionBuilder: (
-                    Widget child,
-                    Animation<double> primaryAnimation,
-                    Animation<double> secondaryAnimation,
-                    ) {
+                  Widget child,
+                  Animation<double> primaryAnimation,
+                  Animation<double> secondaryAnimation,
+                ) {
                   return SharedAxisTransition(
                     animation: primaryAnimation,
                     secondaryAnimation: secondaryAnimation,
                     transitionType:
-                    SharedAxisTransitionType.vertical, // Slide up/down
+                        SharedAxisTransitionType.vertical, // Slide up/down
                     fillColor: Colors.transparent,
                     child: child,
                   );
@@ -316,11 +339,12 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
                   height: 6,
                   width: 40,
                   decoration: BoxDecoration(
+
                     borderRadius: BorderRadius.circular(12),
                     color:
-                    isActive
-                        ? AppColors.brandPurple
-                        : AppColors.neutral300.withOpacity(0.3),
+                        isActive
+                            ? AppColors.brandPurple
+                            : AppColors.neutral300.withOpacity(0.3),
                   ),
                 );
               }),
@@ -341,65 +365,69 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
           children: [
             Text(
               "Let's personalize your schedule",
-              style: AppTextStyles.headingH4,
+              style: AppTextStyles.headingH5,
             ),
-            const Gap(8),
+            const Gap(4),
             Text(
               "Your routine helps us generate the most effective plan tailored to your day. You can skip this step if you're unsure.",
-              style: AppTextStyles.paragraphSmall
+              style: AppTextStyles.paragraphXSmall,
             ),
-            const Gap(32),
-            AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildCupertinoTimeSelector(
-                    title: 'What time do you wake up?',
-                    time: _wakeTime,
-                    showPicker: _showWakeTimePicker,
-                    onTap: () {
-                      setState(() {
-                        _showWakeTimePicker = !_showWakeTimePicker;
-                        _showSleepTimePicker = false;
-                      });
-                    },
-                    onTimeChanged: (time) {
-                      setState(() {
-                        _wakeTime = time;
-                        _wakeUpController.text = '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
-                      });
-                    },
-                  ),
-                  const Gap(32),
-                  _buildCupertinoTimeSelector(
-                    title: 'What time do you go to sleep?',
-                    time: _sleepTime,
-                    showPicker: _showSleepTimePicker,
-                    onTap: () {
-                      setState(() {
-                        _showSleepTimePicker = !_showSleepTimePicker;
-                        _showWakeTimePicker = false;
-                      });
-                    },
-                    onTimeChanged: (time) {
-                      setState(() {
-                        _sleepTime = time;
-                        _sleepController.text = '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
-                      });
-                    },
-                  ),
-                  // const Gap(48),
-                  // Align(
-                  //   alignment: Alignment.center,
-                  //   child: TextButton(
-                  //     onPressed: _onNextStep,
-                  //     child: Text('Skip this step', style: AppTextStyles.paragraphMedium.copyWith(color: AppColors.textButton)),
-                  //   ),
-                  // ),
-                ],
+            const Gap(16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildCupertinoTimeSelector(
+                      title: 'What time do you wake up?',
+                      time: _wakeTime,
+                      showPicker: _showWakeTimePicker,
+                      onTap: () {
+                        setState(() {
+                          _showWakeTimePicker = !_showWakeTimePicker;
+                          _showSleepTimePicker = false;
+                        });
+                      },
+                      onTimeChanged: (time) {
+                        setState(() {
+                          _wakeTime = time;
+                          _wakeUpController.text =
+                              '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+                        });
+                      },
+                    ),
+                    const Gap(32),
+                    _buildCupertinoTimeSelector(
+                      title: 'What time do you go to sleep?',
+                      time: _sleepTime,
+                      showPicker: _showSleepTimePicker,
+                      onTap: () {
+                        setState(() {
+                          _showSleepTimePicker = !_showSleepTimePicker;
+                          _showWakeTimePicker = false;
+                        });
+                      },
+                      onTimeChanged: (time) {
+                        setState(() {
+                          _sleepTime = time;
+                          _sleepController.text =
+                              '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+                        });
+                      },
+                    ),
+                    // const Gap(48),
+                    // Align(
+                    //   alignment: Alignment.center,
+                    //   child: TextButton(
+                    //     onPressed: _onNextStep,
+                    //     child: Text('Skip this step', style: AppTextStyles.paragraphMedium.copyWith(color: AppColors.textButton)),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-          
           ],
         );
       case 1:
@@ -414,50 +442,52 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
             const Gap(8),
             Text(
               "We’ll avoid scheduling tasks during your work or school time.",
-              style: AppTextStyles.paragraphSmall
+              style: AppTextStyles.paragraphSmall,
             ),
             const Gap(32),
-            AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildCupertinoTimeSelector(
-                    title: 'Start time',
-                    time: _workStartTime,
-                    showPicker: _showStartWorkPicker,
-                    onTap: () {
-                      setState(() {
-                        _showStartWorkPicker = !_showStartWorkPicker;
-                        _showEndWorkPicker = false;
-                      });
-                    },
-                    onTimeChanged: (time) {
-                      setState(() {
-                        _workStartTime = time;
-                      });
-                    },
-                  ),
-                  const Gap(32),
-                  _buildCupertinoTimeSelector(
-                    title: 'End time',
-                    time: _workEndTime,
-                    showPicker: _showEndWorkPicker,
-                    onTap: () {
-                      setState(() {
-                        _showEndWorkPicker = !_showEndWorkPicker;
-                        _showStartWorkPicker = false;
-                      });
-                    },
-                    onTimeChanged: (time) {
-                      setState(() {
-                        _workEndTime = time;
-                      });
-                    },
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildCupertinoTimeSelector(
+                      title: 'Start time',
+                      time: _workStartTime,
+                      showPicker: _showStartWorkPicker,
+                      onTap: () {
+                        setState(() {
+                          _showStartWorkPicker = !_showStartWorkPicker;
+                          _showEndWorkPicker = false;
+                        });
+                      },
+                      onTimeChanged: (time) {
+                        setState(() {
+                          _workStartTime = time;
+                        });
+                      },
+                    ),
+                    const Gap(32),
+                    _buildCupertinoTimeSelector(
+                      title: 'End time',
+                      time: _workEndTime,
+                      showPicker: _showEndWorkPicker,
+                      onTap: () {
+                        setState(() {
+                          _showEndWorkPicker = !_showEndWorkPicker;
+                          _showStartWorkPicker = false;
+                        });
+                      },
+                      onTimeChanged: (time) {
+                        setState(() {
+                          _workEndTime = time;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-            
           ],
         );
 
@@ -473,13 +503,15 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
             const Gap(8),
             Text(
               "Help us respect your time by adding recurring activities like gym, meals, or family time.",
-              style: AppTextStyles.paragraphSmall
+              style: AppTextStyles.paragraphSmall,
             ),
             const Gap(16),
             ..._fixedActivities
                 .asMap()
                 .entries
-                .map((entry) => _buildFixedActivityInput(entry.value, entry.key))
+                .map(
+                  (entry) => _buildFixedActivityInput(entry.value, entry.key),
+                )
                 .toList(),
             const Gap(16),
             SizedBox(
@@ -494,7 +526,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
           ],
         );
 
-    // case 3:
+      // case 3:
       //   return Column(
       //     key: const ValueKey(3),
       //     crossAxisAlignment: CrossAxisAlignment.start,
@@ -518,7 +550,8 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     required bool showPicker,
     required VoidCallback onTap,
     required void Function(TimeOfDay) onTimeChanged,
-  }) {return Column(
+  }) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: AppTextStyles.headingH6),
@@ -553,95 +586,130 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
   }
 
   Widget _buildFixedActivityInput(FixedActivityInput activity, int index) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Activity ${index + 1}', style: AppTextStyles.headingH5.copyWith(color: Colors.white)),
-              IconButton(
-                icon: const Icon(Icons.close, color: AppColors.surface),
-                onPressed: () => _removeFixedActivity(index),
-              ),
-            ],
-          ),
-
-          const Gap(16),
-
-          // Activity name input
-          TextFormField(
-            controller: activity.nameController,
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColors.background,
-              hintText: 'Activity name',
-              hintStyle: const TextStyle(color: Colors.white54),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Activity ${index + 1}',
+                  style: AppTextStyles.headingH5.copyWith(color: Colors.white),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.surface),
+                  onPressed: () => _removeFixedActivity(index),
+                ),
+              ],
             ),
-            validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
-          ),
 
-          const Gap(20),
+            const Gap(16),
 
-          // Start Time
-          Text('Start Time', style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white)),
-          const Gap(8),
-          _buildInlineTimePicker(activity.startTimeController),
+            // Activity name input
+            TextFormField(
+              controller: activity.nameController,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.background,
+                hintText: 'Activity name',
+                hintStyle: const TextStyle(color: Colors.white54),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              validator:
+                  (val) => (val == null || val.isEmpty) ? 'Required' : null,
+            ),
 
-          const Gap(20),
+            const Gap(20),
 
-          // End Time
-          Text('End Time', style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white)),
-          const Gap(8),
-          _buildInlineTimePicker(activity.endTimeController),
+            // Start Time
+            Text(
+              'Start Time',
+              style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white),
+            ),
+            const Gap(8),
+            _buildInlineTimePicker(activity.startTimeController),
 
-          const Gap(20),
+            const Gap(20),
 
-          // Days
-          Text('Days of week', style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white)),
-          const Gap(12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) {
-              final fullDay = _getFullDayName(day);
-              final isSelected = activity.selectedDays.contains(fullDay);
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isSelected
-                        ? activity.selectedDays.remove(fullDay)
-                        : activity.selectedDays.add(fullDay);
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: isSelected ? AppColors.brandPurple : AppColors.green50,
-                    borderRadius: BorderRadius.circular(8),
-                    // border: Border.all(
-                    //   color: isSelected ? AppColors.primary : AppColors.border,
-                    // ),
-                  ),
-                  child: Text(
-                    day,
-                    style: AppTextStyles.paragraphSmall.copyWith(
-                      color: isSelected ? Colors.white : AppColors.textSecondary,
+            // End Time
+            Text(
+              'End Time',
+              style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white),
+            ),
+            const Gap(8),
+            _buildInlineTimePicker(activity.endTimeController),
+
+            const Gap(20),
+
+            // Days
+            Text(
+              'Days of week',
+              style: AppTextStyles.paragraphMedium.copyWith(color: Colors.white),
+            ),
+            const Gap(12),
+            // Inside the day selection Wrap
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) {
+                final fullDay = _getFullDayName(day);
+                final isSelected = activity.selectedDays.contains(fullDay);
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isSelected
+                          ? activity.selectedDays.remove(fullDay)
+                          : activity.selectedDays.add(fullDay);
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: isSelected ? AppColors.brandPurple : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected ? AppColors.brandPurple : AppColors.neutral300,
+                        width: 1.5,
+                      ),
+                      boxShadow: isSelected
+                          ? [BoxShadow(color: AppColors.brandPurple.withOpacity(0.2), blurRadius: 4)]
+                          : [],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          day,
+                          style: AppTextStyles.paragraphSmall.copyWith(
+                            color: isSelected ? Colors.white : AppColors.textPrimary,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                          ),
+                        ),
+                        if (isSelected) ...[
+                          const SizedBox(width: 6),
+                          const Icon(Icons.check, size: 16, color: Colors.white),
+                        ]
+                      ],
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+                );
+              }).toList(),
+            ),
+
+          ],
+        ),
       ),
     );
   }
@@ -650,7 +718,8 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     final now = TimeOfDay.now();
     final parts = controller.text.split(":");
     final hour = int.tryParse(parts.first) ?? now.hour;
-    final minute = int.tryParse(parts.length > 1 ? parts[1] : "0") ?? now.minute;
+    final minute =
+        int.tryParse(parts.length > 1 ? parts[1] : "0") ?? now.minute;
     final initialDateTime = DateTime(2000, 1, 1, hour, minute);
 
     return SizedBox(
@@ -706,6 +775,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
     }[shortDay]!;
   }
 }
+
 class FixedActivityInput {
   final nameController = TextEditingController();
   final startTimeController = TextEditingController(text: '18:00');
@@ -717,5 +787,4 @@ class FixedActivityInput {
     startTimeController.dispose();
     endTimeController.dispose();
   }
-
 }

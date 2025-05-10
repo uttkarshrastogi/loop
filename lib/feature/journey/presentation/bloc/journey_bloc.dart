@@ -75,6 +75,7 @@ class JourneyBloc extends Bloc<JourneyEvent, JourneyState> {
       );
       emit(JourneyState.tasksLoaded(tasks));
     } catch (e) {
+      rethrow;
       emit(JourneyState.error('Failed to generate plan: $e'));
     }
   }
