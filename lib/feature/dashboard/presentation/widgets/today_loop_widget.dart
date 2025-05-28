@@ -39,94 +39,96 @@ class _AllGoalsWidgetV2State extends State<AllGoalsWidgetV2> {
               );
             }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                GestureDetector(onTap: () {
-                  context.push(AddGoalDialog.routeName);
-                }, child: Icon(Icons.add,color: AppColors.brandPurple,)),
-
-                ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(16),
-                  itemCount: groupedTasks.length,
-                  itemBuilder: (context, index) {
-                    final goalTasks = groupedTasks[index];
-                    final goalId = goalTasks.first.goalId;
-                    final isExpanded = _expandedGoals[goalId] ?? false;
-
-                    // compute simple progress %
-                    final completedCount =
-                        goalTasks.where((t) => t.isCompleted).length;
-                    final progress =
-                        goalTasks.isEmpty
-                            ? 0.0
-                            : completedCount / goalTasks.length;
-
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      color: AppColors.widgetBackground,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: ExpansionTile(
-                        key: PageStorageKey(goalId),
-                        initiallyExpanded: isExpanded,
-                        onExpansionChanged: (open) {
-                          setState(() {
-                            _expandedGoals[goalId] = open;
-                          });
-                        },
-                        tilePadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  GestureDetector(onTap: () {
+                    context.push(AddGoalDialog.routeName);
+                  }, child: Icon(Icons.add,color: AppColors.brandPurple,)),
+              
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(16),
+                    itemCount: groupedTasks.length,
+                    itemBuilder: (context, index) {
+                      final goalTasks = groupedTasks[index];
+                      final goalId = goalTasks.first.goalId;
+                      final isExpanded = _expandedGoals[goalId] ?? false;
+              
+                      // compute simple progress %
+                      final completedCount =
+                          goalTasks.where((t) => t.isCompleted).length;
+                      final progress =
+                          goalTasks.isEmpty
+                              ? 0.0
+                              : completedCount / goalTasks.length;
+              
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        color: AppColors.widgetBackground,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        leading: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              CircularProgressIndicator(
-                                value: progress,
-                                strokeWidth: 4,
-                                backgroundColor: AppColors.neutral200,
-                                valueColor: AlwaysStoppedAnimation(
-                                  AppColors.brandPurple,
-                                ),
-                              ),
-                              Text(
-                                "${(progress * 100).round()}%",
-                                style: AppTextStyles.paragraphXSmall.copyWith(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
+                        child: ExpansionTile(
+                          key: PageStorageKey(goalId),
+                          initiallyExpanded: isExpanded,
+                          onExpansionChanged: (open) {
+                            setState(() {
+                              _expandedGoals[goalId] = open;
+                            });
+                          },
+                          tilePadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
                           ),
-                        ),
-                        title: Text(
-                          "Goal ${index + 1}",
-                          style: AppTextStyles.headingH5.copyWith(
-                            color: AppColors.textPrimary,
+                          leading: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: progress,
+                                  strokeWidth: 4,
+                                  backgroundColor: AppColors.neutral200,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    AppColors.brandPurple,
+                                  ),
+                                ),
+                                Text(
+                                  "${(progress * 100).round()}%",
+                                  style: AppTextStyles.paragraphXSmall.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                          title: Text(
+                            "Goal ${index + 1}",
+                            style: AppTextStyles.headingH5.copyWith(
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          children: [
+                            const Gap(8),
+                            ...goalTasks.map((task) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                ),
+                                child: _buildTaskCard(task, context),
+                              );
+                            }).toList(),
+                            const Gap(12),
+                          ],
                         ),
-                        children: [
-                          const Gap(8),
-                          ...goalTasks.map((task) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                              ),
-                              child: _buildTaskCard(task, context),
-                            );
-                          }).toList(),
-                          const Gap(12),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

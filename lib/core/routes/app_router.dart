@@ -10,7 +10,7 @@ import '../../feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../../feature/dashboard/presentation/widgets/task_detail_screen.dart';
 import '../../feature/goal/data/models/create_goal_model.dart';
 import '../../feature/journey/presentation/pages/calendar_integration_screen.dart';
-import '../../feature/journey/presentation/pages/daily_checkin_screen.dart';
+
 import '../../feature/journey/presentation/pages/routine_input_screen.dart';
 import '../../feature/journey/presentation/pages/generate_screen.dart';
 import '../../feature/user/data/models/user_routine_model.dart';

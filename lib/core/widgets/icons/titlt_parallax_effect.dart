@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../theme/colors.dart';
@@ -60,17 +61,17 @@ class _TiltParallaxImageState extends State<TiltParallaxImage> {
             // //   blurRadius: 60,
             // //   offset: const Offset(0, -60),
             // // ),
-            BoxShadow(
-              color: AppColors.neutral1100,
-              blurRadius: 60,
-              offset: const Offset(0, -60),
-            ),
+            // BoxShadow(
+            //   color: AppColors.neutral1100,
+            //   blurRadius: 60,
+            //   offset: const Offset(0, -60),
+            // ),
           ],
         ),
         child: Image.asset(
           fit: BoxFit.fitWidth,
-          "assets/LiconBG.png",
-          width: MediaQuery.of(context).size.width / 1.4,
+          "assets/loop_logo.png",
+          width: MediaQuery.of(context).size.width ,
         ),
       ),
     );

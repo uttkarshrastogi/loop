@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
 import 'package:loop/feature/journey/presentation/pages/add_goal_dialog.dart';
+
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const routeName = "/OnboardingScreen";
@@ -18,27 +22,143 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _floatController;
+   CarouselSliderController _controller =CarouselSliderController();
   late final Animation<double> _floatAnimation;
   int _currentIndex = 0;
 
   final List<_OnboardingData> onboardingData = [
     _OnboardingData(
-      title: "Let AI Guide Your Journey",
+      title: Text.rich(
+        textAlign: TextAlign.center,
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'Build any',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: ' habit\n',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.brandPurple,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: ' All of them.',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
       subtitle:
-          "Loop works like a smart compass — turning your goals into daily tasks with step-by-step instructions.",
+          "From Spanish vocab to a bicycle kick, Loop lets you track every skill, routine and wellness goal in one place.",
       imagePath: 'assets/OB_v1.png',
     ),
+
     _OnboardingData(
-      title: "Stay Focused, Even in the Fog",
+      title: Text.rich(
+        textAlign: TextAlign.center,
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'Your ',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: 'Schedule\n',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.brandPurple,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: ' Finally Respected',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
       subtitle:
-          "Loop adapts your plan to your routine and keeps you anchored with timely nudges.",
+          "Loop scans your calendar and tucks habits into free slots- no more clashes with meetings or classes.",
       imagePath: 'assets/OB_2_v1.png',
     ),
     _OnboardingData(
-      title: "Everything You Need, One Tap Away",
+      title: Text.rich(
+        textAlign: TextAlign.center,
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'Smart ',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: 'Nudges,\n',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.brandPurple,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: ' Never Spam.',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
       subtitle:
-          "Each task comes with how-to guides, time estimates, difficulty, and motivating reasons.",
+      "Gentle reminders appear only when they help- skip when you’re busy, cheer when you succeed.",
       imagePath: 'assets/OB_3_v1.png',
+    ),
+    _OnboardingData(
+      title: Text.rich(
+        textAlign: TextAlign.center,
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'Privacy',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.brandPurple,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: ' First.\n',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            TextSpan(
+              text: 'Progress EveryWhere',
+              style: AppTextStyles.headingH2.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+      subtitle:
+          "Data stays on-device or encrypted in your own\ncloud; sync across Android, iOS and web\nwhenever you choose.",
+      imagePath: 'assets/OB_4_v1.png',
     ),
   ];
   List<TextSpan> _buildRichSubtitle(String subtitle) {
@@ -51,7 +171,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       "guides",
       "time estimates",
       "difficulty",
-      "motivating"
+      "motivating",
     ];
 
     final List<TextSpan> spans = [];
@@ -59,17 +179,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     subtitle.splitMapJoin(
       RegExp(importantWords.map(RegExp.escape).join('|')),
       onMatch: (match) {
-        spans.add(TextSpan(
-          text: match[0],
-          style: AppTextStyles.paragraphSmall.copyWith(
-            fontWeight: FontWeight.w500,
-            decoration: TextDecoration.underline,
-            decorationStyle:  TextDecorationStyle.dotted,
-            decorationThickness: 1.5,
-            color: AppColors.brandPurple,
-            decorationColor: AppColors.brandPurple,
-          )
-        ));
+        spans.add(
+          TextSpan(
+            text: match[0],
+            style: AppTextStyles.paragraphSmall.copyWith(
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.underline,
+              decorationStyle: TextDecorationStyle.dotted,
+              decorationThickness: 1.5,
+              color: AppColors.brandPurple,
+              decorationColor: AppColors.brandPurple,
+            ),
+          ),
+        );
         return '';
       },
       onNonMatch: (text) {
@@ -80,7 +202,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
     return spans;
   }
-
 
   @override
   void initState() {
@@ -111,33 +232,27 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       padding: const EdgeInsets.all(24),
       showBackArrow: false,
       content: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (_currentIndex != onboardingData.length - 1)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap:  () {
-                  context.push(AddGoalDialog.routeName);
-                },
-                child: Text(
-                  "skip",
-                  style: AppTextStyles.paragraphSmall.copyWith(
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.brandPurple
-                  ),
-                ),
-              ),
-            ],
-          ),
+            AppButton(
+              width: screenWidth/4,
+              isGhost: true,
+              withBorder: true,
+              text: "Login",
+              onPressed: () async {
+                context.read<AuthBloc>().add(const AuthEvent.signUp());
+              },
+            ),
           Expanded(
             child: CarouselSlider.builder(
+              carouselController: _controller,
               itemCount: onboardingData.length,
               itemBuilder: (context, index, realIndex) {
                 final data = onboardingData[index];
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 3,
@@ -151,32 +266,33 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         child: Center(
                           child: Image.asset(
                             data.imagePath,
-                            width: screenWidth * 0.7,
-                            fit: BoxFit.fitWidth,
+                            height: screenHeight,
+                            width: screenWidth,
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
                       ),
                     ),
+                    Gap(24),
                     Expanded(
                       flex: 1,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            data.title,
-                            style: AppTextStyles.headingH6,
-                            textAlign: TextAlign.left,
-                          ),
+                          data.title,
+
                           const SizedBox(height: 20),
                           Text.rich(
                             TextSpan(
-                              style: AppTextStyles.paragraphSmall.copyWith(height: 1.3),
+                              style: AppTextStyles.paragraphSmall.copyWith(
+                                height: 1.3,
+                                fontWeight: FontWeight.w600,
+                              ),
                               children: _buildRichSubtitle(data.subtitle),
                             ),
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.center,
                           ),
-
                         ],
                       ),
                     ),
@@ -197,53 +313,94 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
           const SizedBox(height: 16),
 
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            switchInCurve: Curves.easeOut,
-            switchOutCurve: Curves.easeIn,
-            transitionBuilder: (child, animation) {
-              return ScaleTransition(
-                scale: animation,
-                child: FadeTransition(opacity: animation, child: child),
-              );
-            },
-            child:
-                _currentIndex != onboardingData.length - 1
-                    ? Row(
-                      key: const ValueKey('indicator'),
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        onboardingData.length,
-                        (index) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: _currentIndex == index ? 24 : 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color:
-                                _currentIndex == index
-                                    ? AppColors.brandPurple
-                                    : Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    )
-                    : SizedBox(
-                      key: const ValueKey('button'),
-                      width: double.infinity,
-                      child: Hero(
-                        tag: "create_loop_btn",
-                        child: AppButton(
-                          text: "Create My Loop",
-                          backGroundColor: AppColors.brandPurple,
-                          onPressed: () {
-                            context.push(AddGoalDialog.routeName);
-                          },
-                        ),
-                      ),
-                    ),
-          ),
+         Row(
+           mainAxisSize: MainAxisSize.min,
+           children: [
+             _currentIndex>0?
+             Expanded(
+               flex: 1,
+               child: GestureDetector(
+                 onTap: (){
+                   _controller.previousPage();
+                 },
+                 child: Padding(
+                   padding: const EdgeInsets.only(right: 8.0),
+                   child: Icon(
+                     weight: 200,
+                       size: 30,
+                       Icons.arrow_back_ios_rounded,color: AppColors.brandPurple,),
+                 ),
+               )
+                ):SizedBox.shrink(),
+                    // context.push(OnboardingScreen.routeName);
+                    // context.read<AuthBloc>().add(const AuthEvent.signUp())
+
+    Expanded(
+      flex: 7,
+               child: AppButton(
+                  text: _currentIndex==3? 'Get Started' : 'Continue',
+                  onPressed: () async {
+                    setState(() {
+                      if(_currentIndex==3){
+                         context.read<AuthBloc>().add(const AuthEvent.signUp());
+                      }else{
+                      _controller.nextPage();}
+                    });
+                    // context.push(OnboardingScreen.routeName);
+                    // context.read<AuthBloc>().add(const AuthEvent.signUp());
+                  },
+                ),
+             ),
+           ],
+         ),
+
+          // AnimatedSwitcher(
+          //   duration: const Duration(milliseconds: 500),
+          //   switchInCurve: Curves.easeOut,
+          //   switchOutCurve: Curves.easeIn,
+          //   transitionBuilder: (child, animation) {
+          //     return ScaleTransition(
+          //       scale: animation,
+          //       child: FadeTransition(opacity: animation, child: child),
+          //     );
+          //   },
+          //   child:
+          //       _currentIndex != onboardingData.length - 1
+          //           ? Row(
+          //             key: const ValueKey('indicator'),
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: List.generate(
+          //               onboardingData.length,
+          //               (index) => AnimatedContainer(
+          //                 duration: const Duration(milliseconds: 300),
+          //                 margin: const EdgeInsets.symmetric(horizontal: 4),
+          //                 width: _currentIndex == index ? 24 : 8,
+          //                 height: 8,
+          //                 decoration: BoxDecoration(
+          //                   color:
+          //                       _currentIndex == index
+          //                           ? AppColors.brandPurple
+          //                           : Colors.white.withOpacity(0.3),
+          //                   borderRadius: BorderRadius.circular(12),
+          //                 ),
+          //               ),
+          //             ),
+          //           )
+          //           : SizedBox(
+          //             key: const ValueKey('button'),
+          //             width: double.infinity,
+          //             child: Hero(
+          //               tag: "create_loop_btn",
+          //               child: AppButton(
+          //                 text: "Create My Loop",
+          //                 backGroundColor: AppColors.brandPurple,
+          //                 onPressed: () {
+          //                   context.push(AddGoalDialog.routeName);
+          //                 },
+          //               ),
+          //             ),
+          //           ),
+          // ),
 
           const SizedBox(height: 16),
         ],
@@ -253,7 +410,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 }
 
 class _OnboardingData {
-  final String title;
+  final Widget title;
   final String subtitle;
   final String imagePath;
 

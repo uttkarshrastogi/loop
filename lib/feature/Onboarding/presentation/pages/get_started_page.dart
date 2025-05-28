@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/core/widgets/buttons/appbutton.dart';
 import 'package:loop/core/widgets/template/page_template.dart';
+import 'package:loop/feature/Onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:loop/feature/auth/presentation/bloc/auth_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/globalLoader/bloc/bloc/loader_bloc.dart';
@@ -29,7 +30,7 @@ class GetStartedPage extends StatelessWidget {
           success: (user) {
             lBloc.add(const LoaderEvent.loadingOFF());
           },
-          error: (e){
+          error: (e) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text('Error: $e')));
@@ -40,7 +41,7 @@ class GetStartedPage extends StatelessWidget {
         );
       },
       child: PageTemplate(
-        padding: EdgeInsets.fromLTRB(24,0,24,0),
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         content: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -50,15 +51,44 @@ class GetStartedPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TiltParallaxImage(),
-                  Text(
-                    "Welcome to",
-                    style: AppTextStyles.headingH4.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.normal,
+                  Text.rich(
+                    textAlign: TextAlign.center,
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Welcome to ',
+                          style: AppTextStyles.paragraphLarge.copyWith(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Loop',
+                          style: AppTextStyles.paragraphLarge.copyWith(
+                            color: AppColors.brandPurple,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Gap(8),
-                  Image.asset("assets/Loop Name Logo.png",width: 80,),
+                  Gap(10),
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Turn big goals\ninto daily wins.",
+                    style: AppTextStyles.headingH1.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Gap(10),
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Loop helps break any ambition- from “learn Python” to “run a 5k” into bite-size tasks you can finish today.",
+                    style: AppTextStyles.paragraphSmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   // AppLoader(),
                 ],
               ),
@@ -68,11 +98,30 @@ class GetStartedPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppButton(
-                    text: "Get Started",
-                    onPressed: () async {
-                      context.read<AuthBloc>().add(const AuthEvent.signUp());
-                    },
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: AppButton(
+                          text: "Explore",
+                          onPressed: () async {
+                            context.push(OnboardingScreen.routeName);
+                            // context.read<AuthBloc>().add(const AuthEvent.signUp());
+                          },
+                        ),
+                      ),
+                      Gap(20),
+                      Expanded(
+                        child: AppButton(
+                          isGhost: true,
+                          withBorder: true,
+                          text: "Login",
+                          onPressed: () async {
+                            context.read<AuthBloc>().add(const AuthEvent.signUp());
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   Gap(24),
                 ],

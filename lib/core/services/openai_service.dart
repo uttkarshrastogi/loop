@@ -43,6 +43,7 @@ $planStyle
 - goalTitle (user's goal)
 - Description (short but motivating explanation)
 - Estimated Time (in hours)
+-
 - 2–4 Sub-Steps (tiny actionable points to achieve the task)
 - Difficulty Level ("Easy", "Medium", or "Hard")
 - Motivation Tip (1-2 lines of encouragement related to the task)

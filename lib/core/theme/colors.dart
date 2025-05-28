@@ -240,7 +240,7 @@ class AppColors {
 
 
   // 🔲 Backgrounds
-  static const Color background =Color(0xFF19191D);
+  static const Color background =Color(0xFFFFFFFF);
   static const Color backgroundZaxis = Color(0xFF151313);
   static const Color widgetBackground = Color(0xFF1E1B2E);
   static const Color bottomSheetBackground = Color(0xFF121212);
@@ -249,13 +249,13 @@ class AppColors {
 
   // 🧱 Surfaces
   static const Color surface = Color(0xFFD4C9BE);
-  static const Color surfaceVariant = Color(0xFF3A3A3B);
+  static const Color surfaceVariant = Color(0xFFC50E7B);
   static const Color widgetBorder = Color(0xFF2F313B);
-  static const Color border = Color(0xFF3A3749);
+  static const Color border = Color(0xFF000000);
 
   // ✍️ Text
-  static const Color textPrimary = Color(0xFFFFFFFF);   // Bright white
-  static const Color textSecondary = Color(0xFFC7C7D2); // Soft body color
+  static const Color textPrimary = Color(0xFF333333);   // Bright white
+  static const Color textSecondary = Color(0xFF666666); // Soft body color
   static const Color textTertiary = Color(0xFF8E8E99);  // Hints, placeholders
   static const Color textButton = Color(0xFFA6A6B0);    // Subtle button text
 
@@ -263,7 +263,7 @@ class AppColors {
 
   // 🎨 Brand / Primary
   static const Color primary = Color(0xFFD4C9BE);
-  static const Color brandPurple = Color(0xFF6857D9);
+  static const Color brandPurple = Color(0xFFC50E7B);
 
 
  // Optional CTA color
