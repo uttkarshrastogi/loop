@@ -6,3 +6,4 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.signUp() = _SignUp;
   const factory AuthEvent.signOut() = _SignOut;
 }
+

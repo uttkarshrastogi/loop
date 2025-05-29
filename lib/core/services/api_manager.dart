@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -6,6 +7,7 @@ import 'package:toastification/toastification.dart';
 import 'package:loop/core/config/api_config.dart';
 import 'package:loop/core/config/flavor.dart';
 import 'package:loop/core/services/performance_interceptor.dart';
+import '../../feature/auth/presentation/bloc/auth_bloc.dart';
 import '../config/naviagtion_service.dart';
 import '../widgets/globalLoader/bloc/bloc/loader_bloc.dart';
 import 'api_exception.dart';
@@ -116,7 +118,7 @@ Future apiCall({
   bool disableLoader = false,
   bool disableDefaultError = false,
 }) async {
-  // final AuthBloc authBloc = GetIt.instance<AuthBloc>();
+  final AuthBloc authBloc = GetIt.instance<AuthBloc>();
   final LoaderBloc lBloc = GetIt.instance<LoaderBloc>();
   final apiManager = ApiManager();
 
@@ -130,24 +132,21 @@ Future apiCall({
     ...info['header'],
   };
 
-  // if (withToken) {
-  //   String accessToken = '';
-  //   final currentState = authBloc.state;
-  //
-  //   if (currentState is AuthVerified) {
-  //     accessToken =
-  //         '${currentState.response.tokenType![0].toUpperCase()}${currentState.response.tokenType!.substring(1)} ${currentState.response.accessToken ?? ""}';
-  //
-  //     if (customToken.isEmpty) {
-  //       headers['Authorization'] = accessToken;
-  //       // headers['Authorization'] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDNhYjExNWEyZmQ1YWNjZGUzNjU5NyIsImV4cCI6MTc0MzA2NjYzNH0.5IAguKxFBfhLiE0CwhIc7FjproTvUPe7u_QjM2E-egY";
-  //     }
-  //   }
-  //
-  //   if (customToken.isNotEmpty) {
-  //     headers.addAll(customToken);
-  //   }
-  // }
+  if (withToken) {
+    String? accessToken = '';
+    // final currentState = authBloc.state;
+
+      accessToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+      if (customToken.isEmpty) {
+        headers['Authorization'] = 'Bearer $accessToken';
+        // headers['Authorization'] = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImE5ZGRjYTc2YzEyMzMyNmI5ZTJlODJkOGFjNDg0MWU1MzMyMmI3NmEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidXR0a2Fyc2ggcmFzdG9naSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKMGMxV1pNQ3BzeWc3V296dHJjV281cEdLM1QzZHdlMHlUUnJUQVJORm9MOF9Bbm8xSzN3PXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2xvb3AtNjc4OGIiLCJhdWQiOiJsb29wLTY3ODhiIiwiYXV0aF90aW1lIjoxNzQzMzI1MzUxLCJ1c2VyX2lkIjoic2RETGtESDFXQWRvcGZUM01tQVNwbjlWdExDMiIsInN1YiI6InNkRExrREgxV0Fkb3BmVDNNbUFTcG45VnRMQzIiLCJpYXQiOjE3NDM0MTMwMTksImV4cCI6MTc0MzQxNjYxOSwiZW1haWwiOiJydXR0a2Fyc2gudXR0a2Fyc2hAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTAyNjk1ODMxMDE0MTM4NDc4OTkiXSwiZW1haWwiOlsicnV0dGthcnNoLnV0dGthcnNoQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.a5QOBqpZ0p8Tv_jJ4MwUyVYmjrgbYoJFh8LKoZkVw0qDQxPvgyFs7DyiE7oCsy60seI0b1sn1DdBEyfjFpeZxYkPR8BCY7Nxe68hlNSQ-f93D5YsPZZUdhh2XFjvGW7rfKkCJ8OprywgZHvibpysE3pGm3831u_Xj0FEGU64VDznqcrEqVeKbgN9i9jTGOdRYBfjWiv0rJqFnBYbJQDwPpEoOhp6q2DOOf4q0x7UiZcJoIBp7xB74zSIAOGX7bsFv2aSxAmoIBIwSiitTJEQJQcjoJjjTgivaZd9aGza--HWwMGNrwu1MwW_X0xIq_E3SxvqgEg3cch9JrbWQryu-g";
+      }
+
+
+    if (customToken.isNotEmpty) {
+      headers.addAll(customToken);
+    }
+  }
 
   final data = isMultipartRequest
       ? FormData.fromMap(Map<String, dynamic>.from(param))

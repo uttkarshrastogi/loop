@@ -66,7 +66,7 @@ class AppTextStyles {
     fontSize: 18,
     fontWeight: FontWeight.normal,
     height: 1.56,
-    color: AppColors.textPrimary,
+    color: AppColors.textSecondary,
   );
 
   static const TextStyle paragraphMedium = TextStyle(
@@ -74,7 +74,7 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.normal,
     height: 1.5,
-    color: AppColors.textPrimary,
+    color: AppColors.textSecondary,
   );
 
   static const TextStyle paragraphSmall = TextStyle(
@@ -82,7 +82,7 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.normal,
     height: 1.43,
-    color: AppColors.textPrimary,
+    color: AppColors.textSecondary,
   );
 
   static const TextStyle paragraphXSmall = TextStyle(
@@ -90,7 +90,7 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.normal,
     height: 1.67,
-    color: AppColors.textPrimary,
+    color: AppColors.textTertiary,
   );
 
   // Labels
@@ -99,7 +99,7 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.normal,
     height: 0.86,
-    color: AppColors.textSecondary.withOpacity(0.7),
+    color: AppColors.textTertiary.withOpacity(0.7),
   );
 
   static final TextStyle button = TextStyle(

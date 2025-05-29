@@ -12,6 +12,7 @@ class AppCalendarField extends StatefulWidget {
   final VoidCallback onTap;
   final bool isDisabled;
   final Color? backgroundColor;
+  final bool isRequired;
 
   const AppCalendarField({
     super.key,
@@ -22,6 +23,7 @@ class AppCalendarField extends StatefulWidget {
     this.suffixIcon,
     required this.onTap,
     this.isDisabled = false,
+    this.isRequired = false,
     this.backgroundColor = Colors.white,
   });
 
@@ -108,7 +110,26 @@ class _AppCalendarFieldState extends State<AppCalendarField> {
             onTap: widget.isDisabled ? () {} : widget.onTap,
             decoration: InputDecoration(
               alignLabelWithHint: true,
-              labelText: widget.labelText,
+              // labelText: widget.labelText,
+              label: RichText(
+                text: TextSpan(
+                  text: widget.labelText,
+                  style: const TextStyle(
+                      color: AppColors.neutral400,
+                      fontSize: 16), // Normal label style
+                  children: [
+                    if (widget.isRequired)
+                      const TextSpan(
+                        text: "*",
+                        style: TextStyle(
+                          color:
+                          Color(0xFFB22D2D), // Red color for the asterisk
+                          fontSize: 16,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide.none,

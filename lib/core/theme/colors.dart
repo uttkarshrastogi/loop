@@ -4,18 +4,6 @@ import 'package:flutter/material.dart';
 
 
 class AppColors {
-
-  static const Color customColor1 = Color(0xFF1E1E1E); // Dark base
-  static const Color customColor2 = Color(0xFF2B2B2B); // Slightly lighter surface
-  static const Color customColor3 = Color(0xFF3A3A3B); // Surface overlay
-  static const Color customColor4 = Color(0xFF5D5D5E); // Border / divider
-  static const Color customColor5 = Color(0xFF888888); // Secondary text
-  static const Color customColor6 = Color(0xFFCCCCCC); // Placeholder / muted
-  static const Color customColor7 = Color(0xFFF4F4F4); // Lightest neutral
-  static const Color customColor8 = Color(0xFF4A90E2); // Primary blue (buttons)
-  static const Color customColor9 = Color(0xFFFF453A); // Red for danger/logout
-  static const Color customColor10 = Color(0xFF00C3A5); // Green/Accent (optional)
-
   // Primary Colors - Blue Shades
   static const Color blue25 = Color(0xFFF5F8FC);
   static const Color blue50 = Color(0xFFE6F0FA);
@@ -71,8 +59,8 @@ class AppColors {
   static const Color neutral850 = Color(0xFF292D33);
   static const Color neutral900 = Color(0xFF131C25);
   static const Color neutral950 = Color(0xFF1A1C20);
-  static const Color neutral1000 = Color(0xFF1D2024);
-  static const Color neutral1100 = Color(0xFF1B1C20);
+  static const Color neutral1000 =Color(0xFF1D2024);
+  static const Color neutral1100 =Color(0xFF1B1C20);
 
 
   // Success Colors - Apple Green Shades
@@ -155,17 +143,18 @@ class AppColors {
   static const Color fuchsiaPink900 = Color(0xFF331412);
 
   // Fuchsia Blue
-  static const Color fuchsiaBlue50 = Color(0xFFF8F8F9);
-  static const Color fuchsiaBlue100 = Color(0xFFe0F0F2);
-  static const Color fuchsiaBlue150 = Color(0xFFFAE8F9);
-  static const Color fuchsiaBlue200 = Color(0xFFD0CFF2);
-  static const Color fuchsiaBlue300 = Color(0xFFCAAEAA);
-  static const Color fuchsiaBlue400 = Color(0xFF8578E1);
-  static const Color fuchsiaBlue500 = Color(0xFF952D4C);
-  static const Color fuchsiaBlue600 = Color(0xFF7735AA);
-  static const Color fuchsiaBlue700 = Color(0xFF59207F);
-  static const Color fuchsiaBlue800 = Color(0xFF3C1559);
-  static const Color fuchsiaBlue900 = Color(0xFF1E0D2A);
+  static const Color brandFuchsiaPurple50 = Color(0xFFF8F8F9);
+  static const Color brandFuchsiaPurple100 = Color(0xFFe0F0F2);
+  static const Color brandFuchsiaPurple150 = Color(0xFFFAE8F9);
+  static const Color brandFuchsiaPurple200 = Color(0xFFD0CFF2);
+  static const Color brandFuchsiaPurple300 = Color(0xFFCAAEAA);
+
+  // static const Color brandFuchsiaPurple450 = Color(0xFF4e49a4);
+  static const Color brandFuchsiaPurple500 = Color(0xFF952D4C);
+  static const Color brandFuchsiaPurple600 = Color(0xFF7735AA);
+  static const Color brandFuchsiaPurple700 = Color(0xFF59207F);
+  static const Color brandFuchsiaPurple800 = Color(0xFF3C1559);
+  static const Color brandFuchsiaPurple900 = Color(0xFF1E0D2A);
 
   // Pelorous (example from secondary palette)
   static const Color pelorous50 = Color(0xFFE6F7F7);
@@ -247,16 +236,83 @@ class AppColors {
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
   );
-  // LoopList Theme Colors 🌑
-  static const Color background = Color(0xFF1E1E1E);         // App background
-  static const Color surface = Color(0xFF2B2B2B);            // Cards, sheets
-  static const Color surfaceVariant = Color(0xFF3A3A3B);     // Active overlays, switches
-  static const Color border = Color(0xFF5D5D5E);             // Dividers, outlines
-  static const Color textSecondary = Color(0xFF888888);      // Subtle text
-  static const Color textPlaceholder = Color(0xFFCCCCCC);    // Hints, placeholder
-  static const Color textPrimary = Color(0xFFF4F4F4);         // Main white text
-  static const Color primary = Color(0xFF4A90E2);            // Buttons, links, accents
-  static const Color danger = Color(0xFFFF453A);             // Logout, error
-  static const Color success = Color(0xFF00C3A5);            // Confirm, complete
+  // LoopList Theme Colors 🌑sss
+
+
+  // 🔲 Backgrounds
+  static const Color background =Color(0xFF19191D);
+  static const Color backgroundZaxis = Color(0xFF151313);
+  static const Color widgetBackground = Color(0xFF1E1B2E);
+  static const Color bottomSheetBackground = Color(0xFF121212);
+  static const Color dialogBackground = Color(0xE6121212);
+  static const Color barrierBackground = Color(0xB31C1C1E);
+
+  // 🧱 Surfaces
+  static const Color surface = Color(0xFFD4C9BE);
+  static const Color surfaceVariant = Color(0xFF3A3A3B);
+  static const Color widgetBorder = Color(0xFF2F313B);
+  static const Color border = Color(0xFF3A3749);
+
+  // ✍️ Text
+  static const Color textPrimary = Color(0xFFFFFFFF);   // Bright white
+  static const Color textSecondary = Color(0xFFC7C7D2); // Soft body color
+  static const Color textTertiary = Color(0xFF8E8E99);  // Hints, placeholders
+  static const Color textButton = Color(0xFFA6A6B0);    // Subtle button text
+
+
+
+  // 🎨 Brand / Primary
+  static const Color primary = Color(0xFFD4C9BE);
+  static const Color brandPurple = Color(0xFF6857D9);
+
+
+ // Optional CTA color
+
+  // ✅ Status Colors
+  static const Color danger = Color(0xFFFF453A);
+  static const Color success = Color(0xFF00C3A5);
+  static const Color warning = Color(0xFFFFC107); // yellow500
+  static const Color info = Color(0xFF2196F3);     // blue500
+
+  // ✅ Light/Dark variants for states
+  static const Color error = red500;
+  static const Color errorLight = red100;
+  static const Color errorDark = red700;
+
+  static const Color successLight = green100;
+  static const Color successDark = green700;
+
+  static const Color warningLight = yellow100;
+  static const Color warningDark = yellow700;
+
+  static const Color infoLight = blue100;
+  static const Color infoDark = blue700;
+
+  // 🧊 Greys
+  static const Color grey = Color(0xFFC9C9C9);
+  static const Color lightGrey = Color(0xFFB2B6BA);
+
+  //gradient
+  static const List<Color> vibrantPurpleGlow = [
+    Color(0xFFB388FF), // light purple
+    Color(0xFF7C4DFF), // deep purple
+    Color(0xFF651FFF), // stronger royal purple
+    Color(0xFFB388FF), // back to light purple
+  ];
+  static const List<Color> brandGlow = [
+    Color(0xFFB388FF), // soft purple
+    Color(0xFF9C27B0), // vibrant purple (more pinkish hue)
+    Color(0xFF7C4DFF), // deep rich purple
+    Color(0xFF536DFE), // electric blue hint
+    Color(0xFFB388FF), // back to soft purple
+  ];
+  static const List<Color> vibrantPurpleGlowPunchy= [
+    Color(0xFFCE93D8), // lilac (soft pinkish purple)
+    Color(0xFFAB47BC), // bright purple
+    Color(0xFF7E57C2), // royal deep purple
+    Color(0xFF5C6BC0), // neon blue hint
+    Color(0xFFBA68C8), // magenta pink touch
+  ];
+
 
 }

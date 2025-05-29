@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/core/utils/prefrence_utils.dart';
 import 'package:loop/core/utils/preference_key_constant.dart';
-import 'package:loop/core/utils/prefrence_utils.dart';
-import '../config/naviagtion_service.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
