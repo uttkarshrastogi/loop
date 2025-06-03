@@ -32,8 +32,9 @@ Loop is a beautifully simple app to track daily, weekly, or monthly recurring ta
 </div>
 <br>
 <div align="center">
+       <img src="https://github.com/user-attachments/assets/7b634228-2c8a-4aaf-a941-3f01ec82d6a9" width="200"/>
     <img src="https://github.com/user-attachments/assets/efd52e31-553a-4724-8caf-2b44cc4db099" width="200"/>
-     <img src="https://github.com/user-attachments/assets/7b634228-2c8a-4aaf-a941-3f01ec82d6a9" width="200"/>
+  
 
    
 </div>
