@@ -1,4 +1,4 @@
-![Add Loop](https://github.com/user-attachments/assets/16fa4594-fc3a-44b3-8308-6d24458ed2aa)# 🔁 Loop – The Ultimate Recurring Task Manager
+# 🔁 Loop – The Ultimate Recurring Task Manager
 
 Loop is a beautifully simple app to track daily, weekly, or monthly recurring tasks and habits — with smart reminders, insightful progress analytics, and seamless sync across devices. Built with Flutter and Firebase, Loop is designed for productivity nerds, habit lovers, and anyone who wants structure without complexity.
 
@@ -22,12 +22,22 @@ Loop is a beautifully simple app to track daily, weekly, or monthly recurring ta
 ---
 
 ## 📱 Screenshots
-![Welcome 7](https://github.com/user-attachments/assets/6eac3789-1dd4-44f5-8fa6-53bc6ddf83fc)
-![Welcome 4](https://github.com/user-attachments/assets/ced779cb-b98e-46bf-9b3f-e7d98bcc8c33)
-![Welcome 3](https://github.com/user-attachments/assets/ac76610f-cf7e-468a-acc8-793ff7ff6e0f)
-![Welcome 2](https://github.com/user-attachments/assets/64bd1235-0e0e-4815-a4db-c71e6bc0afdf)
-![Welcome 1](https://github.com/user-attachments/assets/10028b13-2205-4c49-ae8f-7a184d1af2be)
-![Add Loop](https://github.com/user-attachments/assets/3d7849e0-8d4c-4494-951c-df2a95d8afa5)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/6eac3789-1dd4-44f5-8fa6-53bc6ddf83fc" width="200"/>
+  <img src="https://github.com/user-attachments/assets/ced779cb-b98e-46bf-9b3f-e7d98bcc8c33" width="200"/>
+  <img src="https://github.com/user-attachments/assets/ac76610f-cf7e-468a-acc8-793ff7ff6e0f" width="200"/>
+</div>
+<br>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/64bd1235-0e0e-4815-a4db-c71e6bc0afdf" width="200"/>
+  <img src="https://github.com/user-attachments/assets/10028b13-2205-4c49-ae8f-7a184d1af2be" width="200"/>
+  <img src="https://github.com/user-attachments/assets/3d7849e0-8d4c-4494-951c-df2a95d8afa5" width="200"/>
+</div>
+<br>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/16fa4594-fc3a-44b3-8308-6d24458ed2aa" width="200"/>
+</div>
 
 ---
 
