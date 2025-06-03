@@ -24,19 +24,22 @@ Loop is a beautifully simple app to track daily, weekly, or monthly recurring ta
 ## 📱 Screenshots
 
 <div align="center">
+    <img src="https://github.com/user-attachments/assets/10028b13-2205-4c49-ae8f-7a184d1af2be" width="200"/>
   <img src="https://github.com/user-attachments/assets/6eac3789-1dd4-44f5-8fa6-53bc6ddf83fc" width="200"/>
-  <img src="https://github.com/user-attachments/assets/ced779cb-b98e-46bf-9b3f-e7d98bcc8c33" width="200"/>
+    <img src="https://github.com/user-attachments/assets/ced779cb-b98e-46bf-9b3f-e7d98bcc8c33" width="200"/>
   <img src="https://github.com/user-attachments/assets/ac76610f-cf7e-468a-acc8-793ff7ff6e0f" width="200"/>
+
 </div>
 <br>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/64bd1235-0e0e-4815-a4db-c71e6bc0afdf" width="200"/>
-  <img src="https://github.com/user-attachments/assets/10028b13-2205-4c49-ae8f-7a184d1af2be" width="200"/>
-  <img src="https://github.com/user-attachments/assets/3d7849e0-8d4c-4494-951c-df2a95d8afa5" width="200"/>
+    <img src="https://github.com/user-attachments/assets/efd52e31-553a-4724-8caf-2b44cc4db099" width="200"/>
+     <img src="https://github.com/user-attachments/assets/7b634228-2c8a-4aaf-a941-3f01ec82d6a9" width="200"/>
+
+   
 </div>
 <br>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/16fa4594-fc3a-44b3-8308-6d24458ed2aa" width="200"/>
+
 </div>
 
 ---
