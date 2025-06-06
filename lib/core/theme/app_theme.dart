@@ -8,6 +8,8 @@ import 'text_styles.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
+      cardColor: AppColors.white,
+      shadowColor: Colors.grey.withOpacity(0.5),
       // textTheme: GoogleFonts.interTextTheme(),
       fontFamily: 'Geist',
       appBarTheme: AppBarTheme(
@@ -15,9 +17,6 @@ class AppTheme {
         elevation: 0,
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
         titleTextStyle: AppTextStyles.paragraphLarge.copyWith(color: AppColors.textPrimary),
-      ),
-      cardTheme: CardTheme(
-        color: AppColors.textPrimary,
       ),
       primaryColor: AppColors.background,
       hintColor: AppColors.textSecondary,

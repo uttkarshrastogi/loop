@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
-import '../../feature/tasks/presentation/widgets/create_task_sheet.dart';
+import '../../feature/dashboard/presentation/pages/dashboard_temp.dart';
+import '../../feature/generate loop/presentation/widgets/create_task_sheet.dart';
 import '../services/analytics_service.dart';
 import '../theme/colors.dart';
 import '../uiBloc/uiInteraction/ui_interaction_cubit.dart';
 import '../utils/prefrence_utils.dart';
 
-class Index extends StatefulWidget {
+class IndexPage extends StatefulWidget {
   final int? altIndex;
-  static const routeName = '/Index';
-  const Index({super.key, this.altIndex});
+  static const routeName = '/IndexPage';
+  const IndexPage({super.key, this.altIndex});
 
   @override
-  _IndexState createState() => _IndexState();
+  _IndexPageState createState() => _IndexPageState();
 }
 bool _isSheetOpen = false;
 
 
 final pageDefault = [
-  const DashboardPage(),
-  const DashboardPage(),
-  const DashboardPage(),
-  const DashboardPage(),
-  const DashboardPage(),
+  const DashboardTemp(),
+  const DashboardTemp(),
+  const DashboardTemp(),
+  const DashboardTemp(),
+  const DashboardTemp(),
 ];
 
-class _IndexState extends State<Index> {
+class _IndexPageState extends State<IndexPage> {
   String fullName = "";
   int _selectedIndex = 0;
   bool isVehicleAvailable = false;
@@ -157,14 +158,15 @@ class _IndexState extends State<Index> {
           //
 
 
-          await showModalBottomSheet(
+          showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            builder: (context) => SizedBox(
-              height: MediaQuery.of(context).size.height * 0.93,
-              child: const CreateTaskSheet(),
+            useRootNavigator: true,
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
+            builder: (context) => const CreateTaskSheet(),
           );
 
 

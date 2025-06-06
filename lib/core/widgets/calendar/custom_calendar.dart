@@ -71,7 +71,7 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
                 child: Theme(
                   data: Theme.of(context).copyWith(
                     colorScheme: Theme.of(context).colorScheme.copyWith(
-                      primary: AppColors.brandPurple, // Your brand color
+                      primary: AppColors.brandColor, // Your brand color
                       onPrimary: AppColors.blue50,
                       onSurface: AppColors.black,
                       surface: AppColors.background,
@@ -245,7 +245,7 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
                   child: Container(
                     margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.brandPurple : Colors.transparent,
+                      color: isSelected ? AppColors.brandColor : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -274,7 +274,7 @@ class _CustomCalendarPickerState extends State<CustomCalendarPicker> {
               },
               text: "Apply",
               width: double.infinity,
-              backGroundColor: AppColors.brandPurple,
+              backGroundColor: AppColors.brandColor,
             ),
           ),
           Gap(10),

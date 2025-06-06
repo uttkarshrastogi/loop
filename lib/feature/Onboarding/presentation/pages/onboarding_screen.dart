@@ -42,7 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             TextSpan(
               text: ' habit\n',
               style: AppTextStyles.headingH2.copyWith(
-                color: AppColors.brandPurple,
+                color: AppColors.brandColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -76,7 +76,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             TextSpan(
               text: 'Schedule\n',
               style: AppTextStyles.headingH2.copyWith(
-                color: AppColors.brandPurple,
+                color: AppColors.brandColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -109,7 +109,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             TextSpan(
               text: 'Nudges,\n',
               style: AppTextStyles.headingH2.copyWith(
-                color: AppColors.brandPurple,
+                color: AppColors.brandColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -135,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             TextSpan(
               text: 'Privacy',
               style: AppTextStyles.headingH2.copyWith(
-                color: AppColors.brandPurple,
+                color: AppColors.brandColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -165,7 +165,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     final List<String> importantWords = [
       "AI",
       "goals",
-      "daily tasks",
+      "daily generate loop",
       "routine",
       "nudges",
       "guides",
@@ -187,8 +187,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               decoration: TextDecoration.underline,
               decorationStyle: TextDecorationStyle.dotted,
               decorationThickness: 1.5,
-              color: AppColors.brandPurple,
-              decorationColor: AppColors.brandPurple,
+              color: AppColors.brandColor,
+              decorationColor: AppColors.brandColor,
             ),
           ),
         );
@@ -328,7 +328,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                    child: Icon(
                      weight: 200,
                        size: 30,
-                       Icons.arrow_back_ios_rounded,color: AppColors.brandPurple,),
+                       Icons.arrow_back_ios_rounded,color: AppColors.brandColor,),
                  ),
                )
                 ):SizedBox.shrink(),

@@ -31,7 +31,7 @@ class JourneyBloc extends Bloc<JourneyEvent, JourneyState> {
       );
       emit(JourneyState.tasksLoaded(tasks));
     } catch (e) {
-      emit(JourneyState.error('Failed to load tasks: $e'));
+      emit(JourneyState.error('Failed to load generate loop: $e'));
     }
   }
 
@@ -52,7 +52,7 @@ class JourneyBloc extends Bloc<JourneyEvent, JourneyState> {
       );
       emit(JourneyState.todayTasksLoaded(tasks));
     } catch (e) {
-      emit(JourneyState.error('Failed to load today\'s tasks: $e'));
+      emit(JourneyState.error('Failed to load today\'s generate loop: $e'));
     }
   }
 
@@ -93,7 +93,7 @@ class JourneyBloc extends Bloc<JourneyEvent, JourneyState> {
       final groupedTasks = await _aiPlannerService.getAllTasksGroupedByGoal(userId);
       emit(JourneyState.allTasksLoaded(groupedTasks));
     } catch (e) {
-      emit(JourneyState.error('Failed to load all tasks: $e'));
+      emit(JourneyState.error('Failed to load all generate loop: $e'));
     }
   }
 
@@ -117,7 +117,7 @@ class JourneyBloc extends Bloc<JourneyEvent, JourneyState> {
         event.isSkipped,
       );
       emit(const JourneyState.taskStatusUpdated());
-      // Reload the tasks to reflect the updated status
+      // Reload the generate loop to reflect the updated status
       final taskDoc =
           await _firestore
               .collection('users')

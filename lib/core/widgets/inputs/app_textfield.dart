@@ -113,7 +113,7 @@ class _AppTextFieldState extends State<AppTextField> {
           : widget.isDisabled
           ? const Color(0xFF4A4A4A)
           : _isFocused
-          ? AppColors.brandPurple // Use your theme purple
+          ? AppColors.brandColor // Use your theme purple
           : AppColors.widgetBorder; // subtle neutral gray
       inputTextColor =   widget.isDisabled ? AppColors.neutral300 : AppColors.textPrimary;
     }

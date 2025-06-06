@@ -240,7 +240,7 @@ class AppColors {
 
 
   // 🔲 Backgrounds
-  static const Color background =Color(0xFFFFFFFF);
+  static const Color background =Color(0xFFF0F3F8);
   static const Color backgroundZaxis = Color(0xFF151313);
   static const Color widgetBackground = Color(0xFF1E1B2E);
   static const Color bottomSheetBackground = Color(0xFF121212);
@@ -263,7 +263,8 @@ class AppColors {
 
   // 🎨 Brand / Primary
   static const Color primary = Color(0xFFD4C9BE);
-  static const Color brandPurple = Color(0xFFC50E7B);
+  static const Color brandColor = Color(0xFFC50E7B);
+  static const Color brandShadow = Color(0xFFAB0C6B);
 
 
  // Optional CTA color

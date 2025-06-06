@@ -65,7 +65,7 @@ class GetStartedPage extends StatelessWidget {
                         TextSpan(
                           text: 'Loop',
                           style: AppTextStyles.paragraphLarge.copyWith(
-                            color: AppColors.brandPurple,
+                            color: AppColors.brandColor,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -84,7 +84,7 @@ class GetStartedPage extends StatelessWidget {
                   Gap(10),
                   Text(
                     textAlign: TextAlign.center,
-                    "Loop helps break any ambition- from “learn Python” to “run a 5k” into bite-size tasks you can finish today.",
+                    "Loop helps break any ambition- from “learn Python” to “run a 5k” into bite-size generate loop you can finish today.",
                     style: AppTextStyles.paragraphSmall.copyWith(
                       fontWeight: FontWeight.w600,
                     ),

@@ -63,7 +63,7 @@ class _GoalEditCardState extends State<GoalEditCard> {
                 const Gap(24),
                 AppButton(
                   text: "Save",
-                  backGroundColor: AppColors.brandPurple,
+                  backGroundColor: AppColors.brandColor,
                   onPressed: () {
                     final updatedGoal = widget.initialGoal.copyWith(
                       title: _titleController.text.trim(),

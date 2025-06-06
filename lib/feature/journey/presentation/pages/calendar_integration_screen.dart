@@ -199,7 +199,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
             icon: Icons.sync,
             title: 'Keep everything in sync',
             description:
-            'Learning tasks can be added to your calendar automatically.',
+            'Learning generate loop can be added to your calendar automatically.',
           ),
           const Gap(28),
           if (_isConnected)
@@ -218,7 +218,7 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
             ),
           const Gap(16),
           AppButton(
-            backGroundColor: AppColors.brandPurple,
+            backGroundColor: AppColors.brandColor,
             text: 'Continue with Calendar',
             // buttonType: _isConnected ? AppButtonType.primary : AppButtonType.secondary,
             onPressed: _continueToJourney,
@@ -240,10 +240,10 @@ class _CalendarIntegrationScreenState extends State<CalendarIntegrationScreen> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppColors.brandPurple.withOpacity(0.2),
+            color: AppColors.brandColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: AppColors.brandPurple, size: 24),
+          child: Icon(icon, color: AppColors.brandColor, size: 24),
         ),
         const Gap(16),
         Expanded(

@@ -285,7 +285,7 @@ void _showCalendar(BuildContext context) {
                       child: AppButton(
                         text: "Continue",
                         onPressed: _onCreatePressed,
-                        backGroundColor: AppColors.brandPurple,
+                        backGroundColor: AppColors.brandColor,
 
                         height: 30,
                       ),
@@ -308,7 +308,7 @@ void _showCalendar(BuildContext context) {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: hasValue ? AppColors.brandPurple : AppColors.widgetBackground,
+          color: hasValue ? AppColors.brandColor : AppColors.widgetBackground,
           border: hasValue ? null : Border.all(color: AppColors.widgetBorder),
         ),
         child: Row(
@@ -354,7 +354,7 @@ void _showCalendar(BuildContext context) {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.brandPurple : Colors.transparent,
+            color: isSelected ? AppColors.brandColor : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             border:
                 isSelected
@@ -364,7 +364,7 @@ void _showCalendar(BuildContext context) {
                 isSelected
                     ? [
                       BoxShadow(
-                        color: AppColors.brandPurple.withOpacity(0.3),
+                        color: AppColors.brandColor.withOpacity(0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 3),
                       ),

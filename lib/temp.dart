@@ -14,11 +14,11 @@ class TempScreen extends StatelessWidget {
         onPressed: () {
           // Navigate to Add Habit screen
         },
-        backgroundColor: AppColors.brandPurple,
+        backgroundColor: AppColors.brandColor,
         child: const Icon(Icons.add, size: 32),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: AppColors.brandPurple,
+        selectedItemColor: AppColors.brandColor,
         unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         items: const [
@@ -68,9 +68,9 @@ class TempScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.brandPurple.withOpacity(0.1),
+                      color: AppColors.brandColor.withOpacity(0.1),
                     ),
-                    child: const Icon(Icons.local_fire_department, color: AppColors.brandPurple),
+                    child: const Icon(Icons.local_fire_department, color: AppColors.brandColor),
                   ),
                 ],
               ),
@@ -87,8 +87,8 @@ class TempScreen extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: 0.6,
                         strokeWidth: 12,
-                        color: AppColors.brandPurple,
-                        backgroundColor: AppColors.brandPurple.withOpacity(0.2),
+                        color: AppColors.brandColor,
+                        backgroundColor: AppColors.brandColor.withOpacity(0.2),
                       ),
                     ),
                     Column(
@@ -164,7 +164,7 @@ class HabitCard extends StatelessWidget {
           Checkbox(
             value: done,
             onChanged: (v) => onToggle(v ?? false),
-            activeColor: AppColors.brandPurple,
+            activeColor: AppColors.brandColor,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -196,11 +196,11 @@ class EmptyDashboardScreen extends StatelessWidget {
         onPressed: () {
           // Navigate to Add Habit
         },
-        backgroundColor: AppColors.brandPurple,
+        backgroundColor: AppColors.brandColor,
         child: const Icon(Icons.add, size: 32),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: AppColors.brandPurple,
+        selectedItemColor: AppColors.brandColor,
         unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         items: const [
@@ -233,7 +233,7 @@ class EmptyDashboardScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.celebration, size: 96, color: AppColors.brandPurple.withOpacity(0.3)),
+                Icon(Icons.celebration, size: 96, color: AppColors.brandColor.withOpacity(0.3)),
                 const SizedBox(height: 24),
                 Text('You’re all caught up!', style: AppTextStyles.headingH3, textAlign: TextAlign.center),
                 const SizedBox(height: 12),
@@ -248,7 +248,7 @@ class EmptyDashboardScreen extends StatelessWidget {
                     // Navigate to Add Habit
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.brandPurple,
+                    backgroundColor: AppColors.brandColor,
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),

@@ -65,7 +65,7 @@ class GoalTaskCard extends StatelessWidget {
                         ? Icons.check_circle
                         : Icons.radio_button_unchecked,
                     color: task.isCompleted
-                        ? AppColors.brandPurple
+                        ? AppColors.brandColor
                         : AppColors.textSecondary,
                   ),
                   const Gap(8),
@@ -83,7 +83,7 @@ class GoalTaskCard extends StatelessWidget {
                       label: Text("TODAY",
                           style: AppTextStyles.paragraphXSmall
                               .copyWith(color: Colors.white)),
-                      backgroundColor: AppColors.brandPurple,
+                      backgroundColor: AppColors.brandColor,
                       visualDensity: VisualDensity.compact,
                     ),
                 ],
@@ -128,7 +128,7 @@ class GoalTaskCard extends StatelessWidget {
                     child: AppButton(
                       text: "Complete",
                       onPressed: onComplete,
-                      backGroundColor: AppColors.brandPurple,
+                      backGroundColor: AppColors.brandColor,
                     ),
                   ),
                   const Gap(8),

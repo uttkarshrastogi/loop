@@ -134,10 +134,10 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: Index.routeName,
+        path: IndexPage.routeName,
         pageBuilder: (context, state) => buildSlidePage(
           key: state.pageKey,
-          child: const Index(),
+          child: const IndexPage(),
         ),
       ),
     ],

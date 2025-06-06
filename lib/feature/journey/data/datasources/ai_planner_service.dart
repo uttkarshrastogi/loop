@@ -52,7 +52,7 @@ class AIPlannerService {
         loopDocId,
       );
 
-      // Save tasks to Firestore
+      // Save generate loop to Firestore
       await _saveTasks(tasks, userId: userId, loopDocId: loopDocId);
 
       return tasks;
@@ -177,8 +177,8 @@ class AIPlannerService {
     return 1.0; // Default value
   }
 
-  /// Save tasks to Firestore
-  /// Updated: Now requires userId and loopDocId to nest tasks correctly
+  /// Save generate loop to Firestore
+  /// Updated: Now requires userId and loopDocId to nest generate loop correctly
   Future<void> _saveTasks(List<AiGeneratedTaskModel> tasks, {required String userId, required String loopDocId}) async {
     final batch = _firestore.batch();
 
@@ -224,7 +224,7 @@ class AIPlannerService {
     }
   }
 
-  /// Get tasks for a specific goal
+  /// Get generate loop for a specific goal
   Future<List<AiGeneratedTaskModel>> getTasksForGoal(String userId, String loopDocId, String goalId) async {
     try {
       final snapshot =
@@ -242,12 +242,12 @@ class AIPlannerService {
           .map((doc) => AiGeneratedTaskModel.fromFirestore(doc))
           .toList();
     } catch (e) {
-      debugPrint('Error fetching tasks for goal: $e');
+      debugPrint('Error fetching generate loop for goal: $e');
       return [];
     }
   }
 
-  /// Get tasks for today
+  /// Get generate loop for today
   Future<List<AiGeneratedTaskModel>> getTodayTasks(String userId, String loopDocId) async {
     try {
       final today = DateTime.now();
@@ -269,7 +269,7 @@ class AIPlannerService {
           .map((doc) => AiGeneratedTaskModel.fromFirestore(doc))
           .toList();
     } catch (e) {
-      debugPrint('Error fetching today tasks: $e');
+      debugPrint('Error fetching today generate loop: $e');
       return [];
     }
   }
@@ -331,7 +331,7 @@ class AIPlannerService {
 
       return groupedTasks;
     } catch (e) {
-      debugPrint('Error fetching grouped tasks: $e');
+      debugPrint('Error fetching grouped generate loop: $e');
       return [];
     }
   }

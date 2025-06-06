@@ -20,13 +20,13 @@ class OpenAIService {
       String planStyle;
       if (daysRemaining <= 3) {
         planStyle =
-        "Generate urgent fast-track tasks for each day. Tasks should be smaller but very focused.";
+        "Generate urgent fast-track generate loop for each day. Tasks should be smaller but very focused.";
       } else if (daysRemaining <= 7) {
-        planStyle = "Plan daily tasks, one for each day.";
+        planStyle = "Plan daily generate loop, one for each day.";
       } else if (daysRemaining > 30) {
-        planStyle = "Plan weekly milestones, with sub-tasks inside.";
+        planStyle = "Plan weekly milestones, with sub-generate loop inside.";
       } else {
-        planStyle = "Plan a mix of daily and weekly tasks.";
+        planStyle = "Plan a mix of daily and weekly generate loop.";
       }
 
       final prompt = '''

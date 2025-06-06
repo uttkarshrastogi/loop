@@ -39,7 +39,7 @@ class _GenerateScreenState extends State<GenerateScreen> with SingleTickerProvid
     "Analyzing your goal",
     "Understanding your routine",
     "Generating your loop",
-    "Breaking it down into tasks",
+    "Breaking it down into generate loop",
     "Aligning with your daily flow",
     "Finalizing your action plan"
   ];
@@ -140,7 +140,7 @@ class _GenerateScreenState extends State<GenerateScreen> with SingleTickerProvid
                       height: 60,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.brandPurple, // Green color from screenshot
+                        color: AppColors.brandColor, // Green color from screenshot
                       ),
                       child: const Center(
                         child: Icon(
@@ -190,7 +190,7 @@ class CircleProgressPainter extends CustomPainter {
     final radius = size.width / 2;
 
     final paint = Paint()
-      ..color = AppColors.brandPurple // Green color from screenshot
+      ..color = AppColors.brandColor // Green color from screenshot
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;

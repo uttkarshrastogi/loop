@@ -21,10 +21,10 @@ class AppTabSwitcher extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         indicator: BoxDecoration(
-          color: AppColors.brandPurple.withOpacity(0.1),
+          color: AppColors.brandColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(30),
         ),
-        labelColor: AppColors.brandPurple,
+        labelColor: AppColors.brandColor,
         unselectedLabelColor: AppColors.textSecondary,
         labelStyle: AppTextStyles.paragraphMedium,
         tabs: const [

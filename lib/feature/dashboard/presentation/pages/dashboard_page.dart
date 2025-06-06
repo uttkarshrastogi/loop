@@ -9,6 +9,7 @@ import 'package:loop/core/uiBloc/uiInteraction/ui_interaction_cubit.dart';
 import 'package:loop/feature/dashboard/presentation/widgets/all_goals_widget.dart';
 import 'package:loop/feature/journey/presentation/bloc/journey_bloc.dart';
 import 'package:loop/feature/journey/presentation/bloc/journey_state.dart';
+import '../../../../core/widgets/cards/purple_app_headbar.dart';
 import '../../../journey/presentation/bloc/journey_event.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/today_loop_widget.dart';
@@ -71,6 +72,7 @@ class _DashboardPageState extends State<DashboardPage>
                           : Radius.zero,
                 ),
                 child: PageTemplate(
+                  // replacementAppBar:buildPurpleHeaderAppBar(context,text: 'afwer') ,
                   padding: EdgeInsets.all(0),
                   backgroundColor: backgroundColor,
                   showBackArrow: false,
@@ -101,14 +103,14 @@ class _DashboardPageState extends State<DashboardPage>
                       ),
                       TabBar(
                         splashFactory: NoSplash.splashFactory,
-                        overlayColor: MaterialStateProperty.all(
+                        overlayColor: WidgetStateProperty.all(
                           Colors.transparent,
                         ),
                         controller: _tabController,
-                        labelColor: AppColors.brandPurple,
+                        labelColor: AppColors.brandColor,
                         unselectedLabelColor: AppColors.textSecondary,
                         indicator: BoxDecoration(
-                          color: AppColors.brandPurple.withOpacity(
+                          color: AppColors.brandColor.withOpacity(
                             0.1,
                           ),
                           borderRadius: BorderRadius.circular(30),

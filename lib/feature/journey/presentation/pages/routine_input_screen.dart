@@ -310,12 +310,12 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
                     size: 35,
                     onClick: _onPreviousStep,
                     icon: Icons.arrow_back_rounded,
-                    color: AppColors.brandPurple,
+                    color: AppColors.brandColor,
                   ),
                   const Gap(10),
                   Expanded(
                     child: AppButton(
-                      backGroundColor: AppColors.brandPurple,
+                      backGroundColor: AppColors.brandColor,
                       text: 'Continue',
                       onPressed: _onNextStep,
                     ),
@@ -324,7 +324,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
               )
             else
               AppButton(
-                backGroundColor: AppColors.brandPurple,
+                backGroundColor: AppColors.brandColor,
                 text: _currentStep < 2 ? 'Next' : 'Continue',
                 onPressed: _onNextStep,
               ),
@@ -343,7 +343,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
                     borderRadius: BorderRadius.circular(12),
                     color:
                         isActive
-                            ? AppColors.brandPurple
+                            ? AppColors.brandColor
                             : AppColors.neutral300.withOpacity(0.3),
                   ),
                 );
@@ -441,7 +441,7 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
             ),
             const Gap(8),
             Text(
-              "We’ll avoid scheduling tasks during your work or school time.",
+              "We’ll avoid scheduling generate loop during your work or school time.",
               style: AppTextStyles.paragraphSmall,
             ),
             const Gap(32),
@@ -677,14 +677,14 @@ class _RoutineInputScreenState extends State<RoutineInputScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.brandPurple : Colors.transparent,
+                      color: isSelected ? AppColors.brandColor : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: isSelected ? AppColors.brandPurple : AppColors.neutral300,
+                        color: isSelected ? AppColors.brandColor : AppColors.neutral300,
                         width: 1.5,
                       ),
                       boxShadow: isSelected
-                          ? [BoxShadow(color: AppColors.brandPurple.withOpacity(0.2), blurRadius: 4)]
+                          ? [BoxShadow(color: AppColors.brandColor.withOpacity(0.2), blurRadius: 4)]
                           : [],
                     ),
                     child: Row(

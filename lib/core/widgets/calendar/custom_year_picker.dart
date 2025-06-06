@@ -43,11 +43,11 @@ class CustomYearPicker extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.brandPurple.withOpacity(0.1)
+                    ? AppColors.brandColor.withOpacity(0.1)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
                 border: isSelected
-                    ? Border.all(color: AppColors.brandPurple, width: 2)
+                    ? Border.all(color: AppColors.brandColor, width: 2)
                     : Border.all(color: Colors.transparent),
               ),
               alignment: Alignment.center,
@@ -55,7 +55,7 @@ class CustomYearPicker extends StatelessWidget {
                 '$year',
                 style: isSelected
                     ? AppTextStyles.paragraphLarge.copyWith(
-                  color: AppColors.brandPurple,
+                  color: AppColors.brandColor,
                   fontWeight: FontWeight.bold,
                 )
                     : AppTextStyles.paragraphLarge.copyWith(

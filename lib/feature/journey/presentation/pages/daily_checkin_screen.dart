@@ -111,8 +111,8 @@
 //
 //   String _calculateProgress() {
 //     // In a real implementation, this would calculate the actual progress
-//     // based on completed tasks, etc.
-//     return 'Completed 2 out of 5 tasks for today';
+//     // based on completed generate loop, etc.
+//     return 'Completed 2 out of 5 generate loop for today';
 //   }
 //
 //   @override
@@ -141,7 +141,7 @@
 //               ),
 //               const Gap(32),
 //
-//               // Today's tasks
+//               // Today's generate loop
 //               Text(
 //                 'Today\'s Plan',
 //                 style: AppTextStyles.headingH4,
@@ -154,11 +154,11 @@
 //                   }
 //
 //                   if (state is JourneyTodayTasksLoaded) {
-//                     return _buildTodayTasks(state.tasks);
+//                     return _buildTodayTasks(state.generate loop);
 //                   }
 //
 //                   return const Center(
-//                     child: Text('No tasks for today'),
+//                     child: Text('No generate loop for today'),
 //                   );
 //                 },
 //               ),
@@ -166,7 +166,7 @@
 //
 //               // Feedback options
 //               Text(
-//                 'How did you find today\'s tasks?',
+//                 'How did you find today\'s generate loop?',
 //                 style: AppTextStyles.headingH4,
 //               ),
 //               const Gap(16),
@@ -276,8 +276,8 @@
 //     );
 //   }
 //
-//   Widget _buildTodayTasks(List<AiGeneratedTaskModel> tasks) {
-//     if (tasks.isEmpty) {
+//   Widget _buildTodayTasks(List<AiGeneratedTaskModel> generate loop) {
+//     if (generate loop.isEmpty) {
 //       return Container(
 //         padding: const EdgeInsets.all(16),
 //         decoration: BoxDecoration(
@@ -285,13 +285,13 @@
 //           borderRadius: BorderRadius.circular(12),
 //         ),
 //         child: const Center(
-//           child: Text('No tasks scheduled for today'),
+//           child: Text('No generate loop scheduled for today'),
 //         ),
 //       );
 //     }
 //
 //     return Column(
-//       children: tasks.map((task) => _buildTaskItem(task)).toList(),
+//       children: generate loop.map((task) => _buildTaskItem(task)).toList(),
 //     );
 //   }
 //

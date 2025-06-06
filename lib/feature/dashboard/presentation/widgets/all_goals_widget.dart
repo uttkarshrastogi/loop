@@ -7,7 +7,10 @@ import 'package:loop/core/theme/colors.dart';
 import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/feature/dashboard/presentation/widgets/single_task_card.dart';
 import 'package:loop/feature/dashboard/presentation/widgets/task_detail_screen.dart';
+import '../../../../core/model/task_item_data.dart';
 import '../../../../core/widgets/buttons/appbutton.dart';
+import '../../../../core/widgets/buttons/swipableTaskButton.dart';
+import '../../../../core/widgets/cards/squircle_container.dart';
 import '../../../ai/data/models/ai_generated_task_model.dart';
 import '../../../journey/presentation/bloc/journey_bloc.dart';
 import '../../../journey/presentation/bloc/journey_state.dart';
@@ -78,6 +81,9 @@ class _AllGoalsWidgetState extends State<AllGoalsWidget> {
                     ),
                   ),
                 ),
+                // SquircleContainer(),
+
+
                 AppButton(
                   text: "text",
                   onPressed: () async {
@@ -85,6 +91,22 @@ class _AllGoalsWidgetState extends State<AllGoalsWidget> {
                       await FirebaseAuth.instance.currentUser?.getIdToken(true)??"",
                     );
                   },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(80.0),
+                  child: SwipableTaskButton(
+                    taskData: TaskItemData(
+                        id: "id",
+                        title: "title",
+                        time: "time",
+                        dateText: "dateText"),
+                    onSwipeLeftToRight: () {},
+                    onSwipeRightToLeft: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 80.0),
+                  child: SquircleMaterialContainer(height: 100, cornerRadius: 30,),
                 ),
               ],
             );

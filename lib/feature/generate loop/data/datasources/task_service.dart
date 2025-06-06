@@ -3,7 +3,7 @@ import '../models/task_model.dart';
 
 class TaskService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String _collection = 'tasks';
+  final String _collection = 'generate loop';
 
   Future<void> createTask(TaskModel task) async {
     try {
@@ -37,7 +37,7 @@ class TaskService {
 
       return query.docs.map((doc) => TaskModel.fromFirestore(doc)).toList();
     } catch (e) {
-      print('Fetch user tasks failed: $e');
+      print('Fetch user generate loop failed: $e');
       return [];
     }
   }

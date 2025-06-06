@@ -66,7 +66,6 @@ class DevConfig {
           // Add more endpoints if required later
         },
       ),
-
       "render": ApiConfig(
         url: "https://loop-backend-8uow.onrender.com/api",
         headerData: {

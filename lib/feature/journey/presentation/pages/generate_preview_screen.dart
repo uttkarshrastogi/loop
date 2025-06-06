@@ -130,7 +130,7 @@ class GeneratePreviewScreen extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           AppButton(
-            backGroundColor: AppColors.brandPurple,
+            backGroundColor: AppColors.brandColor,
             text: "Build My Loop", // Changed Button Text (More Motivating)
             height: 48,
             onPressed: () => _saveGoalAndRoutine(context),
@@ -236,7 +236,7 @@ class GeneratePreviewScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (icon != null) ...[
-                HeroIcon(icon, color: AppColors.brandPurple, size: 20),
+                HeroIcon(icon, color: AppColors.brandColor, size: 20),
                 const SizedBox(width: 8),
               ],
               Expanded(

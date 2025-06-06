@@ -114,7 +114,7 @@ class TaskDetailScreen extends StatelessWidget {
                     child: Text(
                       task.source,
                       style: AppTextStyles.paragraphSmall.copyWith(
-                        color: AppColors.brandPurple,
+                        color: AppColors.brandColor,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -142,7 +142,7 @@ class TaskDetailScreen extends StatelessWidget {
             // Action Button
             AppButton(
               text: "Mark as Completed",
-              backGroundColor: AppColors.brandPurple,
+              backGroundColor: AppColors.brandColor,
               onPressed: () {
                 // TODO: handle completion
               },

@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../feature/Onboarding/presentation/pages/get_started_page.dart';
 import '../../feature/auth/data/datasources/auth_service.dart';
 import '../../feature/journey/presentation/pages/add_goal_dialog.dart';
+import 'index.dart';
 
 Future<String?> handleRedirectLogic({
   required GoRouterState state,
@@ -38,7 +39,7 @@ Future<String?> handleRedirectLogic({
       return AddGoalDialog.routeName;
     }else if(currentLocation == GetStartedPage.routeName){
       lBloc.add(const LoaderEvent.loadingOFF());
-      return DashboardPage.routeName;
+      return IndexPage.routeName;
     }
 
   } else {
