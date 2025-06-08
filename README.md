@@ -70,5 +70,4 @@ Loop is a beautifully simple app to track daily, weekly, or monthly recurring ta
 
 ---
 
-## 🧱 Project Structure
 
