@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
+import 'package:loop/core/theme/text_styles.dart';
 import 'package:loop/feature/dashboard/presentation/pages/dashboard_page.dart';
 import '../../feature/dashboard/presentation/pages/dashboard_temp.dart';
 import '../../feature/generate loop/presentation/widgets/create_task_sheet.dart';
@@ -58,41 +61,39 @@ class _IndexPageState extends State<IndexPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _buildNavItem(
-              unSelectedIcon: Icon(
-                Icons.home_filled,
-                color: AppColors.textSecondary,
-                size: 25,
-              ),
-              selectedIcon: Icon(
-                Icons.home_filled,
-                color: Colors.white,
-                size: 26,
-              ),
-              label: "Home",
+              unSelectedIcon: 'assets/nav_3.png',
+              selectedIcon:  'assets/nav_3.png',
+              label: "Today",
               index: 0,
-            ),Spacer(),
-            _buildNavItem(
-              unSelectedIcon: Icon(Icons.create, color: AppColors.textSecondary, size: 25),
-              selectedIcon: Icon(Icons.create, color: Colors.white, size: 26),
-              label: "create",
+            ),
+            Spacer(), _buildNavItem(
+              unSelectedIcon: 'assets/nav_4.png',
+              selectedIcon:  'assets/nav_4.png',
+              label: "Loops",
               index: 1,
-            ),Spacer(),
+            ),
+            Spacer(),
             _buildNavItem(
-              unSelectedIcon: Icon(
-                Icons.settings,
-                color: AppColors.textSecondary,
-                size: 25,
-              ),
-              selectedIcon: Icon(Icons.settings, color: Colors.white, size: 26),
-              label: "settings",
+              unSelectedIcon: 'assets/nav_5.png',
+              selectedIcon: 'assets/nav_5.png',
+              label: "Insights",
               index: 2,
             ),Spacer(),
+
             _buildNavItem(
-              unSelectedIcon: Icon(Icons.search, color: AppColors.textSecondary, size: 25),
-              selectedIcon: Icon(Icons.search, color: Colors.white, size: 26),
-              label: "create",
+              unSelectedIcon: 'assets/nav_1.png',
+              selectedIcon: 'assets/nav_1.png',
+              label: "Schedule",
               index: 3,
             ),
+            Spacer(),
+            _buildNavItem(
+              label: "Settings",
+              unSelectedIcon: 'assets/nav_2.png',
+              selectedIcon: 'assets/nav_2.png',
+              index: 4,
+            ),
+
             // Spacer(),
             // _buildNavItem(
             //     unSelectedIcon: 'assets/images/bottomtab/finance1.svg',
@@ -142,12 +143,13 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   Widget _buildNavItem({
-    required Icon unSelectedIcon,
-    required Icon selectedIcon,
+    required String unSelectedIcon,
+    required String selectedIcon,
     required String label,
     required int index,
   }) {
     final isSelected = _selectedIndex == index;
+
     return GestureDetector(
       onTap: () async {
         if (index == 1) {
@@ -155,9 +157,6 @@ class _IndexPageState extends State<IndexPage> {
             _isSheetOpen = true;
           });
           context.read<UIInteractionCubit>().openSheet();
-          //
-
-
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -168,24 +167,54 @@ class _IndexPageState extends State<IndexPage> {
             ),
             builder: (context) => const CreateTaskSheet(),
           );
-
-
         } else {
           setState(() {
             _selectedIndex = index;
-          });
-          context.read<UIInteractionCubit>().closeSheet();
-          setState(() {
             _isSheetOpen = false;
           });
+          context.read<UIInteractionCubit>().closeSheet();
         }
-      }
-
-,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [isSelected ? selectedIcon : unSelectedIcon],
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          /// 🔺 Indicator + Icon
+          Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              if (isSelected)
+                Positioned(
+                  top: 0,
+                  child: Container(
+                    width: 36,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: AppColors.brandColor, // or AppColors.primaryPink
+                      borderRadius: BorderRadius.circular(500),
+                    ),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10), // pushes icon below the capsule
+                child: Image.asset(
+                  isSelected ? selectedIcon : unSelectedIcon,
+                  width: 28,
+                  height: 28,
+                ),
+              ),
+            ],
+          ),
+          const Gap(8),
+          Text(
+            label,
+            style: AppTextStyles.paragraphXSmall.copyWith(
+              color: isSelected ? Colors.black : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            ),
+          )
+        ],
       ),
     );
   }
+
 }

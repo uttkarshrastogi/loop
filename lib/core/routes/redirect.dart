@@ -36,8 +36,9 @@ Future<String?> handleRedirectLogic({
     // ✅ Logged in and on onboarding
     if ((currentLocation == GetStartedPage.routeName)&&(goals.docs.isEmpty)) {
       lBloc.add(const LoaderEvent.loadingOFF());
-      return AddGoalDialog.routeName;
-    }else if(currentLocation == GetStartedPage.routeName){
+      return IndexPage.routeName;
+    }
+    else if(currentLocation == GetStartedPage.routeName){
       lBloc.add(const LoaderEvent.loadingOFF());
       return IndexPage.routeName;
     }

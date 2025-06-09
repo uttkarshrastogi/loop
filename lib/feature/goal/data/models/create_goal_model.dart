@@ -1,8 +1,6 @@
-
 import 'dart:convert';
 
 CreateGoalModel createGoalModelFromJson(String str) => CreateGoalModel.fromJson(json.decode(str));
-
 String createGoalModelToJson(CreateGoalModel data) => json.encode(data.toJson());
 
 class CreateGoalModel {
@@ -10,12 +8,18 @@ class CreateGoalModel {
   String? description;
   String? startDate;
   String? endDate;
+  String? priority;
+  String? difficulty;
+  List<String>? frequency;
 
   CreateGoalModel({
     this.title,
     this.description,
     this.startDate,
     this.endDate,
+    this.priority,
+    this.difficulty,
+    this.frequency,
   });
 
   CreateGoalModel copyWith({
@@ -23,12 +27,18 @@ class CreateGoalModel {
     String? description,
     String? startDate,
     String? endDate,
+    String? priority,
+    String? difficulty,
+    List<String>? frequency,
   }) =>
       CreateGoalModel(
         title: title ?? this.title,
         description: description ?? this.description,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
+        priority: priority ?? this.priority,
+        difficulty: difficulty ?? this.difficulty,
+        frequency: frequency ?? this.frequency,
       );
 
   factory CreateGoalModel.fromJson(Map<String, dynamic> json) => CreateGoalModel(
@@ -36,6 +46,9 @@ class CreateGoalModel {
     description: json["description"],
     startDate: json["startDate"],
     endDate: json["endDate"],
+    priority: json["priority"],
+    difficulty: json["difficulty"],
+    frequency: json["frequency"] != null ? List<String>.from(json["frequency"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +56,8 @@ class CreateGoalModel {
     "description": description,
     "startDate": startDate,
     "endDate": endDate,
+    "priority": priority,
+    "difficulty": difficulty,
+    "frequency": frequency,
   };
 }

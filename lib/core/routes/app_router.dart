@@ -33,18 +33,19 @@ class AppRouter {
           child: const GetStartedPage(),
           key: state.pageKey,
         ),
-      ), GoRoute(
-        path: GeneratePreviewScreen.routeName,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return buildSlidePage(
-          child: GeneratePreviewScreen(
-            goalModel: extra?['createGoalModel'] as CreateGoalModel,
-            routineModel: extra?['userRoutineModel'] as UserRoutineModel,
-          ),
-          key: state.pageKey,
-        );}
       ),
+      // GoRoute(
+      //   path: GeneratePreviewScreen.routeName,
+      //   pageBuilder: (context, state) {
+      //     final extra = state.extra as Map<String, dynamic>?;
+      //     return buildSlidePage(
+      //     child: GeneratePreviewScreen(
+      //       goalModel: extra?['createGoalModel'] as CreateGoalModel,
+      //       routineModel: extra?['userRoutineModel'] as UserRoutineModel,
+      //     ),
+      //     key: state.pageKey,
+      //   );}
+      // ),
       GoRoute(
         path: TempScreen.routeName,
         pageBuilder: (context, state) => buildSlidePage(
@@ -65,47 +66,47 @@ class AppRouter {
           key: state.pageKey,
         ),
       ),
-      GoRoute(
-        path: AddGoalDialog.routeName,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return buildSlidePage(
-            child: AddGoalDialog(
-              initialGoal: extra?['goalModel'] as CreateGoalModel?,
-              initialRoutine: extra?['routineModel'] as UserRoutineModel?,
-            ),
-            key: state.pageKey,
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: AddGoalDialog.routeName,
+      //   pageBuilder: (context, state) {
+      //     final extra = state.extra as Map<String, dynamic>?;
+      //     return buildSlidePage(
+      //       child: AddGoalDialog(
+      //         initialGoal: extra?['goalModel'] as CreateGoalModel?,
+      //         initialRoutine: extra?['routineModel'] as UserRoutineModel?,
+      //       ),
+      //       key: state.pageKey,
+      //     );
+      //   },
+      // ),
 
-      GoRoute(
-        path: RoutineInputScreen.routeName,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return buildSlidePage(
-            key: state.pageKey,
-            child: RoutineInputScreen(
-              initialGoal: extra?['goalModel'] as CreateGoalModel?,
-              initialRoutine: extra?['routineModel'] as UserRoutineModel?,
-            ),
-          );
-        },
-      ),
-
-      GoRoute(
-        path: CalendarIntegrationScreen.routeName,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return buildSlidePage(
-            key: state.pageKey,
-            child: CalendarIntegrationScreen(
-              createGoalModel: extra?['createGoalModel'] as CreateGoalModel,
-              userRoutineModel: extra?['userRoutineModel'] as UserRoutineModel,
-            ),
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: RoutineInputScreen.routeName,
+      //   pageBuilder: (context, state) {
+      //     final extra = state.extra as Map<String, dynamic>?;
+      //     return buildSlidePage(
+      //       key: state.pageKey,
+      //       child: RoutineInputScreen(
+      //         initialGoal: extra?['goalModel'] as CreateGoalModel?,
+      //         initialRoutine: extra?['routineModel'] as UserRoutineModel?,
+      //       ),
+      //     );
+      //   },
+      // ),
+      //
+      // GoRoute(
+      //   path: CalendarIntegrationScreen.routeName,
+      //   pageBuilder: (context, state) {
+      //     final extra = state.extra as Map<String, dynamic>?;
+      //     return buildSlidePage(
+      //       key: state.pageKey,
+      //       child: CalendarIntegrationScreen(
+      //         createGoalModel: extra?['createGoalModel'] as CreateGoalModel,
+      //         userRoutineModel: extra?['userRoutineModel'] as UserRoutineModel,
+      //       ),
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: OnboardingScreen.routeName,
         pageBuilder: (context, state) => buildSlidePage(

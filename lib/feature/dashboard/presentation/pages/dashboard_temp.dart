@@ -53,13 +53,11 @@ class DashboardTemp extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTemplate(
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 45, right: 8),
+        padding: const EdgeInsets.only(bottom: 75, right: 8),
         child: StarButton(
           onTap: (){
             context.read<UIInteractionCubit>().openSheet();
             //
-
-
             showModalBottomSheet(
               context: context,
               isScrollControlled: true, // ⬅️ critical

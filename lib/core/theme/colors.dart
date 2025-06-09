@@ -247,6 +247,7 @@ class AppColors {
   static const Color dialogBackground = Color(0xE6121212);
   static const Color barrierBackground = Color(0xB31C1C1E);
 
+
   // 🧱 Surfaces
   static const Color surface = Color(0xFFD4C9BE);
   static const Color surfaceVariant = Color(0xFFC50E7B);
@@ -265,6 +266,8 @@ class AppColors {
   static const Color primary = Color(0xFFD4C9BE);
   static const Color brandColor = Color(0xFFC50E7B);
   static const Color brandShadow = Color(0xFFAB0C6B);
+  static const Color checkBoxColor = Color(0xFF757575);
+
 
 
  // Optional CTA color
@@ -273,7 +276,8 @@ class AppColors {
   static const Color danger = Color(0xFFFF453A);
   static const Color success = Color(0xFF00C3A5);
   static const Color warning = Color(0xFFFFC107); // yellow500
-  static const Color info = Color(0xFF2196F3);     // blue500
+  static const Color info = Color(0xFF2196F3);
+  static const Color radioButtonColor = Color(0xFF2C2C2C);     // blue500
 
   // ✅ Light/Dark variants for states
   static const Color error = red500;

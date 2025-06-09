@@ -126,7 +126,7 @@ class _DashboardPageState extends State<DashboardPage>
                           controller: _tabController,
                           children: [
                             const AllGoalsWidget(),
-                            AllGoalsWidgetV2(),
+                            // AllGoalsWidgetV2(),
                           ],
                         ),
                       ),

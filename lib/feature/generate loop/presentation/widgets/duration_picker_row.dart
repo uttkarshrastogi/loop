@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-
+import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/text_styles.dart';
+import '../../../../core/widgets/cards/squircle_container.dart';
 
 class DurationPickerRow extends StatelessWidget {
   final DateTime startDate;
@@ -20,58 +22,92 @@ class DurationPickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final duration = endDate.difference(startDate).inDays;
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
+
+    return SquircleMaterialContainer(
+      cornerRadius: 30,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text("Duration", style: AppTextStyles.paragraphMedium.copyWith(fontWeight: FontWeight.w600)),
-              const Spacer(),
-              Text("($duration DAYS)", style: AppTextStyles.paragraphMedium),
-            ],
-          ),
-          const Divider(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: onPickStart,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(DateFormat.yMMMd().format(startDate)),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Text(
+                  "Duration",
+                  style: AppTextStyles.paragraphMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              const Text("to"),
-              const SizedBox(width: 12),
-              Expanded(
-                child: GestureDetector(
-                  onTap: onPickEnd,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12),
+                const Spacer(),
+                Text(
+                  "($duration DAYS)",
+                  style: AppTextStyles.paragraphMedium.copyWith(color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 0),
+
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onPickStart,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        DateFormat.yMMMd().format(startDate),
+                        style: AppTextStyles.paragraphMedium.copyWith(fontWeight: FontWeight.w500),
+                      ),
                     ),
-                    child: Text(DateFormat.yMMMd().format(endDate)),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 12),
+                const Text("to", style: TextStyle(fontWeight: FontWeight.w500)),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onPickEnd,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        DateFormat.yMMMd().format(endDate),
+                        style: AppTextStyles.paragraphMedium.copyWith(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+
         ],
       ),
     );

@@ -29,7 +29,7 @@ class CustomCardRadioGroup extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(12.0,18,12,12),
-            child: Text(title, style: AppTextStyles.paragraphMedium.copyWith(fontWeight: FontWeight.w600)),
+            child: Text(title, style: AppTextStyles.paragraphMedium.copyWith(fontWeight: FontWeight.w600,        color: AppColors.textPrimary)),
           ),
           Divider(
             color: AppColors.textSecondary.withOpacity(0.1),
@@ -37,8 +37,11 @@ class CustomCardRadioGroup extends StatelessWidget {
           ),
           ...options.map((option) {
             return RadioListTile<String>(
-
-              title: Text(option),
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              selectedTileColor: AppColors.radioButtonColor,
+              activeColor: AppColors.radioButtonColor,
+              title: Text(option,style: AppTextStyles.paragraphXSmall.copyWith(color: AppColors.textSecondary),),
               value: option,
               groupValue: selectedOption,
               onChanged: onChanged,
