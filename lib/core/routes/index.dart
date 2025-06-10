@@ -23,7 +23,7 @@ bool _isSheetOpen = false;
 
 
 final pageDefault = [
-  const DashboardTemp(),
+  const DashboardPage(),
   const DashboardTemp(),
   const DashboardTemp(),
   const DashboardTemp(),
@@ -61,36 +61,36 @@ class _IndexPageState extends State<IndexPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _buildNavItem(
-              unSelectedIcon: 'assets/nav_3.png',
-              selectedIcon:  'assets/nav_3.png',
+              unSelectedIcon: 'assets/nav_2.png',
+              selectedIcon:  'assets/nav_2.png',
               label: "Today",
               index: 0,
             ),
             Spacer(), _buildNavItem(
-              unSelectedIcon: 'assets/nav_4.png',
-              selectedIcon:  'assets/nav_4.png',
+              unSelectedIcon: 'assets/nav_3.png',
+              selectedIcon:  'assets/nav_3.png',
               label: "Loops",
               index: 1,
             ),
             Spacer(),
             _buildNavItem(
-              unSelectedIcon: 'assets/nav_5.png',
-              selectedIcon: 'assets/nav_5.png',
+              unSelectedIcon: 'assets/nav_4.png',
+              selectedIcon: 'assets/nav_4.png',
               label: "Insights",
               index: 2,
             ),Spacer(),
 
             _buildNavItem(
-              unSelectedIcon: 'assets/nav_1.png',
-              selectedIcon: 'assets/nav_1.png',
+              unSelectedIcon: 'assets/nav_0.png',
+              selectedIcon: 'assets/nav_0.png',
               label: "Schedule",
               index: 3,
             ),
             Spacer(),
             _buildNavItem(
               label: "Settings",
-              unSelectedIcon: 'assets/nav_2.png',
-              selectedIcon: 'assets/nav_2.png',
+              unSelectedIcon: 'assets/nav_1.png',
+              selectedIcon: 'assets/nav_1.png',
               index: 4,
             ),
 

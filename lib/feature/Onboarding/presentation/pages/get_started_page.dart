@@ -114,7 +114,6 @@ class GetStartedPage extends StatelessWidget {
                       Expanded(
                         child: AppButton(
                           isGhost: true,
-                          withBorder: true,
                           text: "Login",
                           onPressed: () async {
                             context.read<AuthBloc>().add(const AuthEvent.signUp());

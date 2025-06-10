@@ -15,6 +15,7 @@ import '../../feature/journey/presentation/pages/routine_input_screen.dart';
 import '../../feature/journey/presentation/pages/generate_screen.dart';
 import '../../feature/user/data/models/user_routine_model.dart';
 import '../../temp.dart';
+import '../widgets/liquidGlass/liquid_glass_screen.dart';
 import 'app_state.dart';
 import 'index.dart';
 
@@ -139,6 +140,12 @@ class AppRouter {
         pageBuilder: (context, state) => buildSlidePage(
           key: state.pageKey,
           child: const IndexPage(),
+        ),
+      ),   GoRoute(
+        path: LiquidGlassScreen.routeName,
+        pageBuilder: (context, state) => buildSlidePage(
+          key: state.pageKey,
+          child: const LiquidGlassScreen(),
         ),
       ),
     ],
